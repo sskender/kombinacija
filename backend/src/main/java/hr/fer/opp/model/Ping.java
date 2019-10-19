@@ -29,6 +29,8 @@ public class Ping {
 		this.reference = reference;
 	}
 
+	public Ping() {};
+
 	public Long getId() {
 		return id;
 	}

@@ -19,6 +19,8 @@ public class Favorite {
         this.trashCan = trashCan;
     }
 
+    public Favorite() {};
+
     public Long getId() {
         return id;
     }

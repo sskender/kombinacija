@@ -23,6 +23,8 @@ public class Neighborhood {
         this.assignedEmployees = assignedEmployees;
     }
 
+    public Neighborhood() {};
+
     public Long getId() {
         return id;
     }

@@ -17,18 +17,15 @@ public class Admin {
 	@Column(length = 100, nullable = false)
 	private String passwordHash;
 
-	public Admin(Long id, String email, String passwordHash) {
-		this.id = id;
+	public Admin(String email, String passwordHash) {
 		this.email = email;
 		this.passwordHash = passwordHash;
 	}
 
+	public Admin() {};
+
 	public Long getId() {
 		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public String getEmail() {

@@ -29,6 +29,8 @@ public class User {
 		this.favorites = favorites;
 	}
 
+	public User() {};
+
 	public Long getId() {
 		return id;
 	}

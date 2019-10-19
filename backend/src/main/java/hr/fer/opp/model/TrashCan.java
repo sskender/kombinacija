@@ -28,7 +28,6 @@ public class TrashCan {
 	private List<Favorite> favorites;
 
 	public TrashCan(double locationX, double locationY, int status, Neighborhood neighborhood, List<Ping> pings, List<Favorite> favorites) {
-		super();
 		this.locationX = locationX;
 		this.locationY = locationY;
 		this.status = status;
@@ -36,6 +35,8 @@ public class TrashCan {
 		this.pings = pings;
 		this.favorites = favorites;
 	}
+
+	public TrashCan() {};
 
 	public Long getId() {
 		return id;

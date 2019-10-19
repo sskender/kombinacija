@@ -30,6 +30,8 @@ public class Employee {
 		this.OIB = OIB;
 	}
 
+	public Employee() {};
+
 	public Long getId() {
 		return id;
 	}

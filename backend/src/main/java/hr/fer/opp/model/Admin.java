@@ -1,47 +1,48 @@
 package hr.fer.opp.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * @author Mario
- *
  */
 @Entity
-@Table(name="admins")
+@Table(name = "admins")
 public class Admin {
-	
-	@Id @GeneratedValue
+
+	@Id
+	@GeneratedValue
 	private Long id;
-	@Column(length=100, nullable=false)
+	@Column(length = 100, nullable = false)
 	private String email;
-	@Column(length=100, nullable=false)
+	@Column(length = 100, nullable = false)
 	private String passwordHash;
-	
+
 	public Admin(Long id, String email, String passwordHash) {
 		this.id = id;
 		this.email = email;
 		this.passwordHash = passwordHash;
 	}
-	
+
 	public Long getId() {
 		return id;
 	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
+
 	public String getEmail() {
 		return email;
 	}
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
 	public String getPasswordHash() {
 		return passwordHash;
 	}
+
 	public void setPasswordHash(String passwordHash) {
 		this.passwordHash = passwordHash;
 	}
@@ -64,16 +65,13 @@ public class Admin {
 			return false;
 		Admin other = (Admin) obj;
 		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		return true;
+			return other.id == null;
+		} else return id.equals(other.id);
 	}
 
 	@Override
 	public String toString() {
 		return "Admin [id=" + id + ", email=" + email + ", passwordHash=" + passwordHash + "]";
 	}
-	
+
 }

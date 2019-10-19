@@ -1,30 +1,26 @@
 package hr.fer.opp.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
-@Table(name="pings")
+@Table(name = "pings")
 public class Ping {
-	
+
 	public static final int FULL = 0;
 	public static final int URGENT = 1;
-	
-	@Id @GeneratedValue
+
+	@Id
+	@GeneratedValue
 	private Long id;
-	@Column(length=100, nullable=false)
+	@Column(length = 100, nullable = false)
 	private int level;
-	@Column(length=100, nullable=false)
+	@Column(length = 100, nullable = false)
 	private long timestamp;
 	@ManyToOne
 	private User creator;
 	@ManyToOne
 	private TrashCan reference;
-	
+
 	public Ping(int level, User creator, TrashCan reference) {
 		super();
 		this.level = level;
@@ -36,27 +32,35 @@ public class Ping {
 	public Long getId() {
 		return id;
 	}
+
 	public int getLevel() {
 		return level;
 	}
+
 	public void setLevel(int level) {
 		this.level = level;
 	}
+
 	public long getTimestamp() {
 		return timestamp;
 	}
+
 	public void setTimestamp(long timestamp) {
 		this.timestamp = timestamp;
 	}
+
 	public User getCreator() {
 		return creator;
 	}
+
 	public void setCreator(User creator) {
 		this.creator = creator;
 	}
+
 	public TrashCan getReference() {
 		return reference;
 	}
+
 	public void setReference(TrashCan reference) {
 		this.reference = reference;
 	}
@@ -79,11 +83,8 @@ public class Ping {
 			return false;
 		Ping other = (Ping) obj;
 		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		return true;
+			return other.id == null;
+		} else return id.equals(other.id);
 	}
 
 	@Override
@@ -91,5 +92,5 @@ public class Ping {
 		return "Ping [id=" + id + ", level=" + level + ", timestamp=" + timestamp + ", creator=" + creator
 				+ ", reference=" + reference + "]";
 	}
-	
+
 }

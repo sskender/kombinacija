@@ -1,30 +1,26 @@
 package hr.fer.opp.model;
 
+import javax.persistence.*;
 import java.util.List;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
 
 @Entity
-@Table(name="users")
+@Table(name = "users")
 public class User {
-	
-	@Id @GeneratedValue
+
+	@Id
+	@GeneratedValue
 	private Long id;
-	@Column(length=100, nullable=false)
+	@Column(length = 100, nullable = false)
 	private String email;
-	@Column(length=100, nullable=false)
+	@Column(length = 100, nullable = false)
 	private String passwordHash;
-	@Column(nullable=false)
+	@Column(nullable = false)
 	private int reputation;
-	@OneToMany(mappedBy="creator")
+	@OneToMany(mappedBy = "creator")
 	private List<Ping> pings;
-	@OneToMany(mappedBy="owner")
+	@OneToMany(mappedBy = "owner")
 	private List<Favorite> favorites;
-	
+
 	public User(String email, String passwordHash, int reputation, List<Ping> pings, List<Favorite> favorites) {
 		this.email = email;
 		this.passwordHash = passwordHash;
@@ -32,37 +28,47 @@ public class User {
 		this.pings = pings;
 		this.favorites = favorites;
 	}
-	
+
 	public Long getId() {
 		return id;
 	}
+
 	public String getEmail() {
 		return email;
 	}
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
 	public String getPasswordHash() {
 		return passwordHash;
 	}
+
 	public void setPasswordHash(String passwordHash) {
 		this.passwordHash = passwordHash;
 	}
+
 	public int getReputation() {
 		return reputation;
 	}
+
 	public void setReputation(int reputation) {
 		this.reputation = reputation;
 	}
+
 	public List<Ping> getPings() {
 		return pings;
 	}
+
 	public void setPings(List<Ping> pings) {
 		this.pings = pings;
 	}
+
 	public List<Favorite> getFavorites() {
 		return favorites;
 	}
+
 	public void setFavorites(List<Favorite> favorites) {
 		this.favorites = favorites;
 	}
@@ -85,11 +91,8 @@ public class User {
 			return false;
 		User other = (User) obj;
 		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		return true;
+			return other.id == null;
+		} else return id.equals(other.id);
 	}
 
 	@Override
@@ -97,5 +100,5 @@ public class User {
 		return "User [id=" + id + ", email=" + email + ", passwordHash=" + passwordHash + ", reputation=" + reputation
 				+ "]";
 	}
-	
+
 }

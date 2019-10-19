@@ -1,37 +1,32 @@
 package hr.fer.opp.model;
 
+import javax.persistence.*;
 import java.util.List;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
 
 @Entity
-@Table(name="trashcans")
+@Table(name = "trashcans")
 public class TrashCan {
-	
+
 	public static final int FULL = 0;
 	public static final int URGENT = 1;
 	public static final int OK = 2;
-	
-	@Id @GeneratedValue
+
+	@Id
+	@GeneratedValue
 	private Long id;
-	@Column(length=100, nullable=false)
+	@Column(length = 100, nullable = false)
 	private double locationX;
-	@Column(length=100, nullable=false)
+	@Column(length = 100, nullable = false)
 	private double locationY;
-	@Column(length=100, nullable=false)
+	@Column(length = 100, nullable = false)
 	private int status;
 	@ManyToOne
 	private Neighborhood neighborhood;
-	@OneToMany(mappedBy="reference")
+	@OneToMany(mappedBy = "reference")
 	private List<Ping> pings;
-	@OneToMany(mappedBy="trashCan")
+	@OneToMany(mappedBy = "trashCan")
 	private List<Favorite> favorites;
-	
+
 	public TrashCan(double locationX, double locationY, int status, Neighborhood neighborhood, List<Ping> pings, List<Favorite> favorites) {
 		super();
 		this.locationX = locationX;
@@ -41,43 +36,55 @@ public class TrashCan {
 		this.pings = pings;
 		this.favorites = favorites;
 	}
-	
+
 	public Long getId() {
 		return id;
 	}
+
 	public int getStatus() {
 		return status;
 	}
+
 	public void setStatus(int status) {
 		this.status = status;
 	}
+
 	public double getLocationX() {
 		return locationX;
 	}
+
 	public void setLocationX(double locationX) {
 		this.locationX = locationX;
 	}
+
 	public double getLocationY() {
 		return locationY;
 	}
+
 	public void setLocationY(double locationY) {
 		this.locationY = locationY;
 	}
+
 	public Neighborhood getNeighborhood() {
 		return neighborhood;
 	}
+
 	public void setNeighborhood(Neighborhood neighborhood) {
 		this.neighborhood = neighborhood;
 	}
+
 	public List<Ping> getPings() {
 		return pings;
 	}
+
 	public void setPings(List<Ping> pings) {
 		this.pings = pings;
 	}
+
 	public List<Favorite> getFavorites() {
 		return favorites;
 	}
+
 	public void setFavorites(List<Favorite> favorites) {
 		this.favorites = favorites;
 	}
@@ -100,11 +107,8 @@ public class TrashCan {
 			return false;
 		TrashCan other = (TrashCan) obj;
 		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		return true;
+			return other.id == null;
+		} else return id.equals(other.id);
 	}
 
 	@Override

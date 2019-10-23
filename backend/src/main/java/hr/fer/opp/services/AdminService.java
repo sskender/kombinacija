@@ -14,8 +14,13 @@ public class AdminService {
     @Autowired
     private AdminRepository adminRepository;
 
-    public boolean isAdmin(User u){
-        String email = u.getEmail();
+    /**
+     * Checks if there is an account with the given e-mail
+     * in the admin table
+     * @param email the User received from the front-end
+     * @return
+     */
+    public boolean isAdmin(String email){
         Optional<Admin> opt = adminRepository.findByEmail(email);
         return opt.isPresent();
     }

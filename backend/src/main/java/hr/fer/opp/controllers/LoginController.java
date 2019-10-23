@@ -12,7 +12,7 @@ public class LoginController {
     @Autowired
     private LoginService loginService;
 
-    @GetMapping(value="/login")
+    @PostMapping(value="/login")
     public String loginUser(@RequestBody User user) {
         return loginService.checkUser(user);
     }

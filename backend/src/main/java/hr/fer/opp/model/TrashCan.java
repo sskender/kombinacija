@@ -1,11 +1,12 @@
 package hr.fer.opp.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
 @Table(name = "trashcans")
-public class TrashCan {
+public class TrashCan implements Serializable {
 
 	public static final int FULL = 0;
 	public static final int URGENT = 1;

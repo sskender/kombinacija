@@ -1,13 +1,14 @@
 package hr.fer.opp.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * @author Mario
  */
 @Entity
 @Table(name = "admins")
-public class Admin {
+public class Admin implements Serializable {
 
 	@Id
 	@GeneratedValue

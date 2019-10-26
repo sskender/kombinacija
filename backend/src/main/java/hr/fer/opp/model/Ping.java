@@ -1,10 +1,11 @@
 package hr.fer.opp.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "pings")
-public class Ping {
+public class Ping implements Serializable {
 
 	public static final int FULL = 0;
 	public static final int URGENT = 1;

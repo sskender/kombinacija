@@ -1,10 +1,11 @@
 package hr.fer.opp.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "employees")
-public class Employee {
+public class Employee implements Serializable {
 
 	@Id
 	@GeneratedValue

@@ -74,7 +74,7 @@ public class LoginService {
 
         user.setReputation(0);
 
-        if(userRepository.insertUser(user) == 1) {
+        if (userRepository.insertUser(user)) {
             return "User successfully registered!";
         } else {
             return "Error, could not register user!";

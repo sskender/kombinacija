@@ -10,6 +10,12 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long> {
 
     /**
+     * @param id
+     * @return
+     */
+    Optional<User> findById(Long id);
+
+    /**
      * @param email
      * @return
      */

@@ -3,3 +3,7 @@ LaTeX/*.aux
 LaTeX/*.toc
 LaTeX/*.gz
 LaTeX/*.log
+LaTeX/*.lof
+LaTeX/*.lot
+LaTeX/*.out
+LaTeX/*.pdf

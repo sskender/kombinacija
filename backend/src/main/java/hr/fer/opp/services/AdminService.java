@@ -2,7 +2,6 @@ package hr.fer.opp.services;
 
 import hr.fer.opp.dao.AdminRepository;
 import hr.fer.opp.model.Admin;
-import hr.fer.opp.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

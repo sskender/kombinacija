@@ -69,7 +69,11 @@ public class Admin implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Admin [id=" + id + ", email=" + email + ", passwordHash=" + passwordHash + "]";
+		return "Admin{" +
+				"id=" + id +
+				", email='" + email + '\'' +
+				", passwordHash='" + passwordHash + '\'' +
+				'}';
 	}
 
 }

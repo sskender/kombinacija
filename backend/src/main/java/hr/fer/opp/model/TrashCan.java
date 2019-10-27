@@ -115,8 +115,15 @@ public class TrashCan implements Serializable {
 
 	@Override
 	public String toString() {
-		return "TrashCan [id=" + id + ", locationX=" + locationX + ", locationY=" + locationY + ", status=" + status
-				+ ", neighborhood=" + neighborhood + ", pings=" + pings + ", favorites=" + favorites + "]";
+		return "TrashCan{" +
+				"id=" + id +
+				", locationX=" + locationX +
+				", locationY=" + locationY +
+				", status=" + status +
+				", neighborhood=" + neighborhood +
+				", pings=" + pings +
+				", favorites=" + favorites +
+				'}';
 	}
 
 }

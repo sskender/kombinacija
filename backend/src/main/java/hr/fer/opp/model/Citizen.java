@@ -5,8 +5,8 @@ import java.io.Serializable;
 import java.util.List;
 
 @Entity
-@Table(name = "users")
-public class User implements Serializable {
+@Table(name = "citizens")
+public class Citizen implements Serializable {
 
 	@Id
 	@GeneratedValue
@@ -22,7 +22,7 @@ public class User implements Serializable {
 	@OneToMany(mappedBy = "owner")
 	private List<Favorite> favorites;
 
-	public User(String email, String passwordHash, int reputation, List<Ping> pings, List<Favorite> favorites) {
+	public Citizen(String email, String passwordHash, int reputation, List<Ping> pings, List<Favorite> favorites) {
 		this.email = email;
 		this.passwordHash = passwordHash;
 		this.reputation = reputation;
@@ -30,7 +30,7 @@ public class User implements Serializable {
 		this.favorites = favorites;
 	}
 
-	public User() {};
+	public Citizen() {};
 
 	public Long getId() {
 		return id;
@@ -92,7 +92,7 @@ public class User implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		User other = (User) obj;
+		Citizen other = (Citizen) obj;
 		if (id == null) {
 			return other.id == null;
 		} else return id.equals(other.id);
@@ -100,8 +100,14 @@ public class User implements Serializable {
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", email=" + email + ", passwordHash=" + passwordHash + ", reputation=" + reputation
-				+ "]";
+		return "Citizen{" +
+				"id=" + id +
+				", email='" + email + '\'' +
+				", passwordHash='" + passwordHash + '\'' +
+				", reputation=" + reputation +
+				", pings=" + pings +
+				", favorites=" + favorites +
+				'}';
 	}
 
 }

@@ -18,11 +18,11 @@ public class Ping implements Serializable {
 	@Column(length = 100, nullable = false)
 	private long timestamp;
 	@ManyToOne
-	private User creator;
+	private Citizen creator;
 	@ManyToOne
 	private TrashCan reference;
 
-	public Ping(int level, User creator, TrashCan reference) {
+	public Ping(int level, Citizen creator, TrashCan reference) {
 		super();
 		this.level = level;
 		this.timestamp = System.currentTimeMillis();
@@ -52,11 +52,11 @@ public class Ping implements Serializable {
 		this.timestamp = timestamp;
 	}
 
-	public User getCreator() {
+	public Citizen getCreator() {
 		return creator;
 	}
 
-	public void setCreator(User creator) {
+	public void setCreator(Citizen creator) {
 		this.creator = creator;
 	}
 
@@ -92,8 +92,13 @@ public class Ping implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Ping [id=" + id + ", level=" + level + ", timestamp=" + timestamp + ", creator=" + creator
-				+ ", reference=" + reference + "]";
+		return "Ping{" +
+				"id=" + id +
+				", level=" + level +
+				", timestamp=" + timestamp +
+				", creator=" + creator +
+				", reference=" + reference +
+				'}';
 	}
 
 }

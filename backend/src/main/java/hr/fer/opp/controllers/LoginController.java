@@ -1,6 +1,6 @@
 package hr.fer.opp.controllers;
 
-import hr.fer.opp.model.Citizen;
+import hr.fer.opp.model.UserLoginProfile;
 import hr.fer.opp.services.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,13 +14,16 @@ public class LoginController {
     private LoginService loginService;
 
     @PostMapping(value="/login")
-    public String loginUser(@RequestBody Citizen citizen) {
-        return loginService.checkUser(citizen);
+    public String loginUser(@RequestBody UserLoginProfile userLoginProfile) {
+        // user hash password
+        // return loginService.checkUser(citizen);
+        return null;
     }
 
     @PostMapping(value="/register")
-    public String registerUser(@RequestBody Citizen citizen) {
-        return loginService.registerUser(citizen);
+    public String registerUser(@RequestBody UserLoginProfile userLoginProfile) {
+        //return loginService.registerUser(citizen);
+        return null;
     }
 
 }

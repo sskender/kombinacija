@@ -92,8 +92,13 @@ public class Ping implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Ping [id=" + id + ", level=" + level + ", timestamp=" + timestamp + ", creator=" + creator
-				+ ", reference=" + reference + "]";
+		return "Ping{" +
+				"id=" + id +
+				", level=" + level +
+				", timestamp=" + timestamp +
+				", creator=" + creator +
+				", reference=" + reference +
+				'}';
 	}
 
 }

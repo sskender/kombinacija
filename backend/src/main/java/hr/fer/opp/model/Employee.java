@@ -109,8 +109,15 @@ public class Employee implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Employee [id=" + id + ", email=" + email + ", passwordHash=" + passwordHash + ", name=" + name
-				+ ", lastName=" + lastName + ", OIB=" + OIB + ", neighborhood=" + neighborhood + "]";
+		return "Employee{" +
+				"id=" + id +
+				", email='" + email + '\'' +
+				", passwordHash='" + passwordHash + '\'' +
+				", name='" + name + '\'' +
+				", lastName='" + lastName + '\'' +
+				", OIB='" + OIB + '\'' +
+				", neighborhood=" + neighborhood +
+				'}';
 	}
 
 }

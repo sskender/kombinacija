@@ -66,7 +66,11 @@ public class Favorite implements Serializable {
 
     @Override
     public String toString() {
-        return "Favorite [id=" + id + ", owner=" + owner + ", trashCan=" + trashCan + "]";
+        return "Favorite{" +
+                "id=" + id +
+                ", owner=" + owner +
+                ", trashCan=" + trashCan +
+                '}';
     }
 
 }

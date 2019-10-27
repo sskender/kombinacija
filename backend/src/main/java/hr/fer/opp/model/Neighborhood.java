@@ -78,8 +78,12 @@ public class Neighborhood implements Serializable {
 
     @Override
     public String toString() {
-        return "Neighborhood [id=" + id + ", name=" + name + ", trashCans=" + trashCans + ", assignedEmployees="
-                + assignedEmployees + "]";
+        return "Neighborhood{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", trashCans=" + trashCans +
+                ", assignedEmployees=" + assignedEmployees +
+                '}';
     }
 
 }

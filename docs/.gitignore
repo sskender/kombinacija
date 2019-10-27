@@ -1,1 +1,5 @@
 .DS_Store
+LaTeX/*.aux
+LaTeX/*.toc
+LaTeX/*.gz
+LaTeX/*.log

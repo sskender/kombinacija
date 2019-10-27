@@ -1,4 +1,3 @@
-
 \documentclass[12pt]{report} 
 
 \usepackage[croatian]{babel} 
@@ -22,9 +21,7 @@
 \usepackage{setspace}
 \restylefloat{table}
 
-
 \patchcmd{\chapter}{\thispagestyle{plain}}{\thispagestyle{fancy}}{}{}
-
 
 \titleformat{\chapter}{\normalfont\huge\bfseries}{\thechapter.}{20pt}{\Huge}
 \titlespacing{\chapter}{0pt}{0pt}{40pt}
@@ -37,7 +34,6 @@
 }
 
 \hypersetup{ colorlinks, citecolor=black, filecolor=black, linkcolor=black,	urlcolor=black }
-
 
 \newenvironment{packed_enum}{
 	\begin{enumerate}
@@ -57,9 +53,7 @@
 \definecolor{LightBlue}{rgb}{0.9,0.9,1}
 \definecolor{LightGreen}{rgb}{0.9,1,0.9}
 
-
 %podesavanje headera i footera
-
 
 \pagestyle{fancy}
 \lhead{Oblikovanje programske potpore}
@@ -70,10 +64,8 @@
 \renewcommand{\headrulewidth}{0.2pt}
 \renewcommand{\footrulewidth}{0.2pt}
 
-
 \begin{document}
 	
-
 	\begin{titlepage}
 		\begin{center}
 			\vspace*{\stretch{1.0}}
@@ -93,16 +85,14 @@
 			
 			\vspace*{\stretch{1.0}}
 			Datum predaje: \textit{$<$dan$>$. $<$mjesec$>$. $<$godina$>$.}\\
-	
+			
 			\vspace*{\stretch{4.0}}
 			
 			Nastavnik: \textit{Tomislav Jukić}\\
 		
 		\end{center}
-
 	
 	\end{titlepage}
-
 	
 	\tableofcontents
 
@@ -114,22 +104,18 @@
 	\include{Zakljucak}
 	\include{Literatura}
 	
-	
 	\begingroup
 	\renewcommand*\listfigurename{Indeks slika i dijagrama}
-	%\renewcommand*\listtablename{Indeks tablica}
-	%\let\clearpage\relax
+	\renewcommand*\listtablename{Indeks tablica}
+	\let\clearpage\relax
 	\listoffigures
-	%\vspace{10mm}
-	%\listoftables
+	\vspace{10mm}
+	\listoftables
 	\endgroup
 	\addcontentsline{toc}{chapter}{Indeks slika i dijagrama}
 
-
-	
 	\eject 
 		
 	\include{Dodatak}
-
 
 \end{document}

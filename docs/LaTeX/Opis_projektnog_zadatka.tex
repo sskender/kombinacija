@@ -1,58 +1,65 @@
 \chapter{Opis projektnog zadatka}
-		
-		\textbf{\textit{dio 1. revizije}}\\
-		
-		Svakodnevno se susrećemo sa neispravno odloženim otpadom, nerijetko upravo zato što su kontejneri predviđeni za njega puni ili čak pretrpani. Jedna od posljedica svega toga je i da recikliranje postaje znatno otežano.
-		
-		Ovim projektom želimo riješiti taj problem tako što bismo razvili web aplikaciju za cjelokupan sustav odvoza otpada. Kroz nju bi građani na karti mogli slati stanje pojedinog kontejnera, a aplikacija bi bila integrirana sa postojećim komunalnim službama koje bi tim putem dobivale obavijesti o punim kontejnerima, što bi olakšalo planiranje rute i fokusiralo pražnjenje kontejnera na mjesta na kojima je potrebno.
-		\linebreak
-		
-		Aplikacija prilikom pokretanja nudi izbornik kao i polje za unos datuma, te prikazuje kartu područja u okolici klijentovog uređaja na kojoj su označeni kontejneri. Putem izbornika se neregistrirani korisnici mogu registrirati, a neprijavljeni prijaviti. Aplikacija razlikuje tri vrste prijavljenih korisnika (poredano po razini ovlasti, od najniže prema najvišoj):
-		\begin{packed_item}
-			\item \textit{Građanin}
-			\item \textit{Komunalni radnik}
-			\item \textit{Administrator}
-		\end{packed_item}
-	
-		Koristeći se oznakama na karti, svi korisnici, uključujući i neregistrirane, mogu za svaki kontejner vidjeti informacije o prijavljivanju i pražnjenju kontejnera, i to za onaj dan koji je upisan u polju za unos datuma.
-		\linebreak
-		
-		Građaninu je za registraciju dovoljna ispravna e-mail adresa i šifra, ali ne mogu postojati dva korisnika sa istom e-mail adresom.
-		Nakon izvršene i odobrene prijave i u slučaju da dan upisan u polju datuma odgovara današnjem, građaninu je omogućeno prijavljivanje različitih događaja kontejnera u svojem okruženju pritiskom na neki kontejner: 
-		\begin{packed_item}
-			\item može kontejner označiti kao pun
-			\item može kontejner označiti kao pretrpan
-			\item ukoliko primijeti ispražnjen kontejner koji je označen kao pretrpan, može ga označiti ispražnjenim
-		\end{packed_item}
-		Bez obzira na datum u polju za unos datuma, korisnik može bilo koji kontejner spremiti u osobni popis kontejnera kako bi imao brži pristup kontejnerima u koje češće odlaže otpad (kao što su, primjerice, oni u blizini stana).
-		\linebreak
-		
-		Korisnik u ulozi komunalnog radnika ima sve ovlasti koje ima i građanin. On se ne može registrirati sam, već tu akciju obavlja isključivo korisnik u ulozi administratora. Za komunalnog redara sustav dodatno pamti ime, prezime i Osobni Identifikacijski Broj (OIB). Svaki komunalni radnik je dodjeljen jednom području grada (ili općenito mjesta u kojem se aplikacija koristi), te za sve kontejnere toga područja ima dodatne ovlasti:
-		\begin{packed_item}
-			\item može isplanirati rutu odvoza otpada (putem izbornika)
-			\item može \textbf{svaki} kontejner označiti kao prazan
-		\end{packed_item}
-		
-		Ovlasti administratora sustava uz sve dosad navedene omogućuju i dodatne funkcionalnosti, a njegov korisnički račun se stvara ručno. Uloga administratora je:
-		\begin{packed_item}
-			\item raspodjela radnika po područjima mjesta na kojem se aplikacija koristi
-			\item premještaj radnika, ovisno o trenutnim uvjetima
-			\item dodavanje radnika, stvaranje njegovog korisničkog računa
-			\item brisanje radnika i pripadajućeg korisničkog računa
-			\item dodavanje i brisanje kontejnera
-		\end{packed_item}
-	
-		
-		\hline
-		
-		\begin{packed_item}
-			\item \textit{potencijalna korist ovog projekta}
-			\item \textit{postojeća slična rješenja (istražiti i ukratko opisati razlike u odnosu na zadani zadatak). Dodajte slike koja predočavaju slična rješenja.}
-			\item \textit{skup korisnika koji bi mogao biti zainteresiran za ostvareno rješenje.}
-			\item \textit{mogućnost prilagodbe rješenja }
-			\item \textit{opseg projektnog zadatka}
-			\item \textit{moguće nadogradnje projektnog zadatka}
-		\end{packed_item}
+
+\textbf{\textit{dio 1. revizije}}\\
+
+Svakodnevno se susrećemo sa neispravno odloženim otpadom, nerijetko upravo zato što su kontejneri predviđeni za njega puni ili čak pretrpani. Jedna od posljedica svega toga je i da recikliranje postaje znatno otežano. 
+
+Ovim projektom želimo riješiti taj problem tako što bismo razvili web aplikaciju za cjelokupan sustav odvoza otpada. Koristeći se njom, građani bi na karti mogli odabrati neki kontejner i označiti ga praznim, punim ili pretrpanim, a aplikacija bi bila integrirana sa postojećim komunalnim službama koje bi tim putem dobivale obavijesti o punim kontejnerima, što bi olakšalo planiranje rute i fokusiralo pražnjenje kontejnera na mjesta na kojima je stvarno potrebno.\\
+
+Aplikacija prilikom pokretanja nudi izbornik kao i polje za unos datuma, te prikazuje kartu područja u okolici klijentovog uređaja na kojoj su označeni kontejneri. Putem izbornika se neregistrirani korisnici mogu registrirati, a neprijavljeni prijaviti. Aplikacija razlikuje tri vrste prijavljenih korisnika (poredano po razini ovlasti, od najniže prema najvišoj):
+\begin{packed_item}
+	\item \textit{Građanin}
+	\item \textit{Komunalni radnik}
+	\item \textit{Administrator}
+\end{packed_item}
+
+Koristeći se oznakama na karti, svi korisnici, uključujući i neregistrirane, mogu za svaki kontejner vidjeti informacije o prijavljivanju i pražnjenju kontejnera, i to za onaj dan koji je upisan u polju za unos datuma.\\
+
+Građaninu je za registraciju dovoljna ispravna e-mail adresa i lozinka, pri čemu ne mogu postojati dva korisnika (bilo koje razine ovlasti) sa istom e-mail adresom. 
+Nakon uspješne prijave i u slučaju da dan upisan u polju datuma odgovara današnjem, građaninu se pritiskom na neki kontejner na karti otvara izbornik nad tim kontejnerom putem kojega korisnik može:
+\begin{packed_item}
+	\item kontejner prijaviti kao pun
+	\item kontejner prijaviti kao pretrpan
+	\item kontejner prijaviti kao prazan, samo ako je taj kontejner već (lažno) označen kao pretrpan
+\end{packed_item}
+
+Prilikom prijave kontejnera građanin uz prijavu može priložiti i fotografiju toga kontejnera kao dokaz stanja.\\
+
+Ako upisani datum ne odgovara današnjem, onda je omogućen samo pregled svih prijava i pražnjenja kontejnera za taj dan. Bez obzira na datum u polju za unos datuma, korisnik može bilo koji kontejner spremiti u osobni popis kontejnera kako bi imao brži pristup kontejnerima u koje češće odlaže otpad (kao što su, primjerice, oni u blizini stana).\\
+
+Korisnik u ulozi komunalnog radnika ima sve ovlasti koje ima i građanin, izuzev činjenice da se on ne može registrirati sam, već tu akciju obavlja isključivo korisnik u ulozi administratora. Za komunalnog redara sustav dodatno pamti ime, prezime i Osobni Identifikacijski Broj (OIB). Svaki komunalni radnik je dodjeljen jednom području grada (ili općenito mjesta u kojem se aplikacija koristi), te za sve kontejnere toga područja ima dodatne ovlasti:
+\begin{packed_item}
+	\item može isplanirati rutu odvoza otpada (putem izbornika)
+	\item može \textbf{svaki} kontejner označiti kao prazan
+	\item može označiti kontejner kao lažno prijavljen
+\end{packed_item}
+
+Ovlasti administratora sustava uz sve dosad navedene omogućuju i dodatne funkcionalnosti, a njegov korisnički račun se stvara ručno. Uloga administratora je:
+\begin{packed_item}
+	\item raspodjela radnika po područjima mjesta na kojem se aplikacija koristi
+	\item premještaj radnika, ovisno o trenutnim uvjetima
+	\item dodavanje radnika (stvaranje njegovog korisničkog računa)
+	\item brisanje radnika i pripadajućeg korisničkog računa
+	\item dodavanje i brisanje kontejnera
+\end{packed_item}
+
+S obzirom da se u aplikaciju može prijaviti svatko, postoji izvjesna mogućnost zlouporabe u obliku lažnog označavanja kontejnera kao punog/pretrpanog. Zbog toga aplikacija interno za svakog građanina pamti reputaciju koja se gradi na temelju svih prijava nekog korisnika. Ukoliko komunalni radnik u svojem obilasku kontejnera naiđe na kontejner koji je prijavljen kao pun, onog trenutka kada ga komunalni radnik isprazni i označi ispražnjenim, automatski se svim korisnicima koji su ga prijavili reputacija diže. Shodno tome, ukoliko naiđe na prazan kontejner koji je prijavljen kao pun, komunalni radnik prijavljuje lažnu prijavu te se svim korisnicima koji su taj kontejner prijavili reputacija smanjuje.\\
+
+Prijava kontejnera od strane građana ima manju vrijednost nego prijava od strane komunalnog radnika ili administratora, uz obrazloženje da ljudi vjerojatno neće sabotirati sustav u koji su sami uključeni i u kojem rade. Vrijednost prijave građana proporcionalna je njegovoj reputaciji, ali nikad nije veća od vrijednosti prijave radnika ili administratora. 
+
+Da bi komunalne službe dobile konkretnu obavijest o punom ili pretrpanom kontejneru, potrebno je prikupiti više građanskih prijava Kada se službi pošalje obavijest o tome da je kontejner u nekom stanju, korisnici i dalje mogu prijavljivati taj kontejner, ali se obavijesti više neće generirati. Iznimka ovom pravilu je prijavljivanje suprotnog stanja: ukoliko je kontejner lažno prijavljen kao pun ili pretrpan, i već je poslana obavijest službama, moguće je da više korisnika označi taj kontejner kao prazan te se tim putem generira protu-obavijest koja službe obavještava da je kontejner prazan.
+
+Nakon što je neki korisnik prijavio kontejner kao pun, ne može ga više označiti kao takvog sve dok ga komunalne službe ili drugi građani ne označe praznim. Jednako tako, ako ga korisnik označi praznim, ne može to ponoviti sve dok ga dovoljno ljudi ne označi punim i generira se obavijest prema službama.\\
+
+
+\begin{packed_item}
+	\item \textit{potencijalna korist ovog projekta}
+	\item \textit{postojeća slična rješenja (istražiti i ukratko opisati razlike u odnosu na zadani zadatak). Dodajte slike koja predočavaju slična rješenja.}
+	\item \textit{skup korisnika koji bi mogao biti zainteresiran za ostvareno rješenje.}
+	\item \textit{mogućnost prilagodbe rješenja }
+	\item \textit{opseg projektnog zadatka}
+	\item \textit{moguće nadogradnje projektnog zadatka}
+\end{packed_item}
 		
 		\textit{Za pomoć pogledati reference navedene u poglavlju „Popis literature“, a po potrebi konzultirati sadržaj na internetu koji nudi dobre smjernice u tom pogledu.}
 		\eject
@@ -147,19 +154,6 @@
 	
 			\caption{\label{tab:referencatablica} Naslov ispod tablice.}
 		\end{table}
-		
-		\begin{figure}[H]
-			\includegraphics[scale=0.4]{slike/aktivnost.PNG}
-			\centering
-			\caption{Primjer slike s potpisom}
-			\label{fig:promjene}
-		\end{figure}
-		
-		\begin{figure}[H]
-			\includegraphics[width=\linewidth]{slike/aktivnost.PNG}
-			\caption{Primjer slike s potpisom 2}
-			\label{fig:promjene2}
-		\end{figure}
 		
 		
 		

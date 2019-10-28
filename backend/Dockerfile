@@ -10,7 +10,7 @@ COPY src ./src
 COPY src/main/resources/application-prod.properties ./config/application.properties
 
 # build executable jar
-RUN mvn clean package
+RUN mvn -f pom.xml clean package
 
 
 # -----------------------------------------------------------

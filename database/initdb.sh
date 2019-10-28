@@ -11,7 +11,7 @@ export PGUSER="$POSTGRES_USER"
 
 
 # create user
-psql -c "CREATE kombinacijauser WITH PASSWORD 'kombinacijapassword';"
+psql -c "CREATE USER kombinacijauser WITH PASSWORD 'kombinacijapassword';"
 
 # create database
 psql -c "CREATE DATABASE kombinacijadb;"

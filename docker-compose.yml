@@ -30,6 +30,8 @@ services:
     ports:
       - "5000:80"
     restart: always
+    volumes:
+      - pg-data:/var/lib/pgadmin
 
   #redis:
 
@@ -65,3 +67,4 @@ networks:
 
 volumes:
   db:
+  pg-data:

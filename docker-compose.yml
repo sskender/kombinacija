@@ -42,6 +42,9 @@ services:
     #deploy:
     environment:
       - DB_SERVER=database
+      - DB_NAME=kombinacijadb
+      - DB_USER=kombinacijauser
+      - DB_PASS=kombinacijapassword
     networks:
       - backend-net
     ports:

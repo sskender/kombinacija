@@ -14,7 +14,8 @@ services:
       - backend-net
       - pgadmin-net
     restart: always
-    #volumes:
+    volumes:
+      - db:/var/lib/postgresql/data
 
   pgadmin:
     container_name: pgadmin
@@ -60,3 +61,7 @@ networks:
   backend-net:
   pgadmin-net:
   frontend-net:
+
+
+volumes:
+  db:

@@ -15,7 +15,7 @@ services:
       - pgadmin-net
     restart: always
     volumes:
-      - db:/var/lib/postgresql/data
+      - db-data:/var/lib/postgresql/data
 
   pgadmin:
     container_name: pgadmin
@@ -66,5 +66,5 @@ networks:
 
 
 volumes:
-  db:
+  db-data:
   pg-data:

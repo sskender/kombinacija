@@ -9,6 +9,8 @@
 				\item Građanin
 				\item Komunalni radnik			
 				\item Administrator
+				\item Vlasnik (naručitelj)
+				\item Razvojni tim
 				
 				
 			\end{packed_enum}
@@ -21,7 +23,7 @@
 				
 				\begin{packed_enum}
 					
-					\item za odabrani datum na karti pregledati kontejnere na karti
+					\item za odabrani datum na karti pregledati kontejnere 
 					\item odabrati pojedini kontejner
 					\begin{packed_enum}
 						
@@ -31,15 +33,115 @@
 					\end{packed_enum}
 					
 				\end{packed_enum}
+				
+				
 			
-				\item  \underbar{Aktor 2 (sudionik) može:}
+				\item  \underbar{Administrator može:}
+				
+				
+				
+				\begin{packed_enum}
+				
+					\item prijaviti se u sustav
+				
+					\item upravljati komunalnim radnicima 
+						\begin{packed_enum}
+					
+						\item dodati novog komunalnog radnika u sustav
+						\item pridodati novog komunalnog radnika kvartu
+						\item premjestiti komunalnog radnika u drugi kvart
+						\item izbrisati komunalnog radnika iz sustava
+						
+						\end {packed_enum}	
+					
+					
+					
+					
+					\item prijaviti stanje kontejnera te priložiti sliku istoga
+					
+					\begin{packed_enum}
+					
+						\item prijaviti da je kontejner prazan
+						\item prijaviti da je kontejner pun
+						\item prijaviti da je kontejner pretrpan
+						
+					\end {packed_enum}	
+				
+					
+					\item za odabrani datum na karti pregledati kontejnere 
+					\item za odabrani datum na karti odabrati pojedini kontejner
+					\begin{packed_enum}
+						
+						\item  pregledati popis prijava i pražnjenja u tom danu
+						\item  pregledati grafički prikaz prijava i pražnjenja u tom danu
+				
+					\end {packed_enum}	
+				
+				\end {packed_enum}	
+			
+				\item  \underbar{Građanin može:}
 				
 				\begin{packed_enum}
 					
-					\item funkcionalnost 1
-					\item funkcionalnost 2
+					\item registrirati se u sustav
+					\item prijaviti se u sustav
+					\item odabrati pojedini kontejner
+					\begin{packed_enum}
+						
+						\item  pregledati popis prijava i pražnjena u tom danu
+						\item  pregledati grafički prikaz prijava i pražnjenja u tom danu
+				
+					\end{packed_enum}
+					
+					\item prijaviti stanje kontejnera te priložiti sliku istoga
+					\begin{packed_enum}
+					
+						\item prijaviti da je kontejner prazan
+						\item prijaviti da je kontejner pun
+						\item prijaviti da je kontejner pretrpan
+						
+					\end {packed_enum}	
+					
+						
+				\end{packed_enum}
+					
+		\item  \underbar{Komunalni radnik može:}
+				
+				\begin{packed_enum}
+					
+					\item prijaviti se u sustav
+					
+					\item preuzeti rutu za pražnjenje kontejnera
+					\item za svaki kontejner u ruti
+					
+						\begin{packed_enum}
+						
+						\item  prijaviti da je ispražnjen
+						\item  prijaviti lažnu dojavu ukoliko kontejner naveden u ruti nije pun
+				
+					\end{packed_enum}
+					
+					\item prijaviti stanje kontejnera te priložiti sliku istoga
+					\begin{packed_enum}
+					
+						\item prijaviti da je kontejner prazan
+						\item prijaviti da je kontejner pun
+						\item prijaviti da je kontejner pretrpan
+						
+					\end {packed_enum}	
+					
+					\item za odabrani datum na karti pregledati kontejnere 
+					\item za odabrani datum na karti odabrati pojedini kontejner
+					\begin{packed_enum}
+						
+						\item  pregledati popis prijava i pražnjenja u tom danu
+						\item  pregledati grafički prikaz prijava i pražnjenja u tom danu
+				
+					\end{packed_enum}
 					
 				\end{packed_enum}
+
+				
 			\end{packed_enum}
 			
 			\eject 

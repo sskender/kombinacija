@@ -140,6 +140,23 @@
 					\end{packed_enum}
 					
 				\end{packed_enum}
+				
+				
+				\item  \underbar{Baza podataka (sudionik):}
+				
+				
+				
+				\begin{packed_enum}
+				
+					\item pohranjuje sve podatke o korisnicima i njihovim ovlastima
+				
+					\item pohranjuje sve podatke o kvartovima, kontejnerima i prijavama
+					
+						
+				
+				\end {packed_enum}	
+
+				
 
 				
 			\end{packed_enum}
@@ -156,40 +173,798 @@
 					\textit{Funkcionalne zahtjeve razraditi u obliku obrazaca uporabe. Svaki obrazac je potrebno razraditi prema donjem predlošku. Ukoliko u nekom koraku može doći do odstupanja, potrebno je to odstupanje opisati i po mogućnosti ponuditi rješenje kojim bi se tijek obrasca vratio na osnovni tijek.}\\
 					
 
-					\noindent \underbar{\textbf{UC$<$broj obrasca$>$ -$<$ime obrasca$>$}}
+					\noindent \underbar{\textbf{UC01-Registracija}}
 					\begin{packed_item}
 	
-						\item \textbf{Glavni sudionik: }$<$sudionik$>$
-						\item  \textbf{Cilj:} $<$cilj$>$
-						\item  \textbf{Sudionici:} $<$sudionici$>$
-						\item  \textbf{Preduvjet:} $<$preduvjet$>$
+						\item \textbf{Glavni sudionik: }građanin
+						\item  \textbf{Cilj:} Stvaranje korisničkog računa za pristup sustavu
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Preduvjet:} -
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
 	
-							\item $<$opis korak jedan$>$
-							\item $<$opis korak dva$>$
-							\item $<$opis korak tri$>$
-							\item $<$opis korak četiri$>$
-							\item $<$opis korak pet$>$
+							\item Korisnik odabire registraciju u sustav
+							\item Korisnik unosi email i lozinku
+							\item Korisnik dobiva obavijest o uspješnoj registraciji u sustav
 						\end{packed_enum}
 						
 						\item  \textbf{Opis mogućih odstupanja:}
 						
 						\item[] \begin{packed_item}
 	
-							\item[2.a] $<$opis mogućeg scenarija odstupanja u koraku 2$>$
+							\item[2.a] Unos neispravnog emaila
+							
 							\item[] \begin{packed_enum}
 								
-								\item $<$opis rješenja mogućeg scenarija korak 1$>$
-								\item $<$opis rješenja mogućeg scenarija korak 2$>$
+								\item Sustav obavještava korsnika da je unio neispravan podatak
+								\item Korisnik ponovno unosi podatke ili odustaje od registracije
 								
 							\end{packed_enum}
-							\item[2.b] $<$opis mogućeg scenarija odstupanja u koraku 2$>$
-							\item[3.a] $<$opis mogućeg scenarija odstupanja  u koraku 3$>$
+							\item[2.b] Korisnik je unio manje od osam znakova za lozinku
+							
+								\item[] \begin{packed_enum}
+								
+								\item Sustav obavještava korsnika da je unio neispravan podatak
+								\item Korisnik ponovno unosi podatke ili odustaje od registracije
+								
+							\end{packed_enum}
 							
 						\end{packed_item}
 					\end{packed_item}
+					
+					
+					\noindent \underbar{\textbf{UC02-Prijava u sustav}}
+					\begin{packed_item}
+	
+						\item \textbf{Glavni sudionik: }građanin
+						\item  \textbf{Cilj:} Stvaranje korisničkog računa za pristup sustavu
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Preduvjet:} -
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+	
+							\item Korisnik odabire registraciju u sustav
+							\item Korisnik unosi email i lozinku
+							\item Korisnik dobiva obavijest o uspješnoj registraciji u sustav
+						\end{packed_enum}
+						
+						\item  \textbf{Opis mogućih odstupanja:}
+						
+						\item[] \begin{packed_item}
+	
+							\item[2.a] Unos neispravnog emaila
+							
+							\item[] \begin{packed_enum}
+								
+								\item Sustav obavještava korsnika da je unio neispravan podatak
+								\item Korisnik ponovno unosi podatke ili odustaje od registracije
+								
+							\end{packed_enum}
+							\item[2.b] Korisnik je unio manje od osam znakova za lozinku
+							
+								\item[] \begin{packed_enum}
+								
+								\item Sustav obavještava korsnika da je unio neispravan podatak
+								\item Korisnik ponovno unosi podatke ili odustaje od registracije
+								
+							\end{packed_enum}
+							
+						\end{packed_item}
+					\end{packed_item}
+
+
+		\noindent \underbar{\textbf{UC03-Dodaj najkorištenije kante}}
+					\begin{packed_item}
+	
+						\item \textbf{Glavni sudionik: }građanin
+						\item  \textbf{Cilj:} Stvaranje korisničkog računa za pristup sustavu
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Preduvjet:} -
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+	
+							\item Korisnik odabire registraciju u sustav
+							\item Korisnik unosi email i lozinku
+							\item Korisnik dobiva obavijest o uspješnoj registraciji u sustav
+						\end{packed_enum}
+						
+						\item  \textbf{Opis mogućih odstupanja:}
+						
+						\item[] \begin{packed_item}
+	
+							\item[2.a] Unos neispravnog emaila
+							
+							\item[] \begin{packed_enum}
+								
+								\item Sustav obavještava korsnika da je unio neispravan podatak
+								\item Korisnik ponovno unosi podatke ili odustaje od registracije
+								
+							\end{packed_enum}
+							\item[2.b] Korisnik je unio manje od osam znakova za lozinku
+							
+								\item[] \begin{packed_enum}
+								
+								\item Sustav obavještava korsnika da je unio neispravan podatak
+								\item Korisnik ponovno unosi podatke ili odustaje od registracije
+								
+							\end{packed_enum}
+							
+						\end{packed_item}
+					\end{packed_item}
+					
+					
+					
+					
+						\noindent \underbar{\textbf{UC04-Ukloni iz najkorištenijih}}
+					\begin{packed_item}
+	
+						\item \textbf{Glavni sudionik: }građanin
+						\item  \textbf{Cilj:} Stvaranje korisničkog računa za pristup sustavu
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Preduvjet:} -
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+	
+							\item Korisnik odabire registraciju u sustav
+							\item Korisnik unosi email i lozinku
+							\item Korisnik dobiva obavijest o uspješnoj registraciji u sustav
+						\end{packed_enum}
+						
+						\item  \textbf{Opis mogućih odstupanja:}
+						
+						\item[] \begin{packed_item}
+	
+							\item[2.a] Unos neispravnog emaila
+							
+							\item[] \begin{packed_enum}
+								
+								\item Sustav obavještava korsnika da je unio neispravan podatak
+								\item Korisnik ponovno unosi podatke ili odustaje od registracije
+								
+							\end{packed_enum}
+							\item[2.b] Korisnik je unio manje od osam znakova za lozinku
+							
+								\item[] \begin{packed_enum}
+								
+								\item Sustav obavještava korsnika da je unio neispravan podatak
+								\item Korisnik ponovno unosi podatke ili odustaje od registracije
+								
+							\end{packed_enum}
+							
+						\end{packed_item}
+					\end{packed_item}
+
+
+	\noindent \underbar{\textbf{UC05-Preuzimanje rute}}
+					\begin{packed_item}
+	
+						\item \textbf{Glavni sudionik: }građanin
+						\item  \textbf{Cilj:} Stvaranje korisničkog računa za pristup sustavu
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Preduvjet:} -
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+	
+							\item Korisnik odabire registraciju u sustav
+							\item Korisnik unosi email i lozinku
+							\item Korisnik dobiva obavijest o uspješnoj registraciji u sustav
+						\end{packed_enum}
+						
+						\item  \textbf{Opis mogućih odstupanja:}
+						
+						\item[] \begin{packed_item}
+	
+							\item[2.a] Unos neispravnog emaila
+							
+							\item[] \begin{packed_enum}
+								
+								\item Sustav obavještava korsnika da je unio neispravan podatak
+								\item Korisnik ponovno unosi podatke ili odustaje od registracije
+								
+							\end{packed_enum}
+							\item[2.b] Korisnik je unio manje od osam znakova za lozinku
+							
+								\item[] \begin{packed_enum}
+								
+								\item Sustav obavještava korsnika da je unio neispravan podatak
+								\item Korisnik ponovno unosi podatke ili odustaje od registracije
+								
+							\end{packed_enum}
+							
+						\end{packed_item}
+					\end{packed_item}
+
+
+
+
+
+	\noindent \underbar{\textbf{UC06-Premještanje smetlara}}
+					\begin{packed_item}
+	
+						\item \textbf{Glavni sudionik: }građanin
+						\item  \textbf{Cilj:} Stvaranje korisničkog računa za pristup sustavu
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Preduvjet:} -
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+	
+							\item Korisnik odabire registraciju u sustav
+							\item Korisnik unosi email i lozinku
+							\item Korisnik dobiva obavijest o uspješnoj registraciji u sustav
+						\end{packed_enum}
+						
+						\item  \textbf{Opis mogućih odstupanja:}
+						
+						\item[] \begin{packed_item}
+	
+							\item[2.a] Unos neispravnog emaila
+							
+							\item[] \begin{packed_enum}
+								
+								\item Sustav obavještava korsnika da je unio neispravan podatak
+								\item Korisnik ponovno unosi podatke ili odustaje od registracije
+								
+							\end{packed_enum}
+							\item[2.b] Korisnik je unio manje od osam znakova za lozinku
+							
+								\item[] \begin{packed_enum}
+								
+								\item Sustav obavještava korsnika da je unio neispravan podatak
+								\item Korisnik ponovno unosi podatke ili odustaje od registracije
+								
+							\end{packed_enum}
+							
+						\end{packed_item}
+					\end{packed_item}
+
+				
+				
+					\noindent \underbar{\textbf{UC07-Potvrda pražnjenja}}
+					\begin{packed_item}
+	
+						\item \textbf{Glavni sudionik: }građanin
+						\item  \textbf{Cilj:} Stvaranje korisničkog računa za pristup sustavu
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Preduvjet:} -
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+	
+							\item Korisnik odabire registraciju u sustav
+							\item Korisnik unosi email i lozinku
+							\item Korisnik dobiva obavijest o uspješnoj registraciji u sustav
+						\end{packed_enum}
+						
+						\item  \textbf{Opis mogućih odstupanja:}
+						
+						\item[] \begin{packed_item}
+	
+							\item[2.a] Unos neispravnog emaila
+							
+							\item[] \begin{packed_enum}
+								
+								\item Sustav obavještava korsnika da je unio neispravan podatak
+								\item Korisnik ponovno unosi podatke ili odustaje od registracije
+								
+							\end{packed_enum}
+							\item[2.b] Korisnik je unio manje od osam znakova za lozinku
+							
+								\item[] \begin{packed_enum}
+								
+								\item Sustav obavještava korsnika da je unio neispravan podatak
+								\item Korisnik ponovno unosi podatke ili odustaje od registracije
+								
+							\end{packed_enum}
+							
+						\end{packed_item}
+					\end{packed_item}
+				
+				
+					\noindent \underbar{\textbf{UC08-Prijava lažne dojave}}
+					\begin{packed_item}
+	
+						\item \textbf{Glavni sudionik: }građanin
+						\item  \textbf{Cilj:} Stvaranje korisničkog računa za pristup sustavu
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Preduvjet:} -
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+	
+							\item Korisnik odabire registraciju u sustav
+							\item Korisnik unosi email i lozinku
+							\item Korisnik dobiva obavijest o uspješnoj registraciji u sustav
+						\end{packed_enum}
+						
+						\item  \textbf{Opis mogućih odstupanja:}
+						
+						\item[] \begin{packed_item}
+	
+							\item[2.a] Unos neispravnog emaila
+							
+							\item[] \begin{packed_enum}
+								
+								\item Sustav obavještava korsnika da je unio neispravan podatak
+								\item Korisnik ponovno unosi podatke ili odustaje od registracije
+								
+							\end{packed_enum}
+							\item[2.b] Korisnik je unio manje od osam znakova za lozinku
+							
+								\item[] \begin{packed_enum}
+								
+								\item Sustav obavještava korsnika da je unio neispravan podatak
+								\item Korisnik ponovno unosi podatke ili odustaje od registracije
+								
+							\end{packed_enum}
+							
+						\end{packed_item}
+					\end{packed_item}
+				
+				
+				
+					\noindent \underbar{\textbf{UC09-Prijava praznog kontejnera}}
+					\begin{packed_item}
+	
+						\item \textbf{Glavni sudionik: }građanin
+						\item  \textbf{Cilj:} Stvaranje korisničkog računa za pristup sustavu
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Preduvjet:} -
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+	
+							\item Korisnik odabire registraciju u sustav
+							\item Korisnik unosi email i lozinku
+							\item Korisnik dobiva obavijest o uspješnoj registraciji u sustav
+						\end{packed_enum}
+						
+						\item  \textbf{Opis mogućih odstupanja:}
+						
+						\item[] \begin{packed_item}
+	
+							\item[2.a] Unos neispravnog emaila
+							
+							\item[] \begin{packed_enum}
+								
+								\item Sustav obavještava korsnika da je unio neispravan podatak
+								\item Korisnik ponovno unosi podatke ili odustaje od registracije
+								
+							\end{packed_enum}
+							\item[2.b] Korisnik je unio manje od osam znakova za lozinku
+							
+								\item[] \begin{packed_enum}
+								
+								\item Sustav obavještava korsnika da je unio neispravan podatak
+								\item Korisnik ponovno unosi podatke ili odustaje od registracije
+								
+							\end{packed_enum}
+							
+						\end{packed_item}
+					\end{packed_item}
+				
+				
+				
+					\noindent \underbar{\textbf{UC10-Prijava punog kontejnera}}
+					\begin{packed_item}
+	
+						\item \textbf{Glavni sudionik: }građanin
+						\item  \textbf{Cilj:} Stvaranje korisničkog računa za pristup sustavu
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Preduvjet:} -
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+	
+							\item Korisnik odabire registraciju u sustav
+							\item Korisnik unosi email i lozinku
+							\item Korisnik dobiva obavijest o uspješnoj registraciji u sustav
+						\end{packed_enum}
+						
+						\item  \textbf{Opis mogućih odstupanja:}
+						
+						\item[] \begin{packed_item}
+	
+							\item[2.a] Unos neispravnog emaila
+							
+							\item[] \begin{packed_enum}
+								
+								\item Sustav obavještava korsnika da je unio neispravan podatak
+								\item Korisnik ponovno unosi podatke ili odustaje od registracije
+								
+							\end{packed_enum}
+							\item[2.b] Korisnik je unio manje od osam znakova za lozinku
+							
+								\item[] \begin{packed_enum}
+								
+								\item Sustav obavještava korsnika da je unio neispravan podatak
+								\item Korisnik ponovno unosi podatke ili odustaje od registracije
+								
+							\end{packed_enum}
+							
+						\end{packed_item}
+					\end{packed_item}
+				
+				
+				
+					\noindent \underbar{\textbf{UC11-Prijava prepunog kontejnera}}
+					\begin{packed_item}
+	
+						\item \textbf{Glavni sudionik: }građanin
+						\item  \textbf{Cilj:} Stvaranje korisničkog računa za pristup sustavu
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Preduvjet:} -
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+	
+							\item Korisnik odabire registraciju u sustav
+							\item Korisnik unosi email i lozinku
+							\item Korisnik dobiva obavijest o uspješnoj registraciji u sustav
+						\end{packed_enum}
+						
+						\item  \textbf{Opis mogućih odstupanja:}
+						
+						\item[] \begin{packed_item}
+	
+							\item[2.a] Unos neispravnog emaila
+							
+							\item[] \begin{packed_enum}
+								
+								\item Sustav obavještava korsnika da je unio neispravan podatak
+								\item Korisnik ponovno unosi podatke ili odustaje od registracije
+								
+							\end{packed_enum}
+							\item[2.b] Korisnik je unio manje od osam znakova za lozinku
+							
+								\item[] \begin{packed_enum}
+								
+								\item Sustav obavještava korsnika da je unio neispravan podatak
+								\item Korisnik ponovno unosi podatke ili odustaje od registracije
+								
+							\end{packed_enum}
+							
+						\end{packed_item}
+					\end{packed_item}
+				
+				
+				\noindent \underbar{\textbf{UC12-Fotografiranje kontejnera}}
+					\begin{packed_item}
+	
+						\item \textbf{Glavni sudionik: }građanin
+						\item  \textbf{Cilj:} Stvaranje korisničkog računa za pristup sustavu
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Preduvjet:} -
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+	
+							\item Korisnik odabire registraciju u sustav
+							\item Korisnik unosi email i lozinku
+							\item Korisnik dobiva obavijest o uspješnoj registraciji u sustav
+						\end{packed_enum}
+						
+						\item  \textbf{Opis mogućih odstupanja:}
+						
+						\item[] \begin{packed_item}
+	
+							\item[2.a] Unos neispravnog emaila
+							
+							\item[] \begin{packed_enum}
+								
+								\item Sustav obavještava korsnika da je unio neispravan podatak
+								\item Korisnik ponovno unosi podatke ili odustaje od registracije
+								
+							\end{packed_enum}
+							\item[2.b] Korisnik je unio manje od osam znakova za lozinku
+							
+								\item[] \begin{packed_enum}
+								
+								\item Sustav obavještava korsnika da je unio neispravan podatak
+								\item Korisnik ponovno unosi podatke ili odustaje od registracije
+								
+							\end{packed_enum}
+							
+						\end{packed_item}
+					\end{packed_item}
+				
+				
+				\noindent \underbar{\textbf{UC13-Priegled arhive}}
+					\begin{packed_item}
+	
+						\item \textbf{Glavni sudionik: }građanin
+						\item  \textbf{Cilj:} Stvaranje korisničkog računa za pristup sustavu
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Preduvjet:} -
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+	
+							\item Korisnik odabire registraciju u sustav
+							\item Korisnik unosi email i lozinku
+							\item Korisnik dobiva obavijest o uspješnoj registraciji u sustav
+						\end{packed_enum}
+						
+						\item  \textbf{Opis mogućih odstupanja:}
+						
+						\item[] \begin{packed_item}
+	
+							\item[2.a] Unos neispravnog emaila
+							
+							\item[] \begin{packed_enum}
+								
+								\item Sustav obavještava korsnika da je unio neispravan podatak
+								\item Korisnik ponovno unosi podatke ili odustaje od registracije
+								
+							\end{packed_enum}
+							\item[2.b] Korisnik je unio manje od osam znakova za lozinku
+							
+								\item[] \begin{packed_enum}
+								
+								\item Sustav obavještava korsnika da je unio neispravan podatak
+								\item Korisnik ponovno unosi podatke ili odustaje od registracije
+								
+							\end{packed_enum}
+							
+						\end{packed_item}
+					\end{packed_item}
+				
+				\noindent \underbar{\textbf{UC14-Dodavanje kvarta}}
+					\begin{packed_item}
+	
+						\item \textbf{Glavni sudionik: }građanin
+						\item  \textbf{Cilj:} Stvaranje korisničkog računa za pristup sustavu
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Preduvjet:} -
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+	
+							\item Korisnik odabire registraciju u sustav
+							\item Korisnik unosi email i lozinku
+							\item Korisnik dobiva obavijest o uspješnoj registraciji u sustav
+						\end{packed_enum}
+						
+						\item  \textbf{Opis mogućih odstupanja:}
+						
+						\item[] \begin{packed_item}
+	
+							\item[2.a] Unos neispravnog emaila
+							
+							\item[] \begin{packed_enum}
+								
+								\item Sustav obavještava korsnika da je unio neispravan podatak
+								\item Korisnik ponovno unosi podatke ili odustaje od registracije
+								
+							\end{packed_enum}
+							\item[2.b] Korisnik je unio manje od osam znakova za lozinku
+							
+								\item[] \begin{packed_enum}
+								
+								\item Sustav obavještava korsnika da je unio neispravan podatak
+								\item Korisnik ponovno unosi podatke ili odustaje od registracije
+								
+							\end{packed_enum}
+							
+						\end{packed_item}
+					\end{packed_item}
+				
+				
+				
+				\noindent \underbar{\textbf{UC15-Brisanje kvarta}}
+					\begin{packed_item}
+	
+						\item \textbf{Glavni sudionik: }građanin
+						\item  \textbf{Cilj:} Stvaranje korisničkog računa za pristup sustavu
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Preduvjet:} -
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+	
+							\item Korisnik odabire registraciju u sustav
+							\item Korisnik unosi email i lozinku
+							\item Korisnik dobiva obavijest o uspješnoj registraciji u sustav
+						\end{packed_enum}
+						
+						\item  \textbf{Opis mogućih odstupanja:}
+						
+						\item[] \begin{packed_item}
+	
+							\item[2.a] Unos neispravnog emaila
+							
+							\item[] \begin{packed_enum}
+								
+								\item Sustav obavještava korsnika da je unio neispravan podatak
+								\item Korisnik ponovno unosi podatke ili odustaje od registracije
+								
+							\end{packed_enum}
+							\item[2.b] Korisnik je unio manje od osam znakova za lozinku
+							
+								\item[] \begin{packed_enum}
+								
+								\item Sustav obavještava korsnika da je unio neispravan podatak
+								\item Korisnik ponovno unosi podatke ili odustaje od registracije
+								
+							\end{packed_enum}
+							
+						\end{packed_item}
+					\end{packed_item}
+				
+				
+				\noindent \underbar{\textbf{UC16-Dodavanje kontejnera}}
+					\begin{packed_item}
+	
+						\item \textbf{Glavni sudionik: }građanin
+						\item  \textbf{Cilj:} Stvaranje korisničkog računa za pristup sustavu
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Preduvjet:} -
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+	
+							\item Korisnik odabire registraciju u sustav
+							\item Korisnik unosi email i lozinku
+							\item Korisnik dobiva obavijest o uspješnoj registraciji u sustav
+						\end{packed_enum}
+						
+						\item  \textbf{Opis mogućih odstupanja:}
+						
+						\item[] \begin{packed_item}
+	
+							\item[2.a] Unos neispravnog emaila
+							
+							\item[] \begin{packed_enum}
+								
+								\item Sustav obavještava korsnika da je unio neispravan podatak
+								\item Korisnik ponovno unosi podatke ili odustaje od registracije
+								
+							\end{packed_enum}
+							\item[2.b] Korisnik je unio manje od osam znakova za lozinku
+							
+								\item[] \begin{packed_enum}
+								
+								\item Sustav obavještava korsnika da je unio neispravan podatak
+								\item Korisnik ponovno unosi podatke ili odustaje od registracije
+								
+							\end{packed_enum}
+							
+						\end{packed_item}
+					\end{packed_item}
+				
+				
+				\noindent \underbar{\textbf{UC17-Brisanje kontejnera}}
+					\begin{packed_item}
+	
+						\item \textbf{Glavni sudionik: }građanin
+						\item  \textbf{Cilj:} Stvaranje korisničkog računa za pristup sustavu
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Preduvjet:} -
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+	
+							\item Korisnik odabire registraciju u sustav
+							\item Korisnik unosi email i lozinku
+							\item Korisnik dobiva obavijest o uspješnoj registraciji u sustav
+						\end{packed_enum}
+						
+						\item  \textbf{Opis mogućih odstupanja:}
+						
+						\item[] \begin{packed_item}
+	
+							\item[2.a] Unos neispravnog emaila
+							
+							\item[] \begin{packed_enum}
+								
+								\item Sustav obavještava korsnika da je unio neispravan podatak
+								\item Korisnik ponovno unosi podatke ili odustaje od registracije
+								
+							\end{packed_enum}
+							\item[2.b] Korisnik je unio manje od osam znakova za lozinku
+							
+								\item[] \begin{packed_enum}
+								
+								\item Sustav obavještava korsnika da je unio neispravan podatak
+								\item Korisnik ponovno unosi podatke ili odustaje od registracije
+								
+							\end{packed_enum}
+							
+						\end{packed_item}
+					\end{packed_item}
+				
+				
+				
+				
+				\noindent \underbar{\textbf{UC18-Dodavanje smetlara}}
+					\begin{packed_item}
+	
+						\item \textbf{Glavni sudionik: }građanin
+						\item  \textbf{Cilj:} Stvaranje korisničkog računa za pristup sustavu
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Preduvjet:} -
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+	
+							\item Korisnik odabire registraciju u sustav
+							\item Korisnik unosi email i lozinku
+							\item Korisnik dobiva obavijest o uspješnoj registraciji u sustav
+						\end{packed_enum}
+						
+						\item  \textbf{Opis mogućih odstupanja:}
+						
+						\item[] \begin{packed_item}
+	
+							\item[2.a] Unos neispravnog emaila
+							
+							\item[] \begin{packed_enum}
+								
+								\item Sustav obavještava korsnika da je unio neispravan podatak
+								\item Korisnik ponovno unosi podatke ili odustaje od registracije
+								
+							\end{packed_enum}
+							\item[2.b] Korisnik je unio manje od osam znakova za lozinku
+							
+								\item[] \begin{packed_enum}
+								
+								\item Sustav obavještava korsnika da je unio neispravan podatak
+								\item Korisnik ponovno unosi podatke ili odustaje od registracije
+								
+							\end{packed_enum}
+							
+						\end{packed_item}
+					\end{packed_item}
+				
+				\noindent \underbar{\textbf{UC19-Brisanje smetlara}}
+					\begin{packed_item}
+	
+						\item \textbf{Glavni sudionik: }građanin
+						\item  \textbf{Cilj:} Stvaranje korisničkog računa za pristup sustavu
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Preduvjet:} -
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+	
+							\item Korisnik odabire registraciju u sustav
+							\item Korisnik unosi email i lozinku
+							\item Korisnik dobiva obavijest o uspješnoj registraciji u sustav
+						\end{packed_enum}
+						
+						\item  \textbf{Opis mogućih odstupanja:}
+						
+						\item[] \begin{packed_item}
+	
+							\item[2.a] Unos neispravnog emaila
+							
+							\item[] \begin{packed_enum}
+								
+								\item Sustav obavještava korsnika da je unio neispravan podatak
+								\item Korisnik ponovno unosi podatke ili odustaje od registracije
+								
+							\end{packed_enum}
+							\item[2.b] Korisnik je unio manje od osam znakova za lozinku
+							
+								\item[] \begin{packed_enum}
+								
+								\item Sustav obavještava korsnika da je unio neispravan podatak
+								\item Korisnik ponovno unosi podatke ili odustaje od registracije
+								
+							\end{packed_enum}
+							
+						\end{packed_item}
+					\end{packed_item}
+				
+				
+				
+				
+				
 				
 					
 				\subsubsection{Dijagrami obrazaca uporabe}

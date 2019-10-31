@@ -13,14 +13,18 @@ public class Neighborhood implements Serializable {
     private Long id;
     @Column(length = 100, nullable = false)
     private String name;
+    @Column(nullable=false)
+    private double longitude;
+    @Column(nullable = false)
+    private double latitude;
     @OneToMany(mappedBy = "neighborhood")
-    private List<TrashCan> trashCans;
+    private List<Container> containers;
     @OneToMany(mappedBy = "neighborhood")
     private List<Employee> assignedEmployees;
 
-    public Neighborhood(String name, List<TrashCan> trashCans, List<Employee> assignedEmployees) {
+    public Neighborhood(String name, List<Container> containers, List<Employee> assignedEmployees) {
         this.name = name;
-        this.trashCans = trashCans;
+        this.containers = containers;
         this.assignedEmployees = assignedEmployees;
     }
 
@@ -33,23 +37,26 @@ public class Neighborhood implements Serializable {
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
 
-    public List<TrashCan> getTrashCans() {
-        return trashCans;
-    }
+    public double getLongitude() { return longitude; }
+    public void setLongitude(double longitude) { this.longitude = longitude; }
 
-    public void setTrashCans(List<TrashCan> trashCans) {
-        this.trashCans = trashCans;
+    public double getLatitude() { return latitude; }
+    public void setLatitude(double latitude) { this.latitude = latitude; }
+
+    public List<Container> getContainers() {
+        return containers;
+    }
+    public void setContainers(List<Container> containers) {
+        this.containers = containers;
     }
 
     public List<Employee> getAssignedEmployees() {
         return assignedEmployees;
     }
-
     public void setAssignedEmployees(List<Employee> assignedEmployees) {
         this.assignedEmployees = assignedEmployees;
     }
@@ -81,10 +88,11 @@ public class Neighborhood implements Serializable {
         return "Neighborhood{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", trashCans=" + trashCans +
+                ", longitude=" + longitude +
+                ", latitude=" + latitude +
+                ", containers=" + containers +
                 ", assignedEmployees=" + assignedEmployees +
                 '}';
     }
-
 }
 

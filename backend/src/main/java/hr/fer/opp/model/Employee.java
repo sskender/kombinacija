@@ -1,78 +1,33 @@
 package hr.fer.opp.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "employees")
-public class Employee implements Serializable {
+public class Employee extends Person implements Serializable {
 
-	@Id
-	@GeneratedValue
-	private Long id;
-	@Column(length = 100, nullable = false)
-	private String email;
-	@Column(length = 100, nullable = false)
-	private String passwordHash;
-	@Column(length = 100, nullable = false)
-	private String name;
-	@Column(length = 100, nullable = false)
-	private String lastName;
-	@Column(length = 100, nullable = false)
+	@Column(nullable = false)
+	@NotNull
+	@Size(min=11, max=11)
 	private String OIB;
 	@ManyToOne
 	private Neighborhood neighborhood;
+	@OneToMany(mappedBy = "worker")
+	private List<Emptying> emptyings;
 
-	public Employee(String email, String passwordHash, String name, String lastName, String OIB) {
-		this.email = email;
-		this.passwordHash = passwordHash;
-		this.name = name;
-		this.lastName = lastName;
+	public Employee(String OIB) {
 		this.OIB = OIB;
 	}
 
 	public Employee() {};
 
-	public Long getId() {
-		return id;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getPasswordHash() {
-		return passwordHash;
-	}
-
-	public void setPasswordHash(String passwordHash) {
-		this.passwordHash = passwordHash;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
 	public String getOIB() {
 		return OIB;
 	}
-
 	public void setOIB(String OIB) {
 		this.OIB = OIB;
 	}
@@ -80,44 +35,14 @@ public class Employee implements Serializable {
 	public Neighborhood getNeighborhood() {
 		return neighborhood;
 	}
-
 	public void setNeighborhood(Neighborhood neighborhood) {
 		this.neighborhood = neighborhood;
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Employee other = (Employee) obj;
-		if (id == null) {
-			return other.id == null;
-		} else return id.equals(other.id);
-	}
-
-	@Override
 	public String toString() {
-		return "Employee{" +
-				"id=" + id +
-				", email='" + email + '\'' +
-				", passwordHash='" + passwordHash + '\'' +
-				", name='" + name + '\'' +
-				", lastName='" + lastName + '\'' +
-				", OIB='" + OIB + '\'' +
-				", neighborhood=" + neighborhood +
-				'}';
+		String s = super.toString().replace("Person", "Employee");
+		return s.replace("}", "\n\t, OIB="+OIB + "\n\t, neighborhood="+neighborhood+"}");
 	}
 
 }

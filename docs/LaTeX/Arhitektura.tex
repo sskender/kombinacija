@@ -28,21 +28,68 @@
 				
 				\begin{longtabu} to \textwidth {|X[6, l]|X[6, l]|X[20, l]|}
 					
-					\hline \multicolumn{3}{|c|}{\textbf{korisnik - ime tablice}}	 \\[3pt] \hline
+					\hline \multicolumn{3}{|c|}{\textbf{Person}}	 \\[3pt] \hline
 					\endfirsthead
 					
-					\hline \multicolumn{3}{|c|}{\textbf{korisnik - ime tablice}}	 \\[3pt] \hline
+					\hline \multicolumn{3}{|c|}{\textbf{Person}}	 \\[3pt] \hline
 					\endhead
 					
 					\hline 
 					\endlastfoot
 					
-					\cellcolor{LightGreen}IDKorisnik & INT	&  	Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam 	\\ \hline
-					korisnickoIme	& VARCHAR &   	\\ \hline 
-					email & VARCHAR &   \\ \hline 
-					ime & VARCHAR	&  		\\ \hline 
-					\cellcolor{LightBlue} primjer	& VARCHAR &   	\\ \hline 
+					\cellcolor{LightGreen}id & INT	&   Identifikator osobe; svaka osoba ima svoj jedinstveni ID	\\ \hline
+					ime	& VARCHAR &   Ime osobe, ne smije biti NULL	\\ \hline 
+					prezime & VARCHAR & Prezime osobe, ne smije biti NULL \\ \hline
+					email & VARCHAR &  E-mail osobe, koristi se pri prijavi korisnika u sustav, ne smije biti NULL \\ \hline 
+					pwdhash & VARCHAR	&  \textit{Digest} lozinke koju je osoba odabrala \\ 
 					
+				\end{longtabu}
+			
+				\begin{longtabu} to \textwidth {|X[6, l]|X[6, l]|X[20, l]|}
+					
+					\hline \multicolumn{3}{|c|}{\textbf{Admin}}	 \\[3pt] \hline
+					\endfirsthead
+					
+					\hline \multicolumn{3}{|c|}{\textbf{Admin}}	 \\[3pt] \hline
+					\endhead
+					
+					\hline 
+					\endlastfoot
+					
+					\cellcolor{LightBlue}id & INT	&   Jedini atribut tablice - strani ključ koji pokazuje na tablicu Person.	\\ 
+					
+				\end{longtabu}
+			
+				\begin{longtabu} to \textwidth {|X[6, l]|X[6, l]|X[20, l]|}
+					
+					\hline \multicolumn{3}{|c|}{\textbf{Citizen}}	 \\[3pt] \hline
+					\endfirsthead
+					
+					\hline \multicolumn{3}{|c|}{\textbf{Citizen}}	 \\[3pt] \hline
+					\endhead
+					
+					\hline 
+					\endlastfoot
+					
+					\cellcolor{LightBlue}id & INT	&   Strani ključ koji pokazuje na tablicu Person.	\\ \hline
+					reputation & INT & Atribut koji označava reputaciju korisnika, koja služi za procjenu vjerodostojnosti njegove prijave. \\
+					
+				\end{longtabu}
+			
+				\begin{longtabu} to \textwidth {|X[7, l]|X[7, l]|X[20, l]|}
+					
+					\hline \multicolumn{3}{|c|}{\textbf{Employee}}	 \\[3pt] \hline
+					\endfirsthead
+					
+					\hline \multicolumn{3}{|c|}{\textbf{Employee}}	 \\[3pt] \hline
+					\endhead
+					
+					\hline 
+					\endlastfoot
+					
+					\cellcolor{LightBlue}id & INT	&   Strani ključ koji pokazuje na tablicu Person.	\\ \hline
+					oib & VARCHAR(11) & OIB komunalnog radnika. \\ \hline
+					\cellcolor{LightBlue} neighborhoodId & INT & Strani ključ koji pokazuje na tablicu Neighborhood. Određuje kojem kvartu pripada radnik.
 					
 				\end{longtabu}
 			

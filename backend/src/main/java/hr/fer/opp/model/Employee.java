@@ -10,7 +10,7 @@ import java.util.List;
 @Table(name = "employees")
 public class Employee extends Person implements Serializable {
 
-	@Column(nullable = false)
+	@Column(nullable = false, unique = true)
 	@NotNull
 	@Size(min=11, max=11)
 	private String OIB;

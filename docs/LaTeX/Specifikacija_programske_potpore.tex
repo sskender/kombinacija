@@ -243,7 +243,7 @@
 					\end{packed_item}
 
 
-		\noindent \underbar{\textbf{UC03-Dodaj najkorištenije kante}}
+		\noindent \underbar{\textbf{UC03-Dodaj najkorištenije kontejnere}}
 					\begin{packed_item}
 	
 						\item \textbf{Glavni sudionik: } Građanin, komunalni radnik, administrator
@@ -266,8 +266,8 @@
 					
 					
 					
-						\noindent \underbar{\textbf{UC04-Ukloni iz najkorištenijih}}
-					\begin{packed_item}
+	\noindent \underbar{\textbf{UC04-Ukloni iz najkorištenijih}}	
+				\begin{packed_item}
 	
 						\item \textbf{Glavni sudionik: }Građanin, komunalni radnik, administrator
 						\item  \textbf{Cilj:} Povećanje preglednosti karte i lakša uporaba iste
@@ -318,10 +318,90 @@
 					\end{packed_item}
 
 
+	\noindent \underbar{\textbf{UC06-Potvrda pražnjenja}}
+					\begin{packed_item}
+	
+						\item \textbf{Glavni sudionik: }Komunalni radnik
+						\item  \textbf{Cilj:} Potvrda pražnjenja kanti s rute
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Preduvjet:} Korisnik je prijavljen i pokrenuo je rutu (UC05)
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+	
+							\item Korisnik odabire kantu iz rute
+							\item Sustav prikazuje opcije vezane za odabranu kantu
+							\item Korisnik označava da je kanta ispražnjena
+							\item Sustav sprema unesenu promjenu
+							
+						\end{packed_enum}
+						
+						\item  \textbf{Opis mogućih odstupanja:}
+						
+						\item[] \begin{packed_item}
+	
+							\item[3.a] Kanta nije puna
+							
+							\item[] \begin{packed_enum}
+								
+								\item Korisnik označava da je dojava lažna
+								\item Sustav prikazuje sljedeću kantu iz rute
+								
+							\end{packed_enum}
+						\end{packed_item}
+					\end{packed_item}
 
+	\noindent \underbar{\textbf{UC07-Dodavanje komunalnog radnika}}
+					\begin{packed_item}
+	
+						\item \textbf{Glavni sudionik: }Administrator
+						\item  \textbf{Cilj:} Stvaranje korisničkog računa za novog korisnika
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Preduvjet:} Korisnik je prijavljen u sustav
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+	
+							\item Korisnik odabire kvart
+							\item Sustava prikazuje popis radnika u odabranom kvartu
+							\item Korisnik odabire stvaranje novog radnika u odabranom kvartu
+							\item Sustav otvara formu za registraciju novog radnika
+							\item Korisnik unosi podatke o novom radniku
+							\item Sustav sprema unesenu promjenu
+						\end{packed_enum}
+						
+						\item  \textbf{Opis mogućih odstupanja:}
+						
+						\item[] \begin{packed_item}
+	
+							\item[3.a] U odabranom kvartu ima previše radnika ?
+							
+							\item[] \begin{packed_enum}
+								
+								\item Sustav obavještava korsnika da nije moguće unijeti novog radnika i vraća ga u korak 2
+								
+							\end{packed_enum}
+							\item[5. a] Korisnik je unio neispravne podatke o novom radniku ?
+							
+								\item[] \begin{packed_enum}
+								
+								\item 
+								
+							\end{packed_enum}
+							
+							\item[5. a] Korisnik je pokušao stvoriti novog radnika koji već postoji u sustavu
+							
+								\item[] \begin{packed_enum}
+								
+								\item Sustav javlja pogrešku i vraća korisnika u korak 2
+								
+							\end{packed_enum}
 
+							
+						\end{packed_item}
+					\end{packed_item}
 
-	\noindent \underbar{\textbf{UC06-Premještanje komunalnog radnika}}
+	\noindent \underbar{\textbf{UC08-Premještanje komunalnog radnika}}
 					\begin{packed_item}
 	
 						\item \textbf{Glavni sudionik: }Administrator
@@ -366,38 +446,7 @@
 
 				
 				
-					\noindent \underbar{\textbf{UC07-Potvrda pražnjenja}}
-					\begin{packed_item}
-	
-						\item \textbf{Glavni sudionik: }Komunalni radnik
-						\item  \textbf{Cilj:} Potvrda pražnjenja kanti s rute
-						\item  \textbf{Sudionici:} Baza podataka
-						\item  \textbf{Preduvjet:} Korisnik je prijavljen i pokrenuo je rutu (UC05)
-						\item  \textbf{Opis osnovnog tijeka:}
-						
-						\item[] \begin{packed_enum}
-	
-							\item Korisnik odabire kantu iz rute
-							\item Sustav prikazuje opcije vezane za odabranu kantu
-							\item Korisnik označava da je kanta ispražnjena
-							\item Sustav sprema unesenu promjenu
-							
-						\end{packed_enum}
-						
-						\item  \textbf{Opis mogućih odstupanja:}
-						
-						\item[] \begin{packed_item}
-	
-							\item[3.a] Kanta nije puna
-							
-							\item[] \begin{packed_enum}
-								
-								\item Korisnik označava da je dojava lažna
-								\item Sustav prikazuje sljedeću kantu iz rute
-								
-							\end{packed_enum}
-						\end{packed_item}
-					\end{packed_item}
+					
 				
 				
 					
@@ -528,9 +577,9 @@
 					\begin{packed_item}
 	
 						\item \textbf{Glavni sudionik: }Administrator, komunalni radnik, građanin
-						\item  \textbf{Cilj:} Priložiti sliku prijavi stanja kante
+						\item  \textbf{Cilj:} Priložiti sliku prijavi stanja kontejnera
 						\item  \textbf{Sudionici:} Baza podataka
-						\item  \textbf{Preduvjet:} Korisnik je prijavljen u sustav i prijavio je stanje kante (UC09 - UC11)
+						\item  \textbf{Preduvjet:} Korisnik je prijavljen u sustav i prijavio je stanje kontejnere (UC09 - UC11)
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
@@ -573,7 +622,7 @@
 							\item Korisnik odabire datum
 							\item Sustav prikazuje korisniku kartu sa kantama za navedeni datum
 							\item Korisnik odabire pojedinu kantu
-							\item Sustav prikazuje popis prijava i pražnjenje te kante narednog dana ?
+							\item Sustav prikazuje popis prijava i pražnjenje te kontejnere narednog dana ?
 						\end{packed_enum}
 						
 						\item  \textbf{Opis mogućih odstupanja:}
@@ -674,7 +723,7 @@
 					\begin{packed_item}
 	
 						\item \textbf{Glavni sudionik: }Administrator
-						\item  \textbf{Cilj:} Dodavanje nove kante na karti
+						\item  \textbf{Cilj:} Dodavanje nove kontejnere na karti
 						\item  \textbf{Sudionici:} Baza podataka
 						\item  \textbf{Preduvjet:} Korisnik je prijavljen u sustav
 						\item  \textbf{Opis osnovnog tijeka:}
@@ -707,7 +756,7 @@
 					\begin{packed_item}
 	
 						\item \textbf{Glavni sudionik: }Administrator
-						\item  \textbf{Cilj:} Dodavanje nove kante na karti
+						\item  \textbf{Cilj:} Dodavanje nove kontejnere na karti
 						\item  \textbf{Sudionici:} Baza podataka
 						\item  \textbf{Preduvjet:} Korisnik je prijavljen u sustav
 						\item  \textbf{Opis osnovnog tijeka:}
@@ -724,55 +773,7 @@
 				
 				
 				
-				\noindent \underbar{\textbf{UC18-Dodavanje komunalnog radnika}}
-					\begin{packed_item}
-	
-						\item \textbf{Glavni sudionik: }Administrator
-						\item  \textbf{Cilj:} Stvaranje korisničkog računa za novog korisnika
-						\item  \textbf{Sudionici:} Baza podataka
-						\item  \textbf{Preduvjet:} Korisnik je prijavljen u sustav
-						\item  \textbf{Opis osnovnog tijeka:}
-						
-						\item[] \begin{packed_enum}
-	
-							\item Korisnik odabire kvart
-							\item Sustava prikazuje popis radnika u odabranom kvartu
-							\item Korisnik odabire stvaranje novog radnika u odabranom kvartu
-							\item Sustav otvara formu za registraciju novog radnika
-							\item Korisnik unosi podatke o novom radniku
-							\item Sustav sprema unesenu promjenu
-						\end{packed_enum}
-						
-						\item  \textbf{Opis mogućih odstupanja:}
-						
-						\item[] \begin{packed_item}
-	
-							\item[3.a] U odabranom kvartu ima previše radnika ?
-							
-							\item[] \begin{packed_enum}
-								
-								\item Sustav obavještava korsnika da nije moguće unijeti novog radnika i vraća ga u korak 2
-								
-							\end{packed_enum}
-							\item[5. a] Korisnik je unio neispravne podatke o novom radniku ?
-							
-								\item[] \begin{packed_enum}
-								
-								\item 
-								
-							\end{packed_enum}
-							
-							\item[5. a] Korisnik je pokušao stvoriti novog radnika koji već postoji u sustavu
-							
-								\item[] \begin{packed_enum}
-								
-								\item Sustav javlja pogrešku i vraća korisnika u korak 2
-								
-							\end{packed_enum}
-
-							
-						\end{packed_item}
-					\end{packed_item}
+			
 				
 				\noindent \underbar{\textbf{UC19-Brisanje komunalnog radnika}}
 					\begin{packed_item}
@@ -807,14 +808,14 @@
 					
 						
 				\begin{figure}[H]
-					\includegraphics[scale=0.5]{figures/UC_za_administratora.PNG}
+					\includegraphics[scale=0.5]{figures/pravi_UC_za_administratora.PNG}
 					\centering
 					\caption{Dijagram obrasca uporabe, funkcionalnost administratora}
 					\label{fig:ucad-diag}
 				\end{figure}
 			
 				\begin{figure}[H]
-					\includegraphics[scale=0.4]{figures/UC_za_smetlara.PNG}
+					\includegraphics[scale=0.4]{figures/pravi_UC_za_smetlara.PNG}
 					\centering
 					\caption{Dijagram obrasca uporabe, funkcionalnost komunalnog radnika}
 					\label{fig:ucad-diag}
@@ -823,7 +824,7 @@
 				
 			
 				\begin{figure}[H]
-					\includegraphics[scale=0.5]{figures/UC_za_gradana.PNG}
+					\includegraphics[scale=0.4]{figures/pravi_UC_za_gradana.PNG}
 					\centering
 					\caption{Dijagram obrasca uporabe, funkcionalnost građanina}
 					\label{fig:ucgr-diag}
@@ -832,7 +833,7 @@
 				
 
 				\begin{figure}[H]
-					\includegraphics[scale=0.5]{figures/UC_za_neregistriranog korisnika.PNG}
+					\includegraphics[scale=0.6]{figures/pravi_UC_za_neregistriranogkorisnika.PNG}
 					\centering
 					\caption{Dijagram obrasca uporabe, funkcionalnost neregistriranog korisnika}
 					\label{fig:ucgr-diag}
@@ -849,7 +850,23 @@
 				\textbf{\textit{dio 1. revizije}}\\
 				
 				\textit{Nacrtati sekvencijske dijagrame koji modeliraju najvažnije dijelove sustava (max. 4 dijagrama). Ukoliko postoji nedoumica oko odabira, razjasniti s asistentom. Uz svaki dijagram napisati detaljni opis dijagrama.}
+				
+				
+				\noindent {\textbf{Obrazac uporabe 07 - Preuzimanje rute}}
+				
+				Komunalni radnik šalje zahtjev za dodjeljivanje rute kojom će prolaziti prilikom pražnjenja kontejnera u obliku popisa lokacija konterjnera koje mora isprazniti. Poslužitelj dohvaća kante u kvartu u kojem dotični komunalni radnik djeluje te mu ispiusuje onoliko kontejnera koliko stane u njegov kamion. Uzmimo za primjer kamion kapaciteta 20, dodavanjem jednog punog kontejnera na popis kapacitet se smanjuje na 19, a dodavanjem slijedećeg prepunog kontejnera smanjit će se za 2, odnosno na 20 te će ispisati onoliko kontejnera kolko stane u taj kamion.\\
+				
+				\begin{figure}[H]
+					\includegraphics[scale=0.6]{figures/Preuzimanje_rute.PNG}
+					\centering
+					\caption{Sekvencijski dijagram za UC07}
+					\label{fig:sekv-uc07}
+				\end{figure}
+			
+				
 				\eject
+	
+	
 	
 		\section{Ostali zahtjevi}\
 		

@@ -847,22 +847,51 @@
 				
 			\subsection{Sekvencijski dijagrami}
 				
-				\textbf{\textit{dio 1. revizije}}\\
-				
-				\textit{Nacrtati sekvencijske dijagrame koji modeliraju najvažnije dijelove sustava (max. 4 dijagrama). Ukoliko postoji nedoumica oko odabira, razjasniti s asistentom. Uz svaki dijagram napisati detaljni opis dijagrama.}
 				
 				
-				\noindent {\textbf{Obrazac uporabe 07 - Preuzimanje rute}}
 				
-				Komunalni radnik šalje zahtjev za dodjeljivanje rute kojom će prolaziti prilikom pražnjenja kontejnera u obliku popisa lokacija konterjnera koje mora isprazniti. Poslužitelj dohvaća kante u kvartu u kojem dotični komunalni radnik djeluje te mu ispiusuje onoliko kontejnera koliko stane u njegov kamion. Uzmimo za primjer kamion kapaciteta 20, dodavanjem jednog punog kontejnera na popis kapacitet se smanjuje na 19, a dodavanjem slijedećeg prepunog kontejnera smanjit će se za 2, odnosno na 20 te će ispisati onoliko kontejnera kolko stane u taj kamion.\\
+				\noindent {\textbf{Obrazac uporabe 05 - Preuzimanje rute}}
+				
+				Komunalni radnik šalje zahtjev za dodjeljivanje rute kojom će prolaziti prilikom pražnjenja kontejnera u obliku popisa lokacija konterjnera koje mora isprazniti. Poslužitelj dohvaća kante u kvartu u kojem dotični komunalni radnik djeluje te mu ispiusuje onoliko kontejnera koliko stane u njegov kamion. Uzmimo za primjer kamion kapaciteta 20, dodavanjem jednog punog kontejnera na popis kapacitet se smanjuje na 19, a dodavanjem slijedećeg prepunog kontejnera smanjit će se za 2, odnosno na 20 te će ispisati onoliko kontejnera kolko stane u taj kamion.\\\\\\\\\\\\
 				
 				\begin{figure}[H]
-					\includegraphics[scale=0.6]{figures/Preuzimanje_rute.PNG}
+					\includegraphics[scale=0.4]{figures/pravo_Preuzimanje_rute.PNG}
 					\centering
-					\caption{Sekvencijski dijagram za UC07}
-					\label{fig:sekv-uc07}
+					\caption{Sekvencijski dijagram za UC05}
+					\label{fig:sekv-uc05}
 				\end{figure}
 			
+							
+								
+				
+				
+				
+				
+				\noindent {\textbf{Obrazac uporabe 08 - Premještanje komunalnog radnika}}
+				
+				
+				Kako bi izvršio premještaj radnika iz jednog kvartovskog poduzeća u drugo administrator mora poduzeti slijedeće; administrator bira kvart kojem je dotični radnik trenutno pridjeljen te traži u njemu istog radnika. Poslužitelj mu izlistava popis svih djelatnika u tom poduzeću te administrator bira traženog djelatnika. Poslužitelj mu izlistava informacije o tom djelatniku te mogućnosti s istim. Administrator bira premještanje te unosi željeni odredišni kvart. Ukoliko u trenutnom kvartovskom poduzeću tom akcijom neće biti premalo radnika niti u odredišnom previše poslužitelj obavlja zahtjev te dojavljuje korisniku infomaciju o uspješnom izvođenju zahtjeva. U suprotnom premještaj se neće izvršiti. \\\\
+				
+				\begin{figure}[H]
+					\includegraphics[scale=0.5]{figures/Premještanje_komunalnog_radnika.PNG}
+					\centering
+					\caption{Sekvencijski dijagram za UC08}
+					\label{fig:sekv-uc08}
+				\end{figure}
+
+					\noindent {\textbf{Obrazac uporabe 13 - Pregled arhive}}
+				
+				
+				Kako bi neregesistrirani korisnik mogao pregledavati arhivu mora prvotno unijeti kvart za kojeg želi pregledati arhivu i datum. Poslužitelj mu vraća prikaz karte sa kontejnerima koji su se u tom trenutku nalazili na tom kvartu. Korisnik može odabrati pojedinu kantu te će mu poslužitelj prikazati popis svih prijava i pražnjenja tog kontejnera toga dana. \\
+				
+				\begin{figure}[H]
+					\includegraphics[scale=0.5]{figures/Pregled_arhive.PNG}
+					\centering
+					\caption{Sekvencijski dijagram za UC13}
+					\label{fig:sekv-uc13}
+				\end{figure}
+
+				
 				
 				\eject
 	

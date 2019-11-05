@@ -43,11 +43,11 @@
 					\hline 
 					\endlastfoot
 					
-					\cellcolor{LightGreen}id & BIGINT	&   Identifikator osobe; svaka osoba ima svoj jedinstveni ID	\\ \hline
+					\cellcolor{LightGreen} id & BIGINT	&   Identifikator osobe; svaka osoba ima svoj jedinstveni ID	\\ \hline
 					name	& VARCHAR &   Ime osobe, ne smije biti NULL	\\ \hline 
 					last\textunderscore name & VARCHAR & Prezime osobe, ne smije biti NULL \\ \hline
 					email & VARCHAR &  E-mail osobe, koristi se pri prijavi korisnika u sustav, ne smije biti NULL i jedinstvena je vrijednost \\ \hline 
-					pwd\textunderscore hash & VARCHAR	&  \textit{Digest} lozinke koju je osoba odabrala \\ 
+					pwd\textunderscore hash & VARCHAR	&  Sažetak lozinke koju je osoba odabrala \\ 
 					
 				\end{longtabu}
 			
@@ -99,7 +99,7 @@
 					
 				\end{longtabu}
 			
-				\begin{longtabu} to \textwidth {|X[7, l]|X[7, l]|X[20, l]|}
+				\begin{longtabu} to \textwidth {|X[10, l]|X[7, l]|X[18, l]|}
 					
 					\hline \multicolumn{3}{|c|}{\textbf{Container}}	 \\[3pt] \hline
 					\endfirsthead

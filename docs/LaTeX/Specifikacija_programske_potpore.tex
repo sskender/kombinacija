@@ -29,7 +29,8 @@
 						
 						\item  pregledati popis prijava i pražnjena u tom danu
 						\item  pregledati grafički prikaz prijava i pražnjenja u tom danu
-				
+						\item registrirati se u sustav
+						
 					\end{packed_enum}
 					
 				\end{packed_enum}
@@ -43,6 +44,21 @@
 				\begin{packed_enum}
 				
 					\item prijaviti se u sustav
+				
+				
+					
+						\item dodati novo kvartovsko poduzeće
+						\item izbrisati postojeće kvartovsko poduzeće
+						
+				
+				
+			
+					
+						\item dodati novi kontejner
+						\item izbrisati postojeće kontejner
+				
+				
+
 				
 					\item upravljati komunalnim radnicima 
 						\begin{packed_enum}
@@ -68,14 +84,7 @@
 					\end {packed_enum}	
 				
 					
-					\item za odabrani datum na karti pregledati kontejnere 
-					\item za odabrani datum na karti odabrati pojedini kontejner
-					\begin{packed_enum}
-						
-						\item  pregledati popis prijava i pražnjenja u tom danu
-						\item  pregledati grafički prikaz prijava i pražnjenja u tom danu
-				
-					\end {packed_enum}	
+					
 				
 				\end {packed_enum}	
 			
@@ -83,15 +92,9 @@
 				
 				\begin{packed_enum}
 					
-					\item registrirati se u sustav
+					
 					\item prijaviti se u sustav
-					\item odabrati pojedini kontejner
-					\begin{packed_enum}
-						
-						\item  pregledati popis prijava i pražnjena u tom danu
-						\item  pregledati grafički prikaz prijava i pražnjenja u tom danu
-				
-					\end{packed_enum}
+					
 					
 					\item prijaviti stanje kontejnera te priložiti sliku istoga
 					\begin{packed_enum}
@@ -130,15 +133,7 @@
 						
 					\end {packed_enum}	
 					
-					\item za odabrani datum na karti pregledati kontejnere 
-					\item za odabrani datum na karti odabrati pojedini kontejner
-					\begin{packed_enum}
-						
-						\item  pregledati popis prijava i pražnjenja u tom danu
-						\item  pregledati grafički prikaz prijava i pražnjenja u tom danu
-				
-					\end{packed_enum}
-					
+										
 				\end{packed_enum}
 				
 				
@@ -173,7 +168,7 @@
 					\noindent \underbar{\textbf{UC01-Registracija}}
 					\begin{packed_item}
 	
-						\item \textbf{Glavni sudionik: } Građanin
+						\item \textbf{Glavni sudionik: } Neregistrirani korisnik
 						\item  \textbf{Cilj:} Stvaranje korisničkog računa za pristup sustavu
 						\item  \textbf{Sudionici:} Baza podataka
 						\item  \textbf{Preduvjet:} -
@@ -247,7 +242,7 @@
 					\begin{packed_item}
 	
 						\item \textbf{Glavni sudionik: } Građanin, komunalni radnik, administrator
-						\item  \textbf{Cilj:} Brži pristup kantama koje su predmet česte uporabe
+						\item  \textbf{Cilj:} Brži pristup kontejner koje su predmet česte uporabe
 						\item  \textbf{Sudionici:} Baza podataka
 						\item  \textbf{Preduvjet:} Korisnik je prijavljen u sustav
 						\item  \textbf{Opis osnovnog tijeka:}
@@ -256,7 +251,7 @@
 	
 							\item Korisnik odabire traženu kantu na karti
 							\item Sustav prikazuje opcije vezane za odabranu kantu
-							\item Korisnik odabire i označava opciju "omiljena kanta"
+							\item Korisnik odabire i označava opciju "omiljena kontejner"
 							\item Sustav sprema unesenu promjenu
 						\end{packed_enum}
 						
@@ -310,7 +305,7 @@
 							
 							\item[] \begin{packed_enum}
 								
-								\item 
+								\item Sustav javlja da nema dovoljan broj kontejnera za stvoriti rutu i vraća korisnika u korak 1
 								
 							\end{packed_enum}
 														
@@ -331,7 +326,7 @@
 	
 							\item Korisnik odabire kantu iz rute
 							\item Sustav prikazuje opcije vezane za odabranu kantu
-							\item Korisnik označava da je kanta ispražnjena
+							\item Korisnik označava da je kontejner ispražnjen
 							\item Sustav sprema unesenu promjenu
 							
 						\end{packed_enum}
@@ -340,7 +335,7 @@
 						
 						\item[] \begin{packed_item}
 	
-							\item[3.a] Kanta nije puna
+							\item[3.a] kontejner nije pun
 							
 							\item[] \begin{packed_enum}
 								
@@ -374,18 +369,18 @@
 						
 						\item[] \begin{packed_item}
 	
-							\item[3.a] U odabranom kvartu ima previše radnika ?
+							\item[3.a] U odabranom kvartu ima previše radnika 
 							
 							\item[] \begin{packed_enum}
 								
 								\item Sustav obavještava korsnika da nije moguće unijeti novog radnika i vraća ga u korak 2
 								
 							\end{packed_enum}
-							\item[5. a] Korisnik je unio neispravne podatke o novom radniku ?
+							\item[5. a] Korisnik je unio neispravne podatke o novom radniku 
 							
 								\item[] \begin{packed_enum}
 								
-								\item 
+								\item Sustav upozorava na pogrešku pri unosu i vraća korisnika u korak 4
 								
 							\end{packed_enum}
 							
@@ -393,7 +388,7 @@
 							
 								\item[] \begin{packed_enum}
 								
-								\item Sustav javlja pogrešku i vraća korisnika u korak 2
+								\item Sustav javlja kako radnik već postoji i vraća korisnika u korak 2\\\\\\\\
 								
 							\end{packed_enum}
 
@@ -428,16 +423,16 @@
 							
 							\item[] \begin{packed_enum}
 								
-								\item Sustav obavještava korsnika o nemogućnosti izvršavanja tražene akcije
-								\item Povratak u korak 4
+								\item Sustav obavještava korsnika o nemogućnosti izvršavanja tražene akcije i vraća korisnika u korak 4
+								
 								
 							\end{packed_enum}
 							\item[5.b] Premalo radnika u početnom kvartu
 							
 								\item[] \begin{packed_enum}
 								
-								\item Sustav obavještava korsnika o nemogućnosti izvršavanja tražene akcije
-								\item Povratak u korak 4
+								\item Sustav obavještava korsnika o nemogućnosti izvršavanja tražene akcije i vraća korisnika u korak 4
+								
 								
 							\end{packed_enum}
 							
@@ -456,7 +451,7 @@
 					\begin{packed_item}
 	
 						\item \textbf{Glavni sudionik: }Administrator, komunalni radnik, građanin
-						\item  \textbf{Cilj:} Dojaviti sustavu da kanti nije potrebno pražnjenje
+						\item  \textbf{Cilj:} Dojaviti sustavu da kontejneru nije potrebno pražnjenje
 						\item  \textbf{Sudionici:} Baza podataka
 						\item  \textbf{Preduvjet:} Korisnik je prijavljen u sustav
 						\item  \textbf{Opis osnovnog tijeka:}
@@ -464,7 +459,7 @@
 						\item[] \begin{packed_enum}
 	
 							\item Korisnik odabire kantu na karti
-							\item Korisnik označava da je kanta prazna
+							\item Korisnik označava da je kontejner prazan
 							\item Sustav sprema unesenu promjenu
 							
 						\end{packed_enum}
@@ -498,7 +493,7 @@
 					\begin{packed_item}
 	
 						\item \textbf{Glavni sudionik: }Administrator, komunalni radnik, građanin
-						\item  \textbf{Cilj:} Dojaviti sustavu da je kanti potrebno pražnjenje
+						\item  \textbf{Cilj:} Dojaviti sustavu da je kontejneru potrebno pražnjenje
 						\item  \textbf{Sudionici:} Baza podataka
 						\item  \textbf{Preduvjet:} Korisnik je prijavljen u sustav
 						\item  \textbf{Opis osnovnog tijeka:}
@@ -506,7 +501,7 @@
 						\item[] \begin{packed_enum}
 	
 							\item Korisnik odabire kantu na karti
-							\item Korisnik označava da je kanta puna
+							\item Korisnik označava da je kontejner pun
 							\item Sustav sprema unesenu promjenu
 							
 						\end{packed_enum}
@@ -541,7 +536,7 @@
 					\begin{packed_item}
 	
 						\item \textbf{Glavni sudionik: }Administrator, komunalni radnik, građanin
-						\item  \textbf{Cilj:} Dojaviti sustavu da je kanti hitno potrebno pražnjenje
+						\item  \textbf{Cilj:} Dojaviti sustavu da je kontejneru hitno potrebno pražnjenje
 						\item  \textbf{Sudionici:} Baza podataka
 						\item  \textbf{Preduvjet:} Korisnik je prijavljen u sustav
 						\item  \textbf{Opis osnovnog tijeka:}
@@ -549,7 +544,7 @@
 						\item[] \begin{packed_enum}
 	
 							\item Korisnik odabire kantu na karti
-							\item Korisnik označava da je kanta prepuna
+							\item Korisnik označava da je kontejner prepun
 							\item Sustav sprema unesenu promjenu
 							
 						\end{packed_enum}
@@ -579,7 +574,7 @@
 						\item \textbf{Glavni sudionik: }Administrator, komunalni radnik, građanin
 						\item  \textbf{Cilj:} Priložiti sliku prijavi stanja kontejnera
 						\item  \textbf{Sudionici:} Baza podataka
-						\item  \textbf{Preduvjet:} Korisnik je prijavljen u sustav i prijavio je stanje kontejnere (UC09 - UC11)
+						\item  \textbf{Preduvjet:} Korisnik je prijavljen u sustav i prijavio je stanje kontejnera (UC09 - UC11)
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
@@ -620,9 +615,9 @@
 						\item[] \begin{packed_enum}
 	
 							\item Korisnik odabire datum
-							\item Sustav prikazuje korisniku kartu sa kantama za navedeni datum
+							\item Sustav prikazuje korisniku kartu sa kontejnerima za navedeni datum
 							\item Korisnik odabire pojedinu kantu
-							\item Sustav prikazuje popis prijava i pražnjenje te kontejnere narednog dana ?
+							\item Sustav prikazuje popis prijava i pražnjenje tog kontejnera narednog dana
 						\end{packed_enum}
 						
 						\item  \textbf{Opis mogućih odstupanja:}
@@ -708,11 +703,11 @@
 						
 						\item[] \begin{packed_item}
 	
-							\item[3.a] Postoje djelatnici pridjeljeni odabranom kvartu ??
+							\item[3.a] Postoje djelatnici pridjeljeni odabranom kvartu 
 							
 							\item[] \begin{packed_enum}
 								
-								\item ??
+								\item Sustav dojavljuje kako nije moguće obrisati kvartovsko poduzeće dok su njemu pridjeljeni radnici i vraća korisnika u korak 2
 								
 							\end{packed_enum}
 						\end{packed_item}
@@ -723,7 +718,7 @@
 					\begin{packed_item}
 	
 						\item \textbf{Glavni sudionik: }Administrator
-						\item  \textbf{Cilj:} Dodavanje nove kontejnere na karti
+						\item  \textbf{Cilj:} Dodavanje novog kontejnera na karti
 						\item  \textbf{Sudionici:} Baza podataka
 						\item  \textbf{Preduvjet:} Korisnik je prijavljen u sustav
 						\item  \textbf{Opis osnovnog tijeka:}
@@ -731,24 +726,11 @@
 						\item[] \begin{packed_enum}
 	
 							\item Korisnik odabire mjesto na karti
-							\item Korisnik dodaje novu kantu na odabrano mjesto
+							\item Korisnik dodaje novi kontejner na odabrano mjesto
 							\item Sustav sprema unesenu promjenu	
 						\end{packed_enum}
 						
-						\item  \textbf{Opis mogućih odstupanja:}
 						
-						\item[] \begin{packed_item}
-	
-							\item[2.a] ?
-							
-							\item[] \begin{packed_enum}
-								
-								\item ?
-								
-							\end{packed_enum}
-							
-							
-						\end{packed_item}
 					\end{packed_item}
 				
 				
@@ -756,15 +738,15 @@
 					\begin{packed_item}
 	
 						\item \textbf{Glavni sudionik: }Administrator
-						\item  \textbf{Cilj:} Dodavanje nove kontejnere na karti
+						\item  \textbf{Cilj:} Dodavanje novog kontejnera na kartu
 						\item  \textbf{Sudionici:} Baza podataka
 						\item  \textbf{Preduvjet:} Korisnik je prijavljen u sustav
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
 	
-							\item Korisnik odabire kantu na karti
-							\item Korisnik uklanja odabranu kantu
+							\item Korisnik odabire kontejner na karti
+							\item Korisnik uklanja odabrani kontejner
 							\item Sustav sprema unesenu promjenu	
 						\end{packed_enum}
 						

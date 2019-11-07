@@ -25,13 +25,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
         try{
             Person p = personService.fetchByEmail(email);
             List<GrantedAuthority> auth = authorities(p);
-            for(GrantedAuthority a : auth){
-                System.out.println(a.getAuthority());
-            }
             return new User(p.getEmail(), p.getPwdHash(), auth);
         } catch (RuntimeException e){
             throw new UsernameNotFoundException("User with given email does not exist");
@@ -40,7 +36,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     private List<GrantedAuthority> authorities(Person p){
         if(personService.isAdmin(p.getId())){
-            return AuthorityUtils.commaSeparatedStringToAuthorityList("ADMIN,CITIZEN");
+            return AuthorityUtils.commaSeparatedStringToAuthorityList("ADMIN,EMPLOYEE,CITIZEN");
         } else if(personService.isEmployee(p.getId())){
             return AuthorityUtils.commaSeparatedStringToAuthorityList("EMPLOYEE,CITIZEN");
         } else if (personService.isCitizen(p.getId())){

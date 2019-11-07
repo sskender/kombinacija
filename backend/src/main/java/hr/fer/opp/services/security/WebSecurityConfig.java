@@ -40,11 +40,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticationEntryPoint(restAuthenticationEntryPoint)
                 .and()
                 .authorizeRequests()
-                    .antMatchers("/register").permitAll()
-                    .antMatchers("/employee*", "/neighborhood*", "/container*").hasAuthority("ADMIN")
-                    .antMatchers("/route*").hasAuthority("EMPLOYEE")
-                    .antMatchers("/trash/{\\d+}/history").permitAll()
-                    .antMatchers("/trash/{\\d+}/*").hasAuthority("CITIZEN")
+                    .antMatchers("/trash/{\\d+}/history", "/map*", "/register*").permitAll()
+                    .antMatchers("/trash*", "/neighborhood*", "/employee*").hasAuthority("ADMIN")
+                    .antMatchers("/route*", "/empty*").hasAuthority("EMPLOYEE")
+                    .antMatchers("/ping*", "/favorite*").hasAuthority("CITIZEN")
                 .and()
                 .formLogin()
                     .loginPage("/login")
@@ -55,7 +54,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout()
                 .permitAll();
-
     }
 
     @Autowired

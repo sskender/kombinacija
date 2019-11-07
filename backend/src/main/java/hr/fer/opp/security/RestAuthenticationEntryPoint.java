@@ -1,4 +1,4 @@
-package hr.fer.opp.services.security;
+package hr.fer.opp.security;
 
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;

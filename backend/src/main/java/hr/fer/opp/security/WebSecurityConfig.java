@@ -1,4 +1,4 @@
-package hr.fer.opp.services.security;
+package hr.fer.opp.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -17,6 +17,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     UserDetailsService userDetailsService;
+    @Autowired
+    RestAuthenticationEntryPoint restAuthenticationEntryPoint;
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
@@ -28,9 +30,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return authenticationManager();
     }
 
-    @Autowired
-    RestAuthenticationEntryPoint restAuthenticationEntryPoint;
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
@@ -40,15 +39,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticationEntryPoint(restAuthenticationEntryPoint)
                 .and()
                 .authorizeRequests()
-                    .antMatchers("/trash/{\\d+}/history", "/map*", "/register*").permitAll()
-                    .antMatchers("/trash*", "/neighborhood*", "/employee*").hasAuthority("ADMIN")
-                    .antMatchers("/route*", "/empty*").hasAuthority("EMPLOYEE")
-                    .antMatchers("/ping*", "/favorite*").hasAuthority("CITIZEN")
+                .antMatchers("/trash/{\\d+}/history", "/map*", "/register*").permitAll()
+                .antMatchers("/trash*", "/neighborhood*", "/employee*").hasAuthority("ADMIN")
+                .antMatchers("/route*", "/empty*").hasAuthority("EMPLOYEE")
+                .antMatchers("/ping*", "/favorite*").hasAuthority("CITIZEN")
                 .and()
                 .formLogin()
-                    .loginPage("/login")
-                    .usernameParameter("email")
-                    .permitAll()
+                .loginPage("/login")
+                .usernameParameter("email")
+                .permitAll()
                 .and()
                 .httpBasic()
                 .and()

@@ -1,11 +1,10 @@
-package hr.fer.opp.services.security;
+package hr.fer.opp.security;
 
 import hr.fer.opp.model.Person;
 import hr.fer.opp.services.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -25,21 +24,21 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        try{
+        try {
             Person p = personService.fetchByEmail(email);
             List<GrantedAuthority> auth = authorities(p);
             return new User(p.getEmail(), p.getPwdHash(), auth);
-        } catch (RuntimeException e){
+        } catch (RuntimeException e) {
             throw new UsernameNotFoundException("User with given email does not exist");
         }
     }
 
-    private List<GrantedAuthority> authorities(Person p){
-        if(personService.isAdmin(p.getId())){
+    private List<GrantedAuthority> authorities(Person p) {
+        if (personService.isAdmin(p.getId())) {
             return AuthorityUtils.commaSeparatedStringToAuthorityList("ADMIN,EMPLOYEE,CITIZEN");
-        } else if(personService.isEmployee(p.getId())){
+        } else if (personService.isEmployee(p.getId())) {
             return AuthorityUtils.commaSeparatedStringToAuthorityList("EMPLOYEE,CITIZEN");
-        } else if (personService.isCitizen(p.getId())){
+        } else if (personService.isCitizen(p.getId())) {
             return AuthorityUtils.commaSeparatedStringToAuthorityList("CITIZEN");
         }
         return new ArrayList<>();

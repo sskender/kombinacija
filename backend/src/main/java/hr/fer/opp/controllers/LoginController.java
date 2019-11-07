@@ -17,8 +17,6 @@ public class LoginController {
 
     @PostMapping(value="/register")
     public Citizen registerUser(@RequestBody RegisterDTO registerDTO) {
-
-        System.out.println("####################### REST ########################");
         registerDTO.setPwd(new BCryptPasswordEncoder().encode(registerDTO.getPwd()));
         return loginService.registerUser(registerDTO);
     }

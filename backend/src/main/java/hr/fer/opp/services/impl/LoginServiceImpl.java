@@ -7,6 +7,7 @@ import hr.fer.opp.exceptions.RequestDeniedException;
 import hr.fer.opp.model.Citizen;
 import hr.fer.opp.services.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,8 +34,11 @@ public class LoginServiceImpl implements LoginService {
 
     private Citizen translate(RegisterDTO registerDTO) {
         Citizen c = new Citizen();
+
         c.setEmail(registerDTO.getEmail());
+        c.setPwdHash(new BCryptPasswordEncoder().encode(registerDTO.getPwd()));
         c.setPwdHash(registerDTO.getPwd());
+
         c.setName(registerDTO.getName());
         c.setLastName(registerDTO.getLastName());
         c.setReputation(0);

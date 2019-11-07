@@ -10,17 +10,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class PublicController {
 
-    @GetMapping(value="/trash/{id}/history")
+    @GetMapping(value = "/trash/{id}/history")
     public String trashHistory(@PathVariable("id") Long id) {
-        return "Fetching emptying history for container "+id.toString();
+        return "Fetching emptying history for container " + id.toString();
     }
 
-    @GetMapping(value="/map")
+    @GetMapping(value = "/map")
     public String map(
             @RequestParam("lat") Long latitude,
             @RequestParam("lon") Long longitude,
             @AuthenticationPrincipal User u) {
-        return "Fetching list of containers and list of permitted actions when user is: "+u.getUsername();
+        return "Fetching list of containers and list of permitted actions when user is: " + u.getUsername();
     }
 
 }

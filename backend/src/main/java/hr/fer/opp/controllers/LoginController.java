@@ -15,7 +15,7 @@ public class LoginController {
     @Autowired
     private LoginService loginService;
 
-    @PostMapping(value="/register")
+    @PostMapping(value = "/register")
     public Citizen registerUser(@RequestBody RegisterDTO registerDTO) {
         registerDTO.setPwd(new BCryptPasswordEncoder().encode(registerDTO.getPwd()));
         return loginService.registerUser(registerDTO);

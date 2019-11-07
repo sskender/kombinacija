@@ -8,8 +8,9 @@ public class RegisterEmployeeDTO {
     private String email;
     private String pwd;
     private Neighborhood neighborhood;
-	
-    public RegisterEmployeeDTO(){}
+
+	public RegisterEmployeeDTO() {
+	}
 
 	public RegisterEmployeeDTO(String name, String lastName, String email, String pwd, Neighborhood neighborhood) {
 		super();

@@ -6,9 +6,10 @@ public class AddContainerDTO {
     private Neighborhood neighborhood;
 	private double latitude;
 	private double longitude;
-	
-	public AddContainerDTO() {}
-	
+
+	public AddContainerDTO() {
+	}
+
 	public AddContainerDTO(Neighborhood neighborhood, double latitude, double longitude) {
 		super();
 		this.neighborhood = neighborhood;

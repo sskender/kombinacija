@@ -4,9 +4,10 @@ public class AddNeighborhoodDTO {
 	private String name;
 	private double centerLatitude;
 	private double centerLongitude;
-	
-	public AddNeighborhoodDTO() {}
-	
+
+	public AddNeighborhoodDTO() {
+	}
+
 	public AddNeighborhoodDTO(String name, double centerLatitude, double centerLongitude) {
 		super();
 		this.name = name;

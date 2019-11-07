@@ -35,7 +35,8 @@ public class Ping implements Serializable {
 		this.container = container;
 	}
 
-	public Ping() {};
+	public Ping() {
+	}
 
 	public Long getId() {
 		return id;
@@ -44,6 +45,7 @@ public class Ping implements Serializable {
 	public int getLevel() {
 		return level;
 	}
+
 	public void setLevel(int level) {
 		this.level = level;
 	}
@@ -51,21 +53,31 @@ public class Ping implements Serializable {
 	public long getTimestamp() {
 		return timestamp;
 	}
+
 	public void setTimestamp(long timestamp) {
 		this.timestamp = timestamp;
 	}
 
-	public String getPhotoPath() { return photoPath; }
-	public void setPhotoPath(String photoPath) { this.photoPath = photoPath; }
+	public String getPhotoPath() {
+		return photoPath;
+	}
+
+	public void setPhotoPath(String photoPath) {
+		this.photoPath = photoPath;
+	}
 
 	public Person getCreator() {
 		return creator;
 	}
+
 	public void setCreator(Person creator) {
 		this.creator = creator;
 	}
 
-	public Container getContainer() { return container; }
+	public Container getContainer() {
+		return container;
+	}
+
 	public void setContainer(Container container) {
 		this.container = container;
 	}

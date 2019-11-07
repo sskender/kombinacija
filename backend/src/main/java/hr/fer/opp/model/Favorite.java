@@ -20,7 +20,8 @@ public class Favorite implements Serializable {
         this.container = container;
     }
 
-    public Favorite() {};
+    public Favorite() {
+    }
 
     public Long getId() {
         return id;

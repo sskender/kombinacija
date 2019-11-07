@@ -13,7 +13,7 @@ public class Neighborhood implements Serializable {
     private Long id;
     @Column(length = 100, nullable = false)
     private String name;
-    @Column(nullable=false)
+    @Column(nullable = false)
     private double longitude;
     @Column(nullable = false)
     private double latitude;
@@ -28,7 +28,8 @@ public class Neighborhood implements Serializable {
         this.assignedEmployees = assignedEmployees;
     }
 
-    public Neighborhood() {};
+    public Neighborhood() {
+    }
 
     public Long getId() {
         return id;
@@ -37,19 +38,31 @@ public class Neighborhood implements Serializable {
     public String getName() {
         return name;
     }
+
     public void setName(String name) {
         this.name = name;
     }
 
-    public double getLongitude() { return longitude; }
-    public void setLongitude(double longitude) { this.longitude = longitude; }
+    public double getLongitude() {
+        return longitude;
+    }
 
-    public double getLatitude() { return latitude; }
-    public void setLatitude(double latitude) { this.latitude = latitude; }
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
 
     public List<Container> getContainers() {
         return containers;
     }
+
     public void setContainers(List<Container> containers) {
         this.containers = containers;
     }
@@ -57,6 +70,7 @@ public class Neighborhood implements Serializable {
     public List<Employee> getAssignedEmployees() {
         return assignedEmployees;
     }
+
     public void setAssignedEmployees(List<Employee> assignedEmployees) {
         this.assignedEmployees = assignedEmployees;
     }

@@ -1,8 +1,9 @@
 package hr.fer.opp.model;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.io.Serializable;
-import java.util.List;
 
 @Entity
 @Table(name = "citizens")
@@ -16,7 +17,8 @@ public class Citizen extends Person implements Serializable {
 		this.reputation = reputation;
 	}
 
-	public Citizen() {};
+	public Citizen() {
+	}
 
 	public Integer getReputation() {
 		return reputation;

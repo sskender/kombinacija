@@ -12,7 +12,7 @@ public class Employee extends Person implements Serializable {
 
 	@Column(nullable = false, unique = true)
 	@NotNull
-	@Size(min=11, max=11)
+	@Size(min = 11, max = 11)
 	private String OIB;
 	@ManyToOne
 	private Neighborhood neighborhood;
@@ -23,11 +23,13 @@ public class Employee extends Person implements Serializable {
 		this.OIB = OIB;
 	}
 
-	public Employee() {};
+	public Employee() {
+	}
 
 	public String getOIB() {
 		return OIB;
 	}
+
 	public void setOIB(String OIB) {
 		this.OIB = OIB;
 	}
@@ -35,6 +37,7 @@ public class Employee extends Person implements Serializable {
 	public Neighborhood getNeighborhood() {
 		return neighborhood;
 	}
+
 	public void setNeighborhood(Neighborhood neighborhood) {
 		this.neighborhood = neighborhood;
 	}
@@ -42,7 +45,7 @@ public class Employee extends Person implements Serializable {
 	@Override
 	public String toString() {
 		String s = super.toString().replace("Person", "Employee");
-		return s.replace("}", "\n\t, OIB="+OIB + "\n\t, neighborhood="+neighborhood+"}");
+		return s.replace("}", "\n\t, OIB=" + OIB + "\n\t, neighborhood=" + neighborhood + "}");
 	}
 
 }

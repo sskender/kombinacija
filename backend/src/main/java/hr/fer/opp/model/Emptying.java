@@ -25,7 +25,8 @@ public class Emptying implements Serializable {
         this.container = container;
     }
 
-    public Emptying() {};
+    public Emptying() {
+    }
 
     public Long getId() {
         return id;
@@ -34,6 +35,7 @@ public class Emptying implements Serializable {
     public long getTimestamp() {
         return timestamp;
     }
+
     public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
     }
@@ -41,6 +43,7 @@ public class Emptying implements Serializable {
     public Person getWorker() {
         return worker;
     }
+
     public void setWorker(Employee worker) {
         this.worker = worker;
     }
@@ -48,7 +51,10 @@ public class Emptying implements Serializable {
     public Container getContainer() {
         return container;
     }
-    public void setContainer(Container container) { this.container = container; }
+
+    public void setContainer(Container container) {
+        this.container = container;
+    }
 
     @Override
     public boolean equals(Object o) {

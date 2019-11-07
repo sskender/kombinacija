@@ -8,7 +8,8 @@ import java.util.List;
 @Table(name = "containers")
 public class Container implements Serializable {
 
-	@Id @GeneratedValue
+	@Id
+	@GeneratedValue
 	private Long id;
 
 	@Column(nullable = false)
@@ -44,7 +45,8 @@ public class Container implements Serializable {
 		this.emptyings = emptyings;
 	}
 
-	public Container() {};
+	public Container() {
+	}
 
 	public Long getId() {
 		return id;
@@ -53,6 +55,7 @@ public class Container implements Serializable {
 	public double getLatitude() {
 		return latitude;
 	}
+
 	public void setLatitude(double latitude) {
 		this.latitude = latitude;
 	}
@@ -60,6 +63,7 @@ public class Container implements Serializable {
 	public double getLongitude() {
 		return longitude;
 	}
+
 	public void setLongitude(double longitude) {
 		this.longitude = longitude;
 	}
@@ -67,6 +71,7 @@ public class Container implements Serializable {
 	public int getPingsSinceEmptied() {
 		return pingsSinceEmptied;
 	}
+
 	public void setPingsSinceEmptied(int pingsSinceEmptied) {
 		this.pingsSinceEmptied = pingsSinceEmptied;
 	}
@@ -74,6 +79,7 @@ public class Container implements Serializable {
 	public Neighborhood getNeighborhood() {
 		return neighborhood;
 	}
+
 	public void setNeighborhood(Neighborhood neighborhood) {
 		this.neighborhood = neighborhood;
 	}
@@ -81,6 +87,7 @@ public class Container implements Serializable {
 	public List<Ping> getPings() {
 		return pings;
 	}
+
 	public void setPings(List<Ping> pings) {
 		this.pings = pings;
 	}
@@ -88,6 +95,7 @@ public class Container implements Serializable {
 	public List<Favorite> getFavorites() {
 		return favorites;
 	}
+
 	public void setFavorites(List<Favorite> favorites) {
 		this.favorites = favorites;
 	}
@@ -95,6 +103,7 @@ public class Container implements Serializable {
 	public List<Emptying> getEmptyings() {
 		return emptyings;
 	}
+
 	public void setEmptyings(List<Emptying> emptyings) {
 		this.emptyings = emptyings;
 	}

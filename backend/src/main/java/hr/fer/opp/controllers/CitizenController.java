@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class CitizenController {
 
     @PostMapping(value="/trash/{id}/full")
-    @Secured("CITIZEN")
     public String pingFull(@PathVariable("id") Long id){
         System.out.println("ULETIOOOOOOOOOOOO");
         return "ping successful";

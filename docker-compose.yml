@@ -57,8 +57,14 @@ services:
     #  - "9090:8080"
     restart: always
 
-  #web:
-  # - proxy-web
+  web:
+    container_name: web
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    networks:
+      - proxy-web
+    restart: always
 
   proxy:
     container_name: proxy
@@ -68,7 +74,7 @@ services:
     depends_on:
       - app
       - pgadmin
-      #- web
+      - web
     networks:
       - proxy-app
       - proxy-pgadmin

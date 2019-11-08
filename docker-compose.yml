@@ -27,13 +27,15 @@ services:
     image: dpage/pgadmin4
     networks:
       - pgadmin-net
-    ports:
-      - "5000:80"
+      - proxy-pgadmin
+    #ports:
+    #  - "5000:80"
     restart: always
     volumes:
       - pg-data:/var/lib/pgadmin
 
   #redis:
+  # - backend-net
 
   app:
     container_name: app
@@ -50,19 +52,42 @@ services:
       - DB_PASS=kombinacijapassword
     networks:
       - backend-net
-    ports:
-      - "9090:8080"
+      - proxy-app
     restart: always
 
-  #web:
+  web:
+    container_name: web
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    networks:
+      - proxy-web
+    restart: always
 
-  #reverse-proxy:
+  proxy:
+    container_name: proxy
+    build:
+      context: ./proxy
+      dockerfile: Dockerfile
+    depends_on:
+      - app
+      - pgadmin
+      - web
+    networks:
+      - proxy-app
+      - proxy-pgadmin
+      - proxy-web
+    ports:
+      - "80:80"
+    restart: always
 
 
 networks:
   backend-net:
   pgadmin-net:
-  frontend-net:
+  proxy-app:
+  proxy-pgadmin:
+  proxy-web:
 
 
 volumes:

@@ -1,16 +1,11 @@
 FROM nginx:latest
 
-WORKDIR /etc/nginx
+RUN rm -rf /etc/nginx/conf.d/*.conf
 
-# global config
-RUN mv nginx.conf nginx.conf.bkp
-COPY nginx/nginx.conf nginx.conf
+COPY nginx/kombinacija-web.conf /etc/nginx/conf.d/kombinacija-web.conf
 
-# website config
-RUN mv conf.d/default.conf conf.d/default.conf.bkp
-COPY nginx/kombinacija.conf conf.d/kombinacija.conf
-
-# website data
-COPY public /usr/share/nginx/html
+# website directory
+RUN mkdir -p /kombinacija/html
+COPY public /kombinacija/html
 
 EXPOSE 80

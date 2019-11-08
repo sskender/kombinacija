@@ -53,8 +53,6 @@ services:
     networks:
       - backend-net
       - proxy-app
-    #ports:
-    #  - "9090:8080"
     restart: always
 
   web:

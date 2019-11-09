@@ -1,0 +1,99 @@
+@startuml
+
+class Person {
+    -id : Long
+    -name : String
+    -lastName : String
+    -email : String
+    -pwdHash : String
+    -pings : List<Ping>
+    -favorites : List<Favorite>
+    --
+    {method} +getters
+    {method} +setters
+}
+class Admin
+class Employee {
+    -emptyings : List<Emptying>
+    -neighborhood : Neighborhood
+    +getNeighborhood()
+    +setNeighborhood()
+    +getEmptyings()
+    +setEmptyings()
+}
+class Citizen {
+    -reputation : int
+    +getReputation()
+    +setReputation()
+}
+Person <|-- Admin
+Person <|-- Employee
+Person <|-- Citizen
+
+class Neighborhood {
+    -id : Long
+    -name : String
+    -longitude : Double
+    -latitude : Double
+    -employees : List<Employee>
+    -containers : List<Container>
+    --
+    {method}+getters
+    {method}+setters
+}
+class Container {
+    -id : Long
+    -longitude : Double
+    -latitude : Double
+    -pingsSinceEmptied : Integer
+    -neighborhood : Neighborhood
+    -pings : List<Ping>
+    -emptyings : List<Emptying>
+    -favorites : List<Favorites>
+    --
+    {method}+getters
+    {method}+setters
+}
+
+Neighborhood "1" *-- "0..*" Container
+Neighborhood "1" o-- "0..*" Employee
+
+Employee "1" o-- "0..*" Emptying
+Container "1" *-- "0..*" Emptying
+
+Person "1" o-- "0..*" Ping
+Container "1" *-- "0..*" Ping
+
+Person "1" *-- "0..*" Favorite
+Container "1" *-- "0..*" Favorite
+
+class Ping {
+    -id : Long
+    -level : Integer
+    -timestamp : Long
+    -photoPath : String
+    -creator : Person
+    -container : Container
+    --
+    {method}+getters
+    {method}+setters
+}
+class Emptying {
+    -id : Long
+    -timestamp : Long
+    -worker : Employee
+    -container : Container
+    --
+    {method}+getters
+    {method}+setters
+}
+class Favorite {
+    -id : Long
+    -owner : Person
+    -container : Container
+    --
+    {method}+getters
+    {method}+setters
+}
+
+@enduml

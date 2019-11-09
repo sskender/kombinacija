@@ -1,0 +1,20 @@
+
+@startuml
+interface JpaRepository<Type, ID> {
+    +findAll() : List<Type>
+    +findById(ID id) : Type
+    +save(Type t) : Type
+    +saveAll(Iterable<Type> list) : List<Type>
+    +delete(Type t) : void
+    +deleteById(ID id) : void
+}
+interface PersonRepository
+interface AdminRepository
+interface EmployeeRepository
+interface CitizenRepository
+
+JpaRepository <|.. PersonRepository : <<bind>>(Person,Long)
+JpaRepository <|.. AdminRepository : <<bind>>(Admin,Long)
+JpaRepository <|.. EmployeeRepository : <<bind>>(Employee,Long)
+JpaRepository <|. CitizenRepository : <<bind>>(Citizen, Long)
+@enduml

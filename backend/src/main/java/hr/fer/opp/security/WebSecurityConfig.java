@@ -32,17 +32,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http
-                .csrf().disable()
+        http    .csrf().disable()
                 .exceptionHandling()
                 .authenticationEntryPoint(restAuthenticationEntryPoint)
                 .and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
                 .authorizeRequests()
-                .antMatchers("/trash/{\\d+}/history", "/map*", "/register*").permitAll()
+                .antMatchers("/trash/{\\d+}/history", "/map", "/register").permitAll()
                 .antMatchers("/trash*", "/neighborhood*", "/employee*").hasAuthority("ADMIN")
-                .antMatchers("/route*", "/empty*").hasAuthority("EMPLOYEE")
-                .antMatchers("/ping*", "/favorite*").hasAuthority("CITIZEN")
+                .antMatchers("/route", "/empty/{\\d+}").hasAuthority("EMPLOYEE")
+                .antMatchers("/ping/{\\d+}/*", "/favorite", "/favorite/{\\d+}").hasAuthority("CITIZEN")
                 .and()
                 .formLogin()
                 .loginPage("/login")

@@ -11,6 +11,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.access.channel.ChannelProcessingFilter;
+import org.springframework.web.cors.CorsUtils;
 
 @Configuration
 @EnableWebSecurity
@@ -35,24 +37,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http    .csrf().disable()
                 .exceptionHandling()
                 .authenticationEntryPoint(restAuthenticationEntryPoint)
+                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and().authorizeRequests()
+                    .requestMatchers(CorsUtils::isCorsRequest).permitAll()
+                    .antMatchers("/trash/{\\d+}/history", "/map", "/register").permitAll()
+                    .antMatchers("/trash*", "/neighborhood*", "/employee*").hasAuthority("ADMIN")
+                    .antMatchers("/route", "/empty/{\\d+}").hasAuthority("EMPLOYEE")
+                    .antMatchers("/ping/{\\d+}/*", "/favorite", "/favorite/{\\d+}", "/auth").hasAuthority("CITIZEN")
                 .and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .authorizeRequests()
-                .antMatchers("/trash/{\\d+}/history", "/map", "/register").permitAll()
-                .antMatchers("/trash*", "/neighborhood*", "/employee*").hasAuthority("ADMIN")
-                .antMatchers("/route", "/empty/{\\d+}").hasAuthority("EMPLOYEE")
-                .antMatchers("/ping/{\\d+}/*", "/favorite", "/favorite/{\\d+}").hasAuthority("CITIZEN")
-                .and()
-                .formLogin()
-                .loginPage("/login")
-                .usernameParameter("email")
-                .permitAll()
-                .and()
-                .httpBasic()
-                .and()
-                .logout()
-                .permitAll();
+                    .formLogin()
+                    .loginPage("/login")
+                    .usernameParameter("email")
+                    .permitAll()
+                .and().httpBasic()
+                .and().addFilterBefore(new WebSecurityCorsFilter(), ChannelProcessingFilter.class)
+                .logout().permitAll();
     }
 
     @Autowired

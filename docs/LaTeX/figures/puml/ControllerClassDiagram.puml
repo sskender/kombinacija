@@ -1,0 +1,10 @@
+@startuml
+interface Controller
+class LoginController {
+    -personRepository : PersonRepository
+    -citizenRepository : CitizenRepository
+    +registerUser(RegisterDTO) : Citizen
+    -translate(RegisterDTO) : Citizen
+}
+Controller <|.. LoginController
+@enduml

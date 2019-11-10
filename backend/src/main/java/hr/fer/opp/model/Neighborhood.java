@@ -13,18 +13,23 @@ public class Neighborhood implements Serializable {
     private Long id;
     @Column(length = 100, nullable = false)
     private String name;
+    @Column(nullable = false)
+    private double longitude;
+    @Column(nullable = false)
+    private double latitude;
     @OneToMany(mappedBy = "neighborhood")
-    private List<TrashCan> trashCans;
+    private List<Container> containers;
     @OneToMany(mappedBy = "neighborhood")
     private List<Employee> assignedEmployees;
 
-    public Neighborhood(String name, List<TrashCan> trashCans, List<Employee> assignedEmployees) {
+    public Neighborhood(String name, List<Container> containers, List<Employee> assignedEmployees) {
         this.name = name;
-        this.trashCans = trashCans;
+        this.containers = containers;
         this.assignedEmployees = assignedEmployees;
     }
 
-    public Neighborhood() {};
+    public Neighborhood() {
+    }
 
     public Long getId() {
         return id;
@@ -38,12 +43,28 @@ public class Neighborhood implements Serializable {
         this.name = name;
     }
 
-    public List<TrashCan> getTrashCans() {
-        return trashCans;
+    public double getLongitude() {
+        return longitude;
     }
 
-    public void setTrashCans(List<TrashCan> trashCans) {
-        this.trashCans = trashCans;
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public List<Container> getContainers() {
+        return containers;
+    }
+
+    public void setContainers(List<Container> containers) {
+        this.containers = containers;
     }
 
     public List<Employee> getAssignedEmployees() {
@@ -78,9 +99,14 @@ public class Neighborhood implements Serializable {
 
     @Override
     public String toString() {
-        return "Neighborhood [id=" + id + ", name=" + name + ", trashCans=" + trashCans + ", assignedEmployees="
-                + assignedEmployees + "]";
+        return "Neighborhood{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", longitude=" + longitude +
+                ", latitude=" + latitude +
+                ", containers=" + containers +
+                ", assignedEmployees=" + assignedEmployees +
+                '}';
     }
-
 }
 

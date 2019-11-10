@@ -11,35 +11,36 @@ public class Favorite implements Serializable {
     @GeneratedValue
     private Long id;
     @ManyToOne
-    private User owner;
+    private Citizen owner;
     @ManyToOne
-    private TrashCan trashCan;
+    private Container container;
 
-    public Favorite(User owner, TrashCan trashCan) {
+    public Favorite(Citizen owner, Container container) {
         this.owner = owner;
-        this.trashCan = trashCan;
+        this.container = container;
     }
 
-    public Favorite() {};
+    public Favorite() {
+    }
 
     public Long getId() {
         return id;
     }
 
-    public User getOwner() {
+    public Citizen getOwner() {
         return owner;
     }
 
-    public void setOwner(User owner) {
+    public void setOwner(Citizen owner) {
         this.owner = owner;
     }
 
-    public TrashCan getTrashCan() {
-        return trashCan;
+    public Container getContainer() {
+        return container;
     }
 
-    public void setTrashCan(TrashCan trashCan) {
-        this.trashCan = trashCan;
+    public void setContainer(Container container) {
+        this.container = container;
     }
 
     @Override
@@ -66,7 +67,11 @@ public class Favorite implements Serializable {
 
     @Override
     public String toString() {
-        return "Favorite [id=" + id + ", owner=" + owner + ", trashCan=" + trashCan + "]";
+        return "Favorite{" +
+                "id=" + id +
+                ", owner=" + owner +
+                ", trashCan=" + container +
+                '}';
     }
 
 }

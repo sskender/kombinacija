@@ -7,30 +7,36 @@ import java.io.Serializable;
 @Table(name = "pings")
 public class Ping implements Serializable {
 
-	public static final int FULL = 0;
-	public static final int URGENT = 1;
+	public static final int EMPTY = 0;
+	public static final int FULL = 1;
+	public static final int URGENT = 2;
+
 
 	@Id
 	@GeneratedValue
 	private Long id;
-	@Column(length = 100, nullable = false)
+	@Column(nullable = false)
 	private int level;
-	@Column(length = 100, nullable = false)
+	@Column(nullable = false)
 	private long timestamp;
+	@Column
+	private String photoPath;
 	@ManyToOne
-	private User creator;
+	private Person creator;
 	@ManyToOne
-	private TrashCan reference;
+	private Container container;
 
-	public Ping(int level, User creator, TrashCan reference) {
-		super();
+
+	public Ping(long timestamp, int level, String photoPath, Person creator, Container container) {
+		this.timestamp = timestamp;
 		this.level = level;
-		this.timestamp = System.currentTimeMillis();
+		this.photoPath = photoPath;
 		this.creator = creator;
-		this.reference = reference;
+		this.container = container;
 	}
 
-	public Ping() {};
+	public Ping() {
+	}
 
 	public Long getId() {
 		return id;
@@ -52,20 +58,28 @@ public class Ping implements Serializable {
 		this.timestamp = timestamp;
 	}
 
-	public User getCreator() {
+	public String getPhotoPath() {
+		return photoPath;
+	}
+
+	public void setPhotoPath(String photoPath) {
+		this.photoPath = photoPath;
+	}
+
+	public Person getCreator() {
 		return creator;
 	}
 
-	public void setCreator(User creator) {
+	public void setCreator(Person creator) {
 		this.creator = creator;
 	}
 
-	public TrashCan getReference() {
-		return reference;
+	public Container getContainer() {
+		return container;
 	}
 
-	public void setReference(TrashCan reference) {
-		this.reference = reference;
+	public void setContainer(Container container) {
+		this.container = container;
 	}
 
 	@Override
@@ -92,8 +106,13 @@ public class Ping implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Ping [id=" + id + ", level=" + level + ", timestamp=" + timestamp + ", creator=" + creator
-				+ ", reference=" + reference + "]";
+		return "Ping{" +
+				"id=" + id +
+				", level=" + level +
+				", timestamp=" + timestamp +
+				", photoPath='" + photoPath + '\'' +
+				", creator=" + creator +
+				", container=" + container +
+				'}';
 	}
-
 }

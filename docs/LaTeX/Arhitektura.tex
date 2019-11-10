@@ -1,6 +1,29 @@
 \chapter{Arhitektura i dizajn sustava}
-		
+
+		\textbf{\textit{dio 1. revizije}}\\
 	
+		Za izradu aplikacije na strani \textit{back end-a} odabrali smo programski jezik Java, koristeći se pritom Spring Boot radnim okvirom koji uvelike olakšava razvoj web aplikacija. Radi lakšeg uključivanja vanjskih biblioteka te radi postizanja neovisnosti o razvojnom okruženju koristimo Maven.
+		
+		Na strani \textit{front end-a} koristimo radni okvir Bootstrap, pomoću kojeg koristimo standardne jezike za dizajniranje i ponašanje web stranica na strani klijenta - HTML, CSS i JavaScript. Radi jednostavnijeg pisanja, uz \textit{vanilla JavaScript} koristimo i \textit{jQuery} biblioteku, kojom je uvelike olakšano slanje asinkronih (\textit{AJAX}) zahtjeva na web poslužitelj. \\
+		\\
+		Arhitektura sustava se temelji na konceptu MVC (\textit{Model-View-Controller}), kako bi se što jasnije i smislenije razdvojili pojedini dijelovi aplikacije te omogućio njihov istodoban i neovisan razvoj. 
+		\begin{figure}[H]
+			\includegraphics[scale=0.5]{figures/MVC.png}
+			\centering
+			\caption{MVC prikaz aplikacije}
+			\label{fig:mvc}
+		\end{figure}
+		
+		\textbf{View} označava podsustav zadužen za \textit{user-friendly} prikaz podataka korisniku. U slučaju naše aplikacije, razvija se potpuno neovisno od ostalih dijelova, te je pokrenut na zasebnom poslužitelju. Osim što prikazuje \textit{model}, \textit{view} je zadužen i za slanje zahtjeva \textit{controller-u}.\\
+		\\
+		\textbf{Controller} označava podsustav koji upravlja zahtjevima pristiglim iz \textit{view-a}, dohvaća stvarne podatke iz \textit{model-a} te vrši logiku svih mogućih akcija i događaja. Središnji dio \textit{controller-a} predstavljaju servisi, koji se u samoj aplikaciji nalaze u posebnom paketu, a koji obavljaju cjelokupnu poslovnu logiku aplikacije. Kako bi to obavljali uspješno, moraju moći komunicirati sa ostalim podsustavima.
+		
+		Komunikacija s \textit{view-om} se izvodi putem sučelja \textit{Controllers}, koje na slici predstavlja cijeli paket u kojem je definiran API (\textit{Application Programming Interface}) putem kojeg se aplikaciji šalju zahtjevi ili se dohvaćaju podaci. API koji smo odabrali je REST (\textit{REpresentational State Transfer}) API, kako bi se omogućila lakša komunikacija sa drugim sustavima, te kako bi aplikacija bila lako proširiva (primjerice, na isti API se može spojiti i mobilna aplikacija).
+		 
+		\textit{Controller} sa modelom komunicira putem sučelja \textit{Repositories} koje također predstavlja cijeli paket kojim se iz baze podataka dohvaćaju konkretne objekte i podatke.\\
+		\\
+		\textbf{Model} predstavlja sve strukture podataka, objekte i zapise vezane uz aplikaciju, koji su spremljeni u bazi podataka. Komunikacija s bazom je ostvarena putem JPA/JDBC specifikacije.
+
 	
 		\section{Baza podataka}
 			
@@ -33,14 +56,14 @@
 					\hline \multicolumn{3}{|c|}{\textbf{Person}}	 \\[3pt] \hline
 					\endhead
 					
-					\hline 
-					\endlastfoot
-					
 					\cellcolor{LightGreen} id & BIGINT	&   Identifikator osobe; svaka osoba ima svoj jedinstveni ID	\\ \hline
 					name	& VARCHAR &   Ime osobe, ne smije biti NULL	\\ \hline 
 					last\textunderscore name & VARCHAR & Prezime osobe, ne smije biti NULL \\ \hline
 					email & VARCHAR &  E-mail osobe, koristi se pri prijavi korisnika u sustav, ne smije biti NULL i jedinstvena je vrijednost \\ \hline 
 					pwd\textunderscore hash & VARCHAR	&  Sažetak lozinke koju je osoba odabrala \\ 
+					\hline
+					
+					\caption{\label{tab:tbl-person} Tablica \textit{Person}}
 					
 				\end{longtabu}
 			
@@ -52,10 +75,9 @@
 					\hline \multicolumn{3}{|c|}{\textbf{Admin}}	 \\[3pt] \hline
 					\endhead
 					
-					\hline 
-					\endlastfoot
+					\cellcolor{LightBlue}id & BIGINT	&   Jedini atribut tablice - strani ključ koji pokazuje na tablicu Person.	\\ \hline
 					
-					\cellcolor{LightBlue}id & BIGINT	&   Jedini atribut tablice - strani ključ koji pokazuje na tablicu Person.	\\ 
+					\caption{\label{tab:tbl-admin} Tablica \textit{Admin}}
 					
 				\end{longtabu}
 			
@@ -66,13 +88,11 @@
 					
 					\hline \multicolumn{3}{|c|}{\textbf{Citizen}}	 \\[3pt] \hline
 					\endhead
-					
-					\hline 
-					\endlastfoot
 					
 					\cellcolor{LightBlue}id & BIGINT	&   Strani ključ koji pokazuje na tablicu Person.	\\ \hline
-					reputation & INT & Atribut koji označava reputaciju korisnika; služi za procjenu vjerodostojnosti njegove prijave. \\
-					
+					reputation & INT & Atribut koji označava reputaciju korisnika; služi za procjenu vjerodostojnosti njegove prijave. \\ \hline
+					 
+					\caption{\label{tab:tbl-citizen} Tablica \textit{Citizen}}
 				\end{longtabu}
 			
 				\begin{longtabu} to \textwidth {|X[7, l]|X[7, l]|X[20, l]|}
@@ -83,12 +103,11 @@
 					\hline \multicolumn{3}{|c|}{\textbf{Employee}}	 \\[3pt] \hline
 					\endhead
 					
-					\hline 
-					\endlastfoot
-					
 					\cellcolor{LightBlue}id & BIGINT	&   Strani ključ koji pokazuje na tablicu Person.	\\ \hline
 					oib & VARCHAR(11) & OIB komunalnog radnika. \\ \hline
-					\cellcolor{LightBlue} neighborhood\textunderscore id & BIGINT & Strani ključ koji pokazuje na tablicu Neighborhood. Određuje kojem kvartu pripada radnik. \\
+					\cellcolor{LightBlue} neighborhood\textunderscore id & BIGINT & Strani ključ koji pokazuje na tablicu Neighborhood. Određuje kojem kvartu pripada radnik. \\ \hline
+					
+					\caption{\label{tab:tbl-employee} Tablica \textit{Employee}}
 					
 				\end{longtabu}
 			
@@ -100,14 +119,13 @@
 					\hline \multicolumn{3}{|c|}{\textbf{Container}}	 \\[3pt] \hline
 					\endhead
 					
-					\hline 
-					\endlastfoot
-					
 					\cellcolor{LightGreen}id & BIGINT	&   Identifikator kontejnera; svaki kontejner ima svoj jedinstveni ID	\\ \hline
 					latitude & DOUBLE & Geografska širina lokacije kontejnera \\ \hline
 					longitude & DOUBLE & Geografska dužina lokacije kontejnera \\ \hline
 					pings\textunderscore since\textunderscore emptied & INT & Broj prijava kontejnera od njegovog zadnjeg pražnjenja \\ \hline
-					\cellcolor{LightBlue} neighborhood\textunderscore id & BIGINT & Strani ključ koji pokazuje na tablicu Neighborhood. Određuje u kojem se kvartu nalazi kontejner. \\
+					\cellcolor{LightBlue} neighborhood\textunderscore id & BIGINT & Strani ključ koji pokazuje na tablicu Neighborhood. Određuje u kojem se kvartu nalazi kontejner. \\ \hline
+					
+					\caption{\label{tab:tbl-container} Tablica \textit{Container}}
 					
 				\end{longtabu}
 		
@@ -119,13 +137,12 @@
 				\hline \multicolumn{3}{|c|}{\textbf{Neighborhood}}	 \\[3pt] \hline
 				\endhead
 				
-				\hline 
-				\endlastfoot
-				
 				\cellcolor{LightGreen}id & BIGINT	&   Identifikator susjedstva; svako susjedstvo (kvart) ima svoj jedinstveni ID	\\ \hline
 				latitude & DOUBLE & Geografska širina lokacije komunalnog središta u susjedstvu \\ \hline
 				longitude & DOUBLE & Geografska dužina lokacije komunalnog središta u susjedstvu \\ \hline
-				name & VARCHAR & Ime susjedstva \\
+				name & VARCHAR & Ime susjedstva \\ \hline
+				
+				\caption{\label{tab:tbl-neighborhood} Tablica \textit{Neighborhood}}
 				
 			\end{longtabu}
 		
@@ -136,13 +153,12 @@
 				
 				\hline \multicolumn{3}{|c|}{\textbf{Favorites}}	 \\[3pt] \hline
 				\endhead
-				
-				\hline 
-				\endlastfoot
 				
 				\cellcolor{LightGreen}id & BIGINT	&   Identifikator oznake favorita; svako označavanje ima svoj jedinstveni ID. \\ \hline
 				\cellcolor{LightBlue} container\textunderscore id & BIGINT & Strani ključ koji pokazuje na relaciju Container \\ \hline
-				\cellcolor{LightBlue} owner\textunderscore id & BIGINT & Strani ključ koji pokazuje na relaciju Person  \\
+				\cellcolor{LightBlue} owner\textunderscore id & BIGINT & Strani ključ koji pokazuje na relaciju Person  \\ \hline
+				
+				\caption{\label{tab:tbl-favorites} Tablica \textit{Favorites}}
 				
 			\end{longtabu}
 		
@@ -154,35 +170,14 @@
 				\hline \multicolumn{3}{|c|}{\textbf{Pings}}	 \\[3pt] \hline
 				\endhead
 				
-				\hline 
-				\endlastfoot
-				
 				\cellcolor{LightGreen}id & BIGINT	&   Identifikator prijave; svako označavanje ima svoj jedinstveni ID. \\ \hline
 				level & INT & Level koji označava vrstu prijave: 0 je prijava praznog, 1 prijava punog i 2 prijava pretrpanog kontejnera \\ \hline
 				timestamp & BIGINT & Vremenska oznaka trenutka u kojem se dogodila prijava kontejnera \\ \hline
 				photo\textunderscore path & VARCHAR & Mjesto na disku na kojem se nalazi fotografija koju je priložio korisnik \\ \hline
 				\cellcolor{LightBlue} container\textunderscore id & BIGINT & Strani ključ koji pokazuje na relaciju Container \\ \hline
-				\cellcolor{LightBlue} owner\textunderscore id & BIGINT & Strani ključ koji pokazuje na relaciju Person  \\
+				\cellcolor{LightBlue} owner\textunderscore id & BIGINT & Strani ključ koji pokazuje na relaciju Person  \\ \hline
 				
-			\end{longtabu}
-		
-			\begin{longtabu} to \textwidth {|X[7, l]|X[7, l]|X[20, l]|}
-				
-				\hline \multicolumn{3}{|c|}{\textbf{Pings}}	 \\[3pt] \hline
-				\endfirsthead
-				
-				\hline \multicolumn{3}{|c|}{\textbf{Pings}}	 \\[3pt] \hline
-				\endhead
-				
-				\hline 
-				\endlastfoot
-				
-				\cellcolor{LightGreen}id & BIGINT	&   Identifikator prijave; svako označavanje ima svoj jedinstveni ID. \\ \hline
-				level & INT & Level koji označava vrstu prijave: 0 je prijava praznog, 1 prijava punog i 2 prijava pretrpanog kontejnera \\ \hline
-				timestamp & BIGINT & Vremenska oznaka trenutka u kojem se dogodila prijava kontejnera \\ \hline
-				photo\textunderscore path & VARCHAR & Mjesto na disku na kojem se nalazi fotografija koju je priložio korisnik \\ \hline
-				\cellcolor{LightBlue} container\textunderscore id & BIGINT & Strani ključ koji pokazuje na relaciju Container \\ \hline
-				\cellcolor{LightBlue} creator\textunderscore id & BIGINT & Strani ključ koji pokazuje na relaciju Person  \\
+				\caption{\label{tab:tbl-ping} Tablica \textit{Ping}}
 				
 			\end{longtabu}
 		
@@ -194,13 +189,12 @@
 				\hline \multicolumn{3}{|c|}{\textbf{Emptyings}}	 \\[3pt] \hline
 				\endhead
 				
-				\hline 
-				\endlastfoot
-				
 				\cellcolor{LightGreen}id & BIGINT	&   Identifikator prijave; svako označavanje ima svoj jedinstveni ID. \\ \hline
 				timestamp & BIGINT & Vremenska oznaka trenutka u kojem se dogodila prijava kontejnera \\ \hline
 				\cellcolor{LightBlue} container\textunderscore id & BIGINT & Strani ključ koji pokazuje na relaciju Container \\ \hline
-				\cellcolor{LightBlue} worker\textunderscore id & BIGINT & Strani ključ koji pokazuje na relaciju Employee  \\
+				\cellcolor{LightBlue} worker\textunderscore id & BIGINT & Strani ključ koji pokazuje na relaciju Employee  \\ \hline
+				
+				\caption{\label{tab:tbl-emptying} Tablica \textit{Emptying}}
 				
 			\end{longtabu}
 			
@@ -225,11 +219,32 @@
 			
 		\section{Dijagram razreda}
 		
-			\textit{Potrebno je priložiti dijagram razreda s pripadajućim opisom. Zbog preglednosti je moguće dijagram razlomiti na više njih, ali moraju biti grupirani prema sličnim razinama apstrakcije i srodnim funkcionalnostima.}\\
+			Na slici 4.4. prikazan je dijagram razreda paketa DAO. DAO (\textit{Data Access Object}) je paket koji predstavlja sloj između logike aplikacije i baze podataka. Pomoću DAO objekata aplikacija dohvaća objekte iz baze podataka te ih uključuje u razne akcije, mijenja, stvara nove objekte vezane uz njih i sprema ih natrag u bazu. Sve metode su već implementirane u Spring-ovom sučelju JpaRepository, koje sva naša sučelja nasljeđuju.
 			
-			\textbf{\textit{dio 1. revizije}}\\
+			Slika 4.5 prikazuje dijagram razreda koji predstavljaju model podataka - reprezentaciju stvarnog svijeta. On je vrlo sličan ER modelu i dijagramu baze podataka, ali ne i identičan: uspoređujući ih, vidljivo je kako se Java objekti i sve veze (One-to-one, One-to-many, Many-to-many) mapiraju u bazu podataka.
 			
-			\textit{Prilikom prve predaje projekta, potrebno je priložiti potpuno razrađen dijagram razreda vezan uz \textbf{generičku funkcionalnost} sustava. Ostale funkcionalnosti trebaju biti idejno razrađene u dijagramu sa sljedećim komponentama: nazivi razreda, nazivi metoda i vrste pristupa metodama (npr. javni, zaštićeni), nazivi atributa razreda, veze i odnosi između razreda.}\\
+			Konačno, slika 4.6 prikazuje dijagram razreda \textit{controller-a}, koji su zaduženi za primanje HTTP zahtjeva na način da se svaka metoda u pojedinom \textit{controller} razredu mapira na određeni URL i određenu HTTP metodu (GET, POST, PUT...). Tako je primjerice metoda registerUser() u razredu LoginController pozvana isključivo ako korisnik pošalje POST zahtjev na URL "/register".
+			
+			\begin{figure}[H]
+				\includegraphics[scale=0.5]{figures/DAOClassDiagram.PNG}
+				\centering
+				\caption{Dijagram razreda paketa DAO}
+				\label{fig:dao-cd}
+			\end{figure}
+		
+			\begin{figure}[H]
+				\includegraphics[scale=0.5]{figures/ModelClassDiagram.PNG}
+				\centering
+				\caption{Dijagram razreda koji predstavljaju model podataka}
+				\label{fig:model-cd}
+			\end{figure}
+		
+			\begin{figure}[H]
+				\includegraphics[scale=0.8]{figures/ControllerClassDiagram.PNG}
+				\centering
+				\caption{Dijagram razreda - controllera}
+				\label{fig:controller-cd}
+			\end{figure}
 			
 			\textbf{\textit{dio 2. revizije}}\\			
 			

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>Prijavi se</title>
+
+    <!-- Font Icon -->
+    <link rel="stylesheet"
+          href="fonts/material-icon/css/material-design-iconic-font.css">
+
+    <!-- Main css -->
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+<body>
+
+<div class="main">
+    <section>
+        <div class="container">
+            <div class="signin-content">
+
+                <div class="signin-image">
+                    <figure><img src="img/ManGarbage.jpg" alt="Slika čovjeka kako baca smeće."></figure>
+                </div>
+
+                <div class="signin-form">
+                    <h2 class="form-title">Prijavi se!</h2>
+                    <form method="POST">
+                        <div class="form-group">
+                            <label for="tvoje_ime"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                            <input type="text" name="your_name" id="tvoje_ime" placeholder="Tvoje Ime"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="tvoja_lozinka"><i class="zmdi zmdi-lock"></i></label>
+                            <input type="password" name="your_pass" id="tvoja_lozinka" placeholder="Lozinka"/>
+                        </div>
+                        <div class="form-group">
+                            <input type="checkbox" name="zapamti_me" id="zapamti_me" class="agree-term"/>
+                            <label for="zapamti_me" class="label-agree-term"><span><span></span></span>Zapamti
+                                me.</label>
+                        </div>
+                        <div class="form-group form-button">
+                            <input type="submit" name="signin" id="signin" class="form-submit" value="Prijavi me!"/>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+<!-- JS -->
+<script src="vendor/jquery/jquery.js"></script>
+<script src="js/main.js"></script>
+
+</body>
+</html>

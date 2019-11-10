@@ -29,9 +29,10 @@
 						
 						\item  pregledati popis prijava i pražnjena u tom danu
 						\item  pregledati grafički prikaz prijava i pražnjenja u tom danu
-						\item registrirati se u sustav
+						
 						
 					\end{packed_enum}
+					\item registrirati se u sustav
 					
 				\end{packed_enum}
 				
@@ -55,7 +56,7 @@
 			
 					
 						\item dodati novi kontejner
-						\item izbrisati postojeće kontejner
+						\item izbrisati postojeći kontejner
 				
 				
 
@@ -185,19 +186,28 @@
 						
 						\item[] \begin{packed_item}
 	
-							\item[2.a] Unos neispravnog emaila
+	
+						\item[2.a] Email je prethodno već zauzet
 							
 							\item[] \begin{packed_enum}
 								
-								\item Sustav obavještava korsnika da je unio neispravan podatak
+								\item Sustav obavještava korisnika da unese mail koji ne postoji u sustavu
 								\item Korisnik ponovno unosi podatke ili odustaje od registracije
 								
 							\end{packed_enum}
-							\item[2.b] Korisnik je unio manje od osam znakova za lozinku
+							\item[2.b] Unos neispravnog emaila
+							
+							\item[] \begin{packed_enum}
+								
+								\item Sustav obavještava korisnika da je unio neispravan podatak
+								\item Korisnik ponovno unosi podatke ili odustaje od registracije
+								
+							\end{packed_enum}
+							\item[2.c] Korisnik je unio manje od osam znakova za lozinku
 							
 								\item[] \begin{packed_enum}
 								
-								\item Sustav obavještava korsnika da je unio neispravan podatak
+								\item Sustav obavještava korisnika da je unio neispravan podatak
 								\item Korisnik ponovno unosi podatke ili odustaje od registracije
 								
 							\end{packed_enum}
@@ -230,7 +240,7 @@
 							
 							\item[] \begin{packed_enum}
 								
-								\item Sustav obavještava korsnika da je unio neispravan podatak i vraća korsnika u korak 1.
+								\item Sustav obavještava korisnika da je unio neispravan podatak i vraća korisnika u korak 1.
 								
 							\end{packed_enum}
 													
@@ -249,9 +259,9 @@
 						
 						\item[] \begin{packed_enum}
 	
-							\item Korisnik odabire traženu kantu na karti
-							\item Sustav prikazuje opcije vezane za odabranu kantu
-							\item Korisnik odabire i označava opciju "omiljena kontejner"
+							\item Korisnik odabire traženi kontejner na karti
+							\item Sustav prikazuje opcije vezane za odabrani kontejner
+							\item Korisnik odabire i označava opciju "omiljeni kontejner"
 							\item Sustav sprema unesenu promjenu
 						\end{packed_enum}
 						
@@ -273,8 +283,8 @@
 						\item[] \begin{packed_enum}
 	
 							\item Korisnik odabire traženu kantu na karti
-							\item Sustav prikazuje opcije vezane za odabranu kantu
-							\item Korisnik odabire i označava opciju "ukloni iz omiljenih kanti"
+							\item Sustav prikazuje opcije vezane za odabrani kontejner
+							\item Korisnik odabire i označava opciju "ukloni iz omiljenih kontejnera"
 							\item Sustav sprema unesenu promjenu
 						\end{packed_enum}
 						
@@ -293,7 +303,7 @@
 						\item[] \begin{packed_enum}
 	
 							\item Korisnik odabire preuzimanje rute
-							\item Sustav prikazuje popis kanti za pražnjenje
+							\item Sustav prikazuje popis kontejnera za pražnjenje
 							\item Korisnik pokreće rutu
 						\end{packed_enum}
 						
@@ -301,7 +311,7 @@
 						
 						\item[] \begin{packed_item}
 	
-							\item[1.a] Nedostatan broj kanti spremnih za pražnjenje 
+							\item[1.a] Nedostatan broj kontejnera spremnih za pražnjenje 
 							
 							\item[] \begin{packed_enum}
 								
@@ -324,8 +334,8 @@
 						
 						\item[] \begin{packed_enum}
 	
-							\item Korisnik odabire kantu iz rute
-							\item Sustav prikazuje opcije vezane za odabranu kantu
+							\item Korisnik odabire kontejner iz rute
+							\item Sustav prikazuje opcije vezane za odabrani kontejner
 							\item Korisnik označava da je kontejner ispražnjen
 							\item Sustav sprema unesenu promjenu
 							
@@ -340,7 +350,7 @@
 							\item[] \begin{packed_enum}
 								
 								\item Korisnik označava da je dojava lažna
-								\item Sustav prikazuje sljedeću kantu iz rute
+								\item Sustav prikazuje sljedeći kontejner iz rute
 								
 							\end{packed_enum}
 						\end{packed_item}
@@ -373,7 +383,7 @@
 							
 							\item[] \begin{packed_enum}
 								
-								\item Sustav obavještava korsnika da nije moguće unijeti novog radnika i vraća ga u korak 2
+								\item Sustav obavještava korisnika da nije moguće unijeti novog radnika i vraća ga u korak 2
 								
 							\end{packed_enum}
 							\item[5. a] Korisnik je unio neispravne podatke o novom radniku 
@@ -388,7 +398,7 @@
 							
 								\item[] \begin{packed_enum}
 								
-								\item Sustav javlja kako radnik već postoji i vraća korisnika u korak 2\\\\\\\\
+								\item Sustav javlja kako radnik već postoji i vraća korisnika u korak 2
 								
 							\end{packed_enum}
 
@@ -423,7 +433,7 @@
 							
 							\item[] \begin{packed_enum}
 								
-								\item Sustav obavještava korsnika o nemogućnosti izvršavanja tražene akcije i vraća korisnika u korak 4
+								\item Sustav obavještava korisnika o nemogućnosti izvršavanja tražene akcije i vraća korisnika u korak 4
 								
 								
 							\end{packed_enum}
@@ -431,7 +441,7 @@
 							
 								\item[] \begin{packed_enum}
 								
-								\item Sustav obavještava korsnika o nemogućnosti izvršavanja tražene akcije i vraća korisnika u korak 4
+								\item Sustav obavještava korisnika o nemogućnosti izvršavanja tražene akcije i vraća korisnika u korak 4
 								
 								
 							\end{packed_enum}
@@ -458,7 +468,7 @@
 						
 						\item[] \begin{packed_enum}
 	
-							\item Korisnik odabire kantu na karti
+							\item Korisnik odabire kontejner na karti
 							\item Korisnik označava da je kontejner prazan
 							\item Sustav sprema unesenu promjenu
 							
@@ -472,17 +482,12 @@
 							
 							\item[] \begin{packed_enum}
 								
-								\item Sustav obavještava korsnika da je unio neispravan podatak
-								\item Korisnik ponovno unosi podatke ili odustaje od registracije
+								\item Sustav ne sprema unsenu promjenu
 								
-							\end{packed_enum}
-							\item[2.b] Korisnik je unio manje od osam znakova za lozinku
 							
-								\item[] \begin{packed_enum}
-								
-								\item Sustav ne sprema unesenu promjenu
 								
 							\end{packed_enum}
+							
 							
 						\end{packed_item}
 					\end{packed_item}
@@ -500,7 +505,7 @@
 						
 						\item[] \begin{packed_enum}
 	
-							\item Korisnik odabire kantu na karti
+							\item Korisnik odabire kontejner na karti
 							\item Korisnik označava da je kontejner pun
 							\item Sustav sprema unesenu promjenu
 							
@@ -514,19 +519,12 @@
 							
 							\item[] \begin{packed_enum}
 								
-								\item Sustav obavještava korsnika da je unio neispravan podatak
-								\item Korisnik ponovno unosi podatke ili odustaje od registracije
+								\item Sustav ne sprema unsenu promjenu
 								
-							\end{packed_enum}
-							\item[2.b] Korisnik je unio manje od osam znakova za lozinku
-							
-								\item[] \begin{packed_enum}
-								
-								\item Sustav ne sprema unesenu promjenu
 								
 							\end{packed_enum}
 							
-						\end{packed_item}
+													\end{packed_item}
 					\end{packed_item}
 
 				
@@ -543,7 +541,7 @@
 						
 						\item[] \begin{packed_enum}
 	
-							\item Korisnik odabire kantu na karti
+							\item Korisnik odabire kontejner na karti
 							\item Korisnik označava da je kontejner prepun
 							\item Sustav sprema unesenu promjenu
 							
@@ -557,10 +555,7 @@
 							
 							\item[] \begin{packed_enum}
 								
-								\item Sustav obavještava korsnika da je unio neispravan podatak
-								\item Korisnik ponovno unosi podatke ili odustaje od registracije
-								
-							
+								\item Sustav ne sprema unsenu promjenu													
 							\end{packed_enum}
 							
 						\end{packed_item}
@@ -579,25 +574,12 @@
 						
 						\item[] \begin{packed_enum}
 	
-							\item Korisnik slika kantu i šalje istu
+							\item Korisnik slika kontejner i šalje sliku
 							\item Sustav sprema unesenu promjenu
+							
 						\end{packed_enum}
 						
-						\item  \textbf{Opis mogućih odstupanja:}
 						
-						\item[] \begin{packed_item}
-	
-							\item[2.a] Korisnik ima prevelik broj lažnih dojava ???
-							
-							\item[] \begin{packed_enum}
-								
-								\item Sustav obavještava korsnika da je unio neispravan podatak
-								\item Korisnik ponovno unosi podatke ili odustaje od registracije
-								
-							
-							\end{packed_enum}
-							
-						\end{packed_item}
 					\end{packed_item}
 
 
@@ -606,8 +588,8 @@
 				\noindent \underbar{\textbf{UC13-Priegled arhive}}
 					\begin{packed_item}
 	
-						\item \textbf{Glavni sudionik: }Administrator, komunalni radnik, građanin, anonimni korisnik
-						\item  \textbf{Cilj:} Pregled dosadašnjih prijava i pražnjenja kanti
+						\item \textbf{Glavni sudionik: }Anonimni korisnik
+						\item  \textbf{Cilj:} Pregled dosadašnjih prijava i pražnjenja kontejnera
 						\item  \textbf{Sudionici:} Baza podataka
 						\item  \textbf{Preduvjet:} -
 						\item  \textbf{Opis osnovnog tijeka:}
@@ -616,7 +598,7 @@
 	
 							\item Korisnik odabire datum
 							\item Sustav prikazuje korisniku kartu sa kontejnerima za navedeni datum
-							\item Korisnik odabire pojedinu kantu
+							\item Korisnik odabire pojedini kontejner
 							\item Sustav prikazuje popis prijava i pražnjenje tog kontejnera narednog dana
 						\end{packed_enum}
 						
@@ -628,14 +610,15 @@
 							
 							\item[] \begin{packed_enum}
 								
-								\item Sustav obavještava korsnika da nije moguće dohvatiti traženo stanje
+								\item Sustav obavještava korisnika da nije moguće dohvatiti traženo stanje
 								\item Sustav vraća korisnika u korak 1
 								
 							\end{packed_enum}
 							
 							
 						\end{packed_item}
-					\end{packed_item}			
+					\end{packed_item}		
+						
 				\noindent \underbar{\textbf{UC14-Dodavanje kvarta}}
 					\begin{packed_item}
 	
@@ -659,22 +642,15 @@
 						
 						\item[] \begin{packed_item}
 	
-							\item[2.a] Unos neispravnog emaila
+							\item[2.a] Kvart već postoji
 							
 							\item[] \begin{packed_enum}
 								
-								\item Sustav obavještava korsnika da je unio neispravan podatak
-								\item Korisnik ponovno unosi podatke ili odustaje od registracije
+								\item Sustav obavještava korisnika da je unio neispravan podatak
+								\item Korisnik ponovno unosi podatke ili odustaje od stvaranja novog kvarta
 								
 							\end{packed_enum}
-							\item[2.b] Korisnik je unio manje od osam znakova za lozinku
 							
-								\item[] \begin{packed_enum}
-								
-								\item Sustav obavještava korsnika da je unio neispravan podatak
-								\item Korisnik ponovno unosi podatke ili odustaje od registracije
-								
-							\end{packed_enum}
 							
 						\end{packed_item}
 					\end{packed_item}
@@ -738,7 +714,7 @@
 					\begin{packed_item}
 	
 						\item \textbf{Glavni sudionik: }Administrator
-						\item  \textbf{Cilj:} Dodavanje novog kontejnera na kartu
+						\item  \textbf{Cilj:} Brisanje kontejnera s karte
 						\item  \textbf{Sudionici:} Baza podataka
 						\item  \textbf{Preduvjet:} Korisnik je prijavljen u sustav
 						\item  \textbf{Opis osnovnog tijeka:}

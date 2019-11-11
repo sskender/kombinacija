@@ -87,7 +87,6 @@
 			data: JSON.stringify(regDTO),
 			success: function() {
 				var tkn = btoa(regDTO.email+":"+regDTO.pwd);
-				alert(tkn);
 				window.localStorage.setItem('bauth', tkn);
 				alert("Registration successful!");
 				window.location.replace("index.html");

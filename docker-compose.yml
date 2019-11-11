@@ -50,6 +50,8 @@ services:
       - DB_NAME=kombinacijadb
       - DB_USER=kombinacijauser
       - DB_PASS=kombinacijapassword
+    ports:
+      - "8080:8080"
     networks:
       - backend-net
       - proxy-app

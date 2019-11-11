@@ -28,19 +28,14 @@
 
                 <div class="signin-form">
                     <h2 class="form-title">Prijavi se!</h2>
-                    <form method="POST">
-                        <div class="form-group">
-                            <label for="tvoje_ime"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                            <input type="text" name="your_name" id="tvoje_ime" placeholder="Tvoje Ime"/>
+					<form method="POST" onsubmit="event.preventDefault(); handleSubmit();" class="login-form" id="login-form">
+                       <div class="form-group">
+                            <label for="email"><i class="zmdi zmdi-email"></i></label>
+                            <input type="email" name="email" id="email" placeholder="Tvoj Email"/>
                         </div>
                         <div class="form-group">
                             <label for="tvoja_lozinka"><i class="zmdi zmdi-lock"></i></label>
-                            <input type="password" name="your_pass" id="tvoja_lozinka" placeholder="Lozinka"/>
-                        </div>
-                        <div class="form-group">
-                            <input type="checkbox" name="zapamti_me" id="zapamti_me" class="agree-term"/>
-                            <label for="zapamti_me" class="label-agree-term"><span><span></span></span>Zapamti
-                                me.</label>
+                            <input type="password" name="your_pass" id="pass" placeholder="Lozinka"/>
                         </div>
                         <div class="form-group form-button">
                             <input type="submit" name="signin" id="signin" class="form-submit" value="Prijavi me!"/>
@@ -56,6 +51,29 @@
 <!-- JS -->
 <script src="vendor/jquery/jquery.js"></script>
 <script src="js/main.js"></script>
+<script>
+	function handleSubmit() {
+
+		var email = document.getElementById("email").value;
+		var pwd = document.getElementById("pass").value;
+		alert("Method called");
+		
+		$.ajax({
+			headers: {
+				"Authorization": "Basic " + btoa(email + ":" + pwd)
+			},
+			url: "http://localhost:8080/auth",
+			crossDomain: true,
+			type: "GET",
+			success: function() {
+				var tkn = btoa(email+":"+pwd);
+				window.localStorage.setItem('bauth', tkn);
+				alert("Login successful!");
+				window.location.replace("index.html");
+			}
+		})
+	}
+</script>
 
 </body>
 </html>

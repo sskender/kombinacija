@@ -1,5 +1,6 @@
 package hr.fer.opp.security;
 
+import hr.fer.opp.config.SecurityConstants;
 import org.springframework.security.web.access.channel.ChannelProcessingFilter;
 
 import javax.servlet.*;
@@ -17,8 +18,8 @@ public class WebSecurityCorsFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletResponse res = (HttpServletResponse)response;
 
-        res.setHeader("Access-Control-Allow-Origin", "http://localhost");
-        res.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE, PUT");
+        res.setHeader("Access-Control-Allow-Origin", SecurityConstants.ALLOW_ORIGIN);
+        res.setHeader("Access-Control-Allow-Methods", SecurityConstants.ALLOW_METHODS);
         res.setHeader("Access-Control-Max-Age", "3600");
         res.setHeader("Access-Control-Allow-Credentials", "true");
         res.setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type");

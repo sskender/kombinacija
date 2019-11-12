@@ -23,7 +23,6 @@ public class LoginController {
 
     @PostMapping(value = "/register")
     public ResponseEntity<Citizen> registerUser(@RequestBody RegisterDTO registerDTO) {
-        registerDTO.setPwd(new BCryptPasswordEncoder().encode(registerDTO.getPwd()));
         return new ResponseEntity<>(loginService.registerUser(registerDTO), HttpStatus.CREATED);
     }
 

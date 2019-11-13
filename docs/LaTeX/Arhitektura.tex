@@ -223,7 +223,7 @@
 			
 			Slika 4.5 prikazuje dijagram razreda koji predstavljaju model podataka - reprezentaciju stvarnog svijeta. On je vrlo sličan ER modelu i dijagramu baze podataka, ali ne i identičan: uspoređujući ih, vidljivo je kako se Java objekti i sve veze (One-to-one, One-to-many, Many-to-many) mapiraju u bazu podataka.
 			
-			Konačno, slika 4.6 prikazuje dijagram razreda \textit{controller-a}, koji su zaduženi za primanje HTTP zahtjeva na način da se svaka metoda u pojedinom \textit{controller} razredu mapira na određeni URL i određenu HTTP metodu (GET, POST, PUT...). Tako je primjerice metoda registerUser() u razredu LoginController pozvana isključivo ako korisnik pošalje POST zahtjev na URL "/register".
+			Konačno, slika 4.6 prikazuje dijagram razreda \textit{controller-a}, koji su zaduženi za primanje HTTP zahtjeva na način da se svaka metoda u pojedinom \textit{controller} razredu mapira na određeni URL i određenu HTTP metodu (GET, POST, PUT...). Tako je primjerice metoda registerUser() u razredu LoginController pozvana isključivo ako korisnik pošalje POST zahtjev na URL "/register", a metoda testAuthorization() se koristi kako bi korisnik provjerio ispravnost autorizacijskih podataka prilikom GET zahtjeva na URL "/auth". U svrhu te provjere koristi se UserDetailsServiceImpl, no provjera je automatizirana i vrši ju \textit{Spring} prilikom svakog poziva te metode. Ispravan rad LoginController-a ovisi i o servisu LoginService.
 			
 			\begin{figure}[H]
 				\includegraphics[scale=0.5]{figures/DAOClassDiagram.PNG}
@@ -240,7 +240,7 @@
 			\end{figure}
 		
 			\begin{figure}[H]
-				\includegraphics[scale=0.8]{figures/ControllerClassDiagram.PNG}
+				\includegraphics[scale=0.7]{figures/ControllerClassDiagram.PNG}
 				\centering
 				\caption{Dijagram razreda - controllera}
 				\label{fig:controller-cd}
@@ -249,9 +249,7 @@
 			\textbf{\textit{dio 2. revizije}}\\			
 			
 			\textit{Prilikom druge predaje projekta dijagram razreda i opisi moraju odgovarati stvarnom stanju implementacije}
-			
-			
-			
+
 			\eject
 		
 		\section{Dijagram stanja}

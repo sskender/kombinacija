@@ -9,11 +9,7 @@ import java.io.Serializable;
 public class Admin extends Person implements Serializable {
 
     public Admin() {
-    }
-
-    @Override
-    public String toString() {
-        String s = super.toString();
-        return s.replace("Person", "Admin");
+        super();
     }
 }
+

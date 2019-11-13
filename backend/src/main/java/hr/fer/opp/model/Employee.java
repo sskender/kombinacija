@@ -19,11 +19,8 @@ public class Employee extends Person implements Serializable {
 	@OneToMany(mappedBy = "worker")
 	private List<Emptying> emptyings;
 
-	public Employee(String OIB) {
-		this.OIB = OIB;
-	}
-
 	public Employee() {
+		super();
 	}
 
 	public String getOIB() {
@@ -40,6 +37,14 @@ public class Employee extends Person implements Serializable {
 
 	public void setNeighborhood(Neighborhood neighborhood) {
 		this.neighborhood = neighborhood;
+	}
+
+	public List<Emptying> getEmptyings() {
+		return emptyings;
+	}
+
+	public void setEmptyings(List<Emptying> emptyings) {
+		this.emptyings = emptyings;
 	}
 
 	@Override

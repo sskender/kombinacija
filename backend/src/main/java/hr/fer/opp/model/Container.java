@@ -1,6 +1,7 @@
 package hr.fer.opp.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
 
@@ -21,6 +22,10 @@ public class Container implements Serializable {
 	@Column(nullable = false)
 	private int pingsSinceEmptied;
 
+	@NotNull
+	@Enumerated(EnumType.ORDINAL)
+	private RouteStatus routeStatus;
+
 	@ManyToOne
 	private Neighborhood neighborhood;
 
@@ -33,24 +38,14 @@ public class Container implements Serializable {
 	@OneToMany(mappedBy = "container")
 	private List<Emptying> emptyings;
 
-	public Container(double latitude, double longitude, int pingCount,
-					 Neighborhood neighborhood, List<Ping> pings, List<Favorite> favorites,
-					 List<Emptying> emptyings) {
-		this.latitude = latitude;
-		this.longitude = longitude;
-		this.pingsSinceEmptied = pingCount;
-		this.neighborhood = neighborhood;
-		this.pings = pings;
-		this.favorites = favorites;
-		this.emptyings = emptyings;
-	}
-
 	public Container() {
 	}
 
 	public Long getId() {
 		return id;
 	}
+
+	public void setId(Long id) { this.id = id; }
 
 	public double getLatitude() {
 		return latitude;
@@ -75,6 +70,10 @@ public class Container implements Serializable {
 	public void setPingsSinceEmptied(int pingsSinceEmptied) {
 		this.pingsSinceEmptied = pingsSinceEmptied;
 	}
+
+	public RouteStatus getRouteStatus() { return routeStatus; }
+
+	public void setRouteStatus(RouteStatus routeStatus) { this.routeStatus = routeStatus; }
 
 	public Neighborhood getNeighborhood() {
 		return neighborhood;

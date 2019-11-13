@@ -1,10 +1,39 @@
 @startuml
 interface Controller
 class LoginController {
-    -personRepository : PersonRepository
+    -loginService : LoginService
+    -personService : PersonService
+    +registerUser(RegisterDTO) : ResponseEntity<Citizen>
+    +testAuthorization(User) : ResponseEntity<Person>
+}
+Controller <|-- LoginController
+
+class LoginService {
     -citizenRepository : CitizenRepository
+    -personRepository : PersonRepository
     +registerUser(RegisterDTO) : Citizen
     -translate(RegisterDTO) : Citizen
 }
-Controller <|.. LoginController
+
+class PersonService {
+    -personRepository : PersonRepository
+    -citizenRepository : CitizenRepository
+    -employeeRepository : EmployeeRepository
+    -adminRepository : AdminRepository
+    +fetchByEmail(String) : Person
+    +isAdmin(Person) : boolean
+    +isEmployee(Person) : boolean
+    +isCitizen(Person) : boolean
+}
+
+class UserDetailsServiceImpl {
+    -personService : PersonService
+    +loadUserByUsername(String) : UserDetails
+    -authorities(Person) : List<GrantedAuthority>
+}
+
+UserDetailsServiceImpl <.. PersonService
+LoginController <.. UserDetailsServiceImpl
+LoginController <.. PersonService
+LoginController <.. LoginService
 @enduml

@@ -1,22 +1,19 @@
 package hr.fer.opp.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Entity
 @Table(name = "pings")
 public class Ping implements Serializable {
 
-	public static final int EMPTY = 0;
-	public static final int FULL = 1;
-	public static final int URGENT = 2;
-
-
 	@Id
 	@GeneratedValue
 	private Long id;
-	@Column(nullable = false)
-	private int level;
+	@NotNull
+	@Enumerated(EnumType.ORDINAL)
+	private PingLevel level;
 	@Column(nullable = false)
 	private long timestamp;
 	@Column
@@ -26,15 +23,6 @@ public class Ping implements Serializable {
 	@ManyToOne
 	private Container container;
 
-
-	public Ping(long timestamp, int level, String photoPath, Person creator, Container container) {
-		this.timestamp = timestamp;
-		this.level = level;
-		this.photoPath = photoPath;
-		this.creator = creator;
-		this.container = container;
-	}
-
 	public Ping() {
 	}
 
@@ -42,11 +30,13 @@ public class Ping implements Serializable {
 		return id;
 	}
 
-	public int getLevel() {
+	public void setId(Long id) { this.id = id; }
+
+	public PingLevel getLevel() {
 		return level;
 	}
 
-	public void setLevel(int level) {
+	public void setLevel(PingLevel level) {
 		this.level = level;
 	}
 

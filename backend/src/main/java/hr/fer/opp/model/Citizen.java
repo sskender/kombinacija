@@ -13,11 +13,8 @@ public class Citizen extends Person implements Serializable {
 	@Column(nullable = false)
 	private Integer reputation;
 
-	public Citizen(int reputation) {
-		this.reputation = reputation;
-	}
-
 	public Citizen() {
+		super();
 	}
 
 	public Integer getReputation() {

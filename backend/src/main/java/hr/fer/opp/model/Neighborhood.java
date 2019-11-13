@@ -17,22 +17,23 @@ public class Neighborhood implements Serializable {
     private double longitude;
     @Column(nullable = false)
     private double latitude;
+    @Column(nullable = false)
+    private int  workerCapacity;
     @OneToMany(mappedBy = "neighborhood")
     private List<Container> containers;
     @OneToMany(mappedBy = "neighborhood")
     private List<Employee> assignedEmployees;
 
-    public Neighborhood(String name, List<Container> containers, List<Employee> assignedEmployees) {
-        this.name = name;
-        this.containers = containers;
-        this.assignedEmployees = assignedEmployees;
-    }
 
     public Neighborhood() {
     }
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -57,6 +58,14 @@ public class Neighborhood implements Serializable {
 
     public void setLatitude(double latitude) {
         this.latitude = latitude;
+    }
+
+    public int getWorkerCapacity() {
+        return workerCapacity;
+    }
+
+    public void setWorkerCapacity(int workerCapacity) {
+        this.workerCapacity = workerCapacity;
     }
 
     public List<Container> getContainers() {

@@ -15,13 +15,10 @@ public class Favorite implements Serializable {
     @ManyToOne
     private Container container;
 
-    public Favorite(Citizen owner, Container container) {
-        this.owner = owner;
-        this.container = container;
-    }
-
     public Favorite() {
     }
+
+    public void setId(Long id) { this.id = id; }
 
     public Long getId() {
         return id;

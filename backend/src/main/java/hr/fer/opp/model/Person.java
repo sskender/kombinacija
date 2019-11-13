@@ -42,19 +42,11 @@ public class Person implements Serializable {
     public Person() {
     }
 
-    public Person(String name, String lastName, String email,
-                  String pwdHash, List<Ping> pings, List<Favorite> favorites) {
-        this.name = name;
-        this.lastName = lastName;
-        this.email = email;
-        this.pwdHash = pwdHash;
-        this.pings = pings;
-        this.favorites = favorites;
-    }
-
     public Long getId() {
         return id;
     }
+
+    public void setId(Long id) { this.id = id; }
 
     public String getName() {
         return name;

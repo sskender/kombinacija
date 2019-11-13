@@ -1,5 +1,6 @@
 package hr.fer.opp.controllers;
 
+import hr.fer.opp.dto.PersonREST;
 import hr.fer.opp.dto.RegisterDTO;
 import hr.fer.opp.model.Citizen;
 import hr.fer.opp.model.Person;
@@ -23,8 +24,10 @@ public class LoginController {
     private PersonService personService;
 
     @GetMapping(value="/auth")
-    public ResponseEntity<Person> testAuthorization(@AuthenticationPrincipal User u){
-        return new ResponseEntity<>(personService.fetchByEmail(u.getUsername()), HttpStatus.OK);
+    public ResponseEntity<PersonREST> testAuthorization(@AuthenticationPrincipal User u){
+        return new ResponseEntity<>(
+                new PersonREST(personService.fetchByEmail(u.getUsername())),
+                HttpStatus.OK);
     }
 
     @PostMapping(value = "/register")

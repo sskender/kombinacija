@@ -16,6 +16,8 @@ import java.util.ArrayList;
 @Service
 public class LoginServiceImpl implements LoginService {
 
+    private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
     @Autowired
     private CitizenRepository citizenRepository;
 
@@ -36,8 +38,7 @@ public class LoginServiceImpl implements LoginService {
         Citizen c = new Citizen();
 
         c.setEmail(registerDTO.getEmail());
-        c.setPwdHash(new BCryptPasswordEncoder().encode(registerDTO.getPwd()));
-        c.setPwdHash(registerDTO.getPwd());
+        c.setPwdHash(encoder.encode(registerDTO.getPwd()));
 
         c.setName(registerDTO.getName());
         c.setLastName(registerDTO.getLastName());

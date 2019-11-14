@@ -15,12 +15,12 @@
 			\item \textbf{1. NGINX} - poslužitelj koji šalje i prima HTTPS zahtjeve, a sadrži dva \textit{Load Balancer-a} i \textit{cache} statičkih resursa (\textit{HTML, JavaScript, CSS})
 			\item \textbf{2. NGINX} - poslužitelj na kojem se nalazi \textit{front end} aplikacije
 			\item \textbf{Tomcat} - poslužitelj na kojem je pokrenuta \textit{Spring} aplikacija
-			\item \textbf{Redist} - \textit{cache} između aplikacije i baze podataka
+			\item \textbf{Redis} - \textit{cache} između aplikacije i baze podataka
 			\item \textbf{NVME Drive} - poslužitelj na kojem je pokrenuta PostgreSQL baza podataka
 		\end{packed_item}
 	
-		Klijent koristeći URL aplikacije - \url{https://kombinacija.hopgo.org} - šalje HTTPS zahtjeve aplikaciji koristeći se pritom nekim web preglednikom. Ti upiti pristižu na \textit{reverse proxy} poslužitelj NGINX koji je osiguran SSL-om, a svojim \textit{Load Balancer-ima} upravlja zahtjevima i raspoređuje ih na točne portove. Pri tome se zahtjevi oblika https://kombinacija.hopgo.org/api/... prosljeđuju na port :8080 prema \textit{Tomcat} poslužitelju, a zahtjevi oblika https://kombinacija.hopgo.org/... na port :80 prema drugom NGINX poslužitelju.
-		Java aplikacija pokrenuta na \textit{Tomcat} poslužitelju putem \textit{Redist cache-a} pristupa PostgreSQL bazi podataka na portu :5432.
+		Klijent koristeći URL aplikacije - \url{https://kombinacija.hopto.org} - šalje HTTPS zahtjeve aplikaciji koristeći se pritom nekim web preglednikom. Ti upiti pristižu na \textit{reverse proxy} poslužitelj NGINX koji je osiguran SSL-om, a svojim \textit{Load Balancer-ima} upravlja zahtjevima i raspoređuje ih na točne portove. Pri tome se zahtjevi oblika https://kombinacija.hopto.org/api/... prosljeđuju na port :8080 prema \textit{Tomcat} poslužitelju, a zahtjevi oblika https://kombinacija.hopto.org/... na port :80 prema drugom NGINX poslužitelju.
+		Java aplikacija pokrenuta na \textit{Tomcat} poslužitelju putem \textit{Redis cache-a} pristupa PostgreSQL bazi podataka na portu :5432.
 		
 		Poslužitelji \textit{Tomcat} i \textit{2. NGINX} su \textit{instance}, što znači da se u slučaju preintenzivnog korištenja aplikacije može napraviti dodatni poslužitelj sa jednakim sadržajem, a \textit{Load Balancer-i} će osigurati da se svakom daje podjednak udio zahtjeva. Zbog toga je aplikacija lako skalabilna.
 		
@@ -31,7 +31,7 @@
 		\\
 		Arhitektura sustava se temelji na konceptu MVC (\textit{Model-View-Controller}), kako bi se što jasnije i smislenije razdvojili pojedini dijelovi aplikacije te omogućio njihov istodoban i neovisan razvoj. 
 		\begin{figure}[H]
-			\includegraphics[scale=0.5]{figures/MVC.png}
+			\includegraphics[scale=0.4]{figures/MVC.png}
 			\centering
 			\caption{MVC prikaz aplikacije}
 			\label{fig:mvc}

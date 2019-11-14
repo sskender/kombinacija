@@ -1,10 +1,33 @@
 \chapter{Arhitektura i dizajn sustava}
 
-		\textbf{\textit{dio 1. revizije}}\\
+		\section{Arhitektura sustava}
+		\begin{figure}[H]
+			\includegraphics[scale=0.5]{figures/system-architecture.png}
+			\centering
+			\caption{Arhitektura sustava}
+			\label{fig:sys-arch}
+		\end{figure}
 	
+		Slika prikazuje arhitekturu svih sustava, odnosno način na koji su svi dijelovi aplikacije međusobno povezani te način na koji korisnik s njima interagira.
+		U cjelokupnom sustavu prepoznaju se sljedeći entiteti i podsustavi:
+		\begin{packed_item}
+			\item \textbf{Klijent} - putem preglednika šalje HTTPS zahtjeve aplikaciji
+			\item \textbf{1. NGINX} - poslužitelj koji šalje i prima HTTPS zahtjeve, a sadrži dva \textit{Load Balancer-a} i \textit{cache} statičkih resursa (\textit{HTML, JavaScript, CSS})
+			\item \textbf{2. NGINX} - poslužitelj na kojem se nalazi \textit{front end} aplikacije
+			\item \textbf{Tomcat} - poslužitelj na kojem je pokrenuta \textit{Spring} aplikacija
+			\item \textbf{Redist} - \textit{cache} između aplikacije i baze podataka
+			\item \textbf{NVME Drive} - poslužitelj na kojem je pokrenuta PostgreSQL baza podataka
+		\end{packed_item}
+	
+		Klijent koristeći URL aplikacije - \url{https://kombinacija.hopgo.org} - šalje HTTPS zahtjeve aplikaciji koristeći se pritom nekim web preglednikom. Ti upiti pristižu na \textit{reverse proxy} poslužitelj NGINX koji je osiguran SSL-om, a svojim \textit{Load Balancer-ima} upravlja zahtjevima i raspoređuje ih na točne portove. Pri tome se zahtjevi oblika https://kombinacija.hopgo.org/api/... prosljeđuju na port :8080 prema \textit{Tomcat} poslužitelju, a zahtjevi oblika https://kombinacija.hopgo.org/... na port :80 prema drugom NGINX poslužitelju.
+		Java aplikacija pokrenuta na \textit{Tomcat} poslužitelju putem \textit{Redist cache-a} pristupa PostgreSQL bazi podataka na portu :5432.
+		
+		Poslužitelji \textit{Tomcat} i \textit{2. NGINX} su \textit{instance}, što znači da se u slučaju preintenzivnog korištenja aplikacije može napraviti dodatni poslužitelj sa jednakim sadržajem, a \textit{Load Balancer-i} će osigurati da se svakom daje podjednak udio zahtjeva. Zbog toga je aplikacija lako skalabilna.
+		
+		\section{Arhitektura aplikacije}
 		Za izradu aplikacije na strani \textit{back end-a} odabrali smo programski jezik Java, koristeći se pritom Spring Boot radnim okvirom koji uvelike olakšava razvoj web aplikacija. Radi lakšeg uključivanja vanjskih biblioteka te radi postizanja neovisnosti o razvojnom okruženju koristimo Maven.
 		
-		Na strani \textit{front end-a} koristimo radni okvir Bootstrap, pomoću kojeg koristimo standardne jezike za dizajniranje i ponašanje web stranica na strani klijenta - HTML, CSS i JavaScript. Radi jednostavnijeg pisanja, uz \textit{vanilla JavaScript} koristimo i \textit{jQuery} biblioteku, kojom je uvelike olakšano slanje asinkronih (\textit{AJAX}) zahtjeva na web poslužitelj. \\
+		Na strani \textit{front end-a} koristimo radni okvir Bootstrap, pomoću kojeg koristimo standardne jezike za dizajniranje i ponašanje web stranica na strani klijenta - HTML, CSS i JavaScript. Radi jednostavnijeg pisanja, uz \textit{vanilla JavaScript} koristimo i \textit{jQuery} biblioteku, kojom je uvelike olakšano slanje asinkronih (\textit{AJAX}) zahtjeva na web poslužitelj.\\
 		\\
 		Arhitektura sustava se temelji na konceptu MVC (\textit{Model-View-Controller}), kako bi se što jasnije i smislenije razdvojili pojedini dijelovi aplikacije te omogućio njihov istodoban i neovisan razvoj. 
 		\begin{figure}[H]
@@ -14,15 +37,17 @@
 			\label{fig:mvc}
 		\end{figure}
 		
-		\textbf{View} označava podsustav zadužen za \textit{user-friendly} prikaz podataka korisniku. U slučaju naše aplikacije, razvija se potpuno neovisno od ostalih dijelova, te je pokrenut na zasebnom poslužitelju. Osim što prikazuje \textit{model}, \textit{view} je zadužen i za slanje zahtjeva \textit{controller-u}.\\
+		\textbf{View} označava podsustav zadužen za \textit{user-friendly} prikaz podataka korisniku. U slučaju naše aplikacije, razvija se potpuno neovisno od ostalih dijelova, te je pokrenut na zasebnom poslužitelju. Osim što prikazuje \textit{model}, \textit{view} je zadužen i za slanje zahtjeva \textit{controller-u}. 
+		
+		\textit{View} sa elementom \textit{Front end} se u potpunosti preslikava na prethodnu sliku u poslužitelj \textit{NGINX}, u kojem se također nalazi element \textit{Front end}.\\
 		\\
-		\textbf{Controller} označava podsustav koji upravlja zahtjevima pristiglim iz \textit{view-a}, dohvaća stvarne podatke iz \textit{model-a} te vrši logiku svih mogućih akcija i događaja. Središnji dio \textit{controller-a} predstavljaju servisi, koji se u samoj aplikaciji nalaze u posebnom paketu, a koji obavljaju cjelokupnu poslovnu logiku aplikacije. Kako bi to obavljali uspješno, moraju moći komunicirati sa ostalim podsustavima.
+		\textbf{Controller} označava podsustav koji upravlja zahtjevima pristiglim iz \textit{view-a}, dohvaća stvarne podatke iz \textit{model-a} te vrši logiku svih mogućih akcija i događaja. Svi dijelovi \textit{controller-a} se preslikavaju u poslužitelj \textit{Tomcat} sa prethodne slike, a njegov središnji dio predstavljaju servisi, koji se u samoj aplikaciji nalaze u posebnom paketu, a koji obavljaju cjelokupnu poslovnu logiku aplikacije. Kako bi to obavljali uspješno, moraju moći komunicirati sa ostalim podsustavima.
 		
 		Komunikacija s \textit{view-om} se izvodi putem sučelja \textit{Controllers}, koje na slici predstavlja cijeli paket u kojem je definiran API (\textit{Application Programming Interface}) putem kojeg se aplikaciji šalju zahtjevi ili se dohvaćaju podaci. API koji smo odabrali je REST (\textit{REpresentational State Transfer}) API, kako bi se omogućila lakša komunikacija sa drugim sustavima, te kako bi aplikacija bila lako proširiva (primjerice, na isti API se može spojiti i mobilna aplikacija).
 		 
-		\textit{Controller} sa modelom komunicira putem sučelja \textit{Repositories} koje također predstavlja cijeli paket kojim se iz baze podataka dohvaćaju konkretne objekte i podatke.\\
+		\textit{Controller} sa modelom komunicira putem sučelja \textit{Repositories} koje također predstavlja cijeli paket kojim se iz baze podataka dohvaćaju konkretne objekte i podatke. Upiti prema bazi se ostvaruju pomoću JQL (\textit{Java Query Language}), oslanjajući se pritom većinom na već implementirane metode uključene u Spring Framework.\\
 		\\
-		\textbf{Model} predstavlja sve strukture podataka, objekte i zapise vezane uz aplikaciju, koji su spremljeni u bazi podataka. Komunikacija s bazom je ostvarena putem JPA/JDBC specifikacije.
+		\textbf{Model} predstavlja sve strukture podataka, objekte i zapise vezane uz aplikaciju, koji su spremljeni u bazi podataka. Komunikacija s bazom je ostvarena putem JPA/JDBC specifikacije. Osim JPA, koji se također nalazi na poslužitelju \textit{Tomcat}, \textit{model} se preslikava u disk \textit{NVME Drive} na kojem je pokrenut PostgreSQL server. 
 
 	
 		\section{Baza podataka}
@@ -48,6 +73,8 @@
 
 
 			\subsection{Definicije tablica}
+			
+				U narednim definicijama \textbf{podebljani atributi} označavaju primarne ključeve, a \textit{kurziv} strane ključeve.
 				\begin{longtabu} to \textwidth {|X[6, l]|X[6, l]|X[20, l]|}
 					
 					\hline \multicolumn{3}{|c|}{\textbf{Person}}	 \\[3pt] \hline
@@ -56,11 +83,11 @@
 					\hline \multicolumn{3}{|c|}{\textbf{Person}}	 \\[3pt] \hline
 					\endhead
 					
-					\cellcolor{LightGreen} id & BIGINT	&   Identifikator osobe; svaka osoba ima svoj jedinstveni ID	\\ \hline
+					\textit{\textbf{id}} & BIGINT	&   Identifikator osobe; svaka osoba ima svoj jedinstveni ID	\\ \hline
 					name	& VARCHAR &   Ime osobe, ne smije biti NULL	\\ \hline 
 					last\textunderscore name & VARCHAR & Prezime osobe, ne smije biti NULL \\ \hline
 					email & VARCHAR &  E-mail osobe, koristi se pri prijavi korisnika u sustav, ne smije biti NULL i jedinstvena je vrijednost \\ \hline 
-					pwd\textunderscore hash & VARCHAR	&  Sažetak lozinke koju je osoba odabrala \\ 
+					pwd\textunderscore hash & VARCHAR	&  Sažetak lozinke koju je osoba odabrala, ne smije biti NULL \\ 
 					\hline
 					
 					\caption{\label{tab:tbl-person} Tablica \textit{Person}}
@@ -75,7 +102,7 @@
 					\hline \multicolumn{3}{|c|}{\textbf{Admin}}	 \\[3pt] \hline
 					\endhead
 					
-					\cellcolor{LightBlue}id & BIGINT	&   Jedini atribut tablice - strani ključ koji pokazuje na tablicu Person.	\\ \hline
+					\textit{\textbf{id}} & BIGINT	&   Jedini atribut tablice - strani ključ koji pokazuje na tablicu Person.	\\ \hline
 					
 					\caption{\label{tab:tbl-admin} Tablica \textit{Admin}}
 					
@@ -89,8 +116,8 @@
 					\hline \multicolumn{3}{|c|}{\textbf{Citizen}}	 \\[3pt] \hline
 					\endhead
 					
-					\cellcolor{LightBlue}id & BIGINT	&   Strani ključ koji pokazuje na tablicu Person.	\\ \hline
-					reputation & INT & Atribut koji označava reputaciju korisnika; služi za procjenu vjerodostojnosti njegove prijave. \\ \hline
+					\textit{\textbf{id}} & BIGINT	&   Strani ključ koji pokazuje na tablicu Person.	\\ \hline
+					reputation & INT & Atribut koji označava reputaciju korisnika; služi za procjenu vjerodostojnosti njegove prijave; ne smije biti NULL \\ \hline
 					 
 					\caption{\label{tab:tbl-citizen} Tablica \textit{Citizen}}
 				\end{longtabu}
@@ -103,9 +130,9 @@
 					\hline \multicolumn{3}{|c|}{\textbf{Employee}}	 \\[3pt] \hline
 					\endhead
 					
-					\cellcolor{LightBlue}id & BIGINT	&   Strani ključ koji pokazuje na tablicu Person.	\\ \hline
-					oib & VARCHAR(11) & OIB komunalnog radnika. \\ \hline
-					\cellcolor{LightBlue} neighborhood\textunderscore id & BIGINT & Strani ključ koji pokazuje na tablicu Neighborhood. Određuje kojem kvartu pripada radnik. \\ \hline
+					\textit{\textbf{id}} & BIGINT	&   Strani ključ koji pokazuje na tablicu Person.	\\ \hline
+					oib & VARCHAR(11) & OIB komunalnog radnika; ne smije biti NULL i mora biti jedinstvena vrijednost \\ \hline
+					\textit{neighborhood\textunderscore id} & BIGINT & Strani ključ koji pokazuje na tablicu Neighborhood. Određuje kojem kvartu pripada radnik. \\ \hline
 					
 					\caption{\label{tab:tbl-employee} Tablica \textit{Employee}}
 					
@@ -119,11 +146,12 @@
 					\hline \multicolumn{3}{|c|}{\textbf{Container}}	 \\[3pt] \hline
 					\endhead
 					
-					\cellcolor{LightGreen}id & BIGINT	&   Identifikator kontejnera; svaki kontejner ima svoj jedinstveni ID	\\ \hline
-					latitude & DOUBLE & Geografska širina lokacije kontejnera \\ \hline
-					longitude & DOUBLE & Geografska dužina lokacije kontejnera \\ \hline
-					pings\textunderscore since\textunderscore emptied & INT & Broj prijava kontejnera od njegovog zadnjeg pražnjenja \\ \hline
-					\cellcolor{LightBlue} neighborhood\textunderscore id & BIGINT & Strani ključ koji pokazuje na tablicu Neighborhood. Određuje u kojem se kvartu nalazi kontejner. \\ \hline
+					\textbf{id} & BIGINT	&   Identifikator kontejnera; svaki kontejner ima svoj jedinstveni ID	\\ \hline
+					latitude & DOUBLE & Geografska širina lokacije kontejnera; ne smije biti NULL. \\ \hline
+					longitude & DOUBLE & Geografska dužina lokacije kontejnera; ne smije biti NULL.  \\ \hline
+					route\textunderscore status & INT & Označava je li kontejner trenutno u ruti nekog radnika; ne smije biti NULL. \\ \hline
+					pings\textunderscore since\textunderscore emptied & INT & Broj prijava kontejnera od njegovog zadnjeg pražnjenja; ne smije biti NULL. \\ \hline
+					\textit{neighborhood\textunderscore id} & BIGINT & Strani ključ koji pokazuje na tablicu Neighborhood. Određuje u kojem se kvartu nalazi kontejner. \\ \hline
 					
 					\caption{\label{tab:tbl-container} Tablica \textit{Container}}
 					
@@ -137,10 +165,10 @@
 				\hline \multicolumn{3}{|c|}{\textbf{Neighborhood}}	 \\[3pt] \hline
 				\endhead
 				
-				\cellcolor{LightGreen}id & BIGINT	&   Identifikator susjedstva; svako susjedstvo (kvart) ima svoj jedinstveni ID	\\ \hline
-				latitude & DOUBLE & Geografska širina lokacije komunalnog središta u susjedstvu \\ \hline
-				longitude & DOUBLE & Geografska dužina lokacije komunalnog središta u susjedstvu \\ \hline
-				name & VARCHAR & Ime susjedstva \\ \hline
+				\textbf{id} & BIGINT	&   Identifikator susjedstva; svako susjedstvo (kvart) ima svoj jedinstveni ID	\\ \hline
+				latitude & DOUBLE & Geografska širina lokacije komunalnog središta u susjedstvu; ne smije biti NULL. \\ \hline
+				longitude & DOUBLE & Geografska dužina lokacije komunalnog središta u susjedstvu; ne smije biti NULL. \\ \hline
+				name & VARCHAR & Ime susjedstva; ne smije biti NULL. \\ \hline
 				
 				\caption{\label{tab:tbl-neighborhood} Tablica \textit{Neighborhood}}
 				
@@ -154,9 +182,9 @@
 				\hline \multicolumn{3}{|c|}{\textbf{Favorites}}	 \\[3pt] \hline
 				\endhead
 				
-				\cellcolor{LightGreen}id & BIGINT	&   Identifikator oznake favorita; svako označavanje ima svoj jedinstveni ID. \\ \hline
-				\cellcolor{LightBlue} container\textunderscore id & BIGINT & Strani ključ koji pokazuje na relaciju Container \\ \hline
-				\cellcolor{LightBlue} owner\textunderscore id & BIGINT & Strani ključ koji pokazuje na relaciju Person  \\ \hline
+				\textbf{id} & BIGINT &   Identifikator oznake favorita; svako označavanje ima svoj jedinstveni ID. \\ \hline
+				\textit{container\textunderscore id} & BIGINT & Strani ključ koji pokazuje na relaciju Container \\ \hline
+				\textit{owner\textunderscore id} & BIGINT & Strani ključ koji pokazuje na relaciju Person  \\ \hline
 				
 				\caption{\label{tab:tbl-favorites} Tablica \textit{Favorites}}
 				
@@ -170,12 +198,12 @@
 				\hline \multicolumn{3}{|c|}{\textbf{Pings}}	 \\[3pt] \hline
 				\endhead
 				
-				\cellcolor{LightGreen}id & BIGINT	&   Identifikator prijave; svako označavanje ima svoj jedinstveni ID. \\ \hline
-				level & INT & Level koji označava vrstu prijave: 0 je prijava praznog, 1 prijava punog i 2 prijava pretrpanog kontejnera \\ \hline
-				timestamp & BIGINT & Vremenska oznaka trenutka u kojem se dogodila prijava kontejnera \\ \hline
+				\textbf{id} & BIGINT	&   Identifikator prijave; svako označavanje ima svoj jedinstveni ID. \\ \hline
+				ping\textunderscore level & INT & Level koji označava vrstu prijave: 0 je prijava praznog, 1 prijava punog i 2 prijava pretrpanog kontejnera; ne smije biti NULL \\ \hline
+				timestamp & BIGINT & Vremenska oznaka trenutka u kojem se dogodila prijava kontejnera; ne smije biti NULL \\ \hline
 				photo\textunderscore path & VARCHAR & Mjesto na disku na kojem se nalazi fotografija koju je priložio korisnik \\ \hline
-				\cellcolor{LightBlue} container\textunderscore id & BIGINT & Strani ključ koji pokazuje na relaciju Container \\ \hline
-				\cellcolor{LightBlue} owner\textunderscore id & BIGINT & Strani ključ koji pokazuje na relaciju Person  \\ \hline
+				\textit{container\textunderscore id} & BIGINT & Strani ključ koji pokazuje na relaciju Container \\ \hline
+				\textit{owner\textunderscore id} & BIGINT & Strani ključ koji pokazuje na relaciju Person  \\ \hline
 				
 				\caption{\label{tab:tbl-ping} Tablica \textit{Ping}}
 				
@@ -189,10 +217,10 @@
 				\hline \multicolumn{3}{|c|}{\textbf{Emptyings}}	 \\[3pt] \hline
 				\endhead
 				
-				\cellcolor{LightGreen}id & BIGINT	&   Identifikator prijave; svako označavanje ima svoj jedinstveni ID. \\ \hline
-				timestamp & BIGINT & Vremenska oznaka trenutka u kojem se dogodila prijava kontejnera \\ \hline
-				\cellcolor{LightBlue} container\textunderscore id & BIGINT & Strani ključ koji pokazuje na relaciju Container \\ \hline
-				\cellcolor{LightBlue} worker\textunderscore id & BIGINT & Strani ključ koji pokazuje na relaciju Employee  \\ \hline
+				\textbf{id} & BIGINT	&   Identifikator prijave; svako označavanje ima svoj jedinstveni ID. \\ \hline
+				timestamp & BIGINT & Vremenska oznaka trenutka u kojem se dogodila prijava kontejnera; ne smije biti NULL \\ \hline
+				\textit{container\textunderscore id} & BIGINT & Strani ključ koji pokazuje na relaciju Container \\ \hline
+				\textit{worker\textunderscore id} & BIGINT & Strani ključ koji pokazuje na relaciju Employee  \\ \hline
 				
 				\caption{\label{tab:tbl-emptying} Tablica \textit{Emptying}}
 				

@@ -27,23 +27,23 @@
                     <form method="POST" onsubmit="event.preventDefault(); handleSubmit();" class="register-form" id="register-form">
                         <div class="form-group">
                             <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                            <input type="text" name="name" id="name" placeholder="Tvoje Ime"/>
+                            <input type="text" name="name" id="name" placeholder="Tvoje Ime" required />
                         </div>
 						<div class="form-group">
                             <label for="lastname"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                            <input type="text" name="lastname" id="lastname" placeholder="Tvoje Prezime"/>
+                            <input type="text" name="lastname" id="lastname" placeholder="Tvoje Prezime" required />
                         </div>
                         <div class="form-group">
                             <label for="email"><i class="zmdi zmdi-email"></i></label>
-                            <input type="email" name="email" id="email" placeholder="Tvoj Email"/>
+                            <input type="email" name="email" id="email" placeholder="Tvoj Email" required />
                         </div>
                         <div class="form-group">
                             <label for="pass"><i class="zmdi zmdi-lock"></i></label>
-                            <input type="password" name="pass" id="pass" placeholder="Lozinka"/>
+                            <input type="password" name="pass" id="pass" placeholder="Lozinka" required />
                         </div>
                         <div class="form-group">
                             <label for="re_pass"><i class="zmdi zmdi-lock-outline"></i></label>
-                            <input type="password" name="re_pass" id="re_pass" placeholder="Ponovite Lozinku"/>
+                            <input type="password" name="re_pass" id="re_pass" placeholder="Ponovite Lozinku" required />
                         </div>
                         <div class="form-group">
                             <input type="checkbox" name="agree-term" id="agree-term" class="agree-term"/>
@@ -70,28 +70,44 @@
 <script src="js/main.js"></script>
 <script>
 	function handleSubmit() {
+		
+		var checked = document.getElementById("agree-term").checked;
+		if(!checked){
+			alert("Morate se složiti sa uvjetima korištenja kako biste se registrirali.");
+			return;
+		} 
+		if(document.getElementById("pass").value != document.getElementById("re_pass").value) {
+			alert("Lozinke se ne podudaraju.");
+			return;
+		}
 
 		var regDTO = {
 			name: document.getElementById("name").value,
 			lastName: document.getElementById("lastname").value,
 			email: document.getElementById("email").value,
 			pwd: document.getElementById("pass").value
-		}
+		};
 		
 		$.ajax({
-			url: "http://localhost:8080/register",
+			url: "http://192.168.43.170:8080/register",
 			crossDomain: true,
 			type: "POST",
 			dataType: "json",
 			contentType: "application/json;charset=utf-8",
 			data: JSON.stringify(regDTO),
-			success: function() {
-				var tkn = btoa(regDTO.email+":"+regDTO.pwd);
-				window.localStorage.setItem('bauth', tkn);
-				alert("Registration successful!");
+			success: function(userJSON) {
+				window.localStorage.setItem('basic-auth', btoa(regDTO.email+":"+regDTO.pwd));
+				window.localStorage.setItem('person-name', userJSON.name);
+				window.localStorage.setItem('person-id', userJSON.id);
+				window.localStorage.setItem('username', userJSON.email);
+				alert("Registracija uspješna!");
 				window.location.replace("index.html");
+			},
+			error: function(jqXHR, textStatus, errorThrown){
+				alert("Greška prilikom registracije - "+errorThrown);
+				document.getElementById("pass").value = "";
 			}
-		})
+		});
 	}
 </script>
 

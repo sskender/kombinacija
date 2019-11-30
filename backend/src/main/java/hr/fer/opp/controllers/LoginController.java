@@ -3,7 +3,6 @@ package hr.fer.opp.controllers;
 import hr.fer.opp.dto.PersonREST;
 import hr.fer.opp.dto.RegisterDTO;
 import hr.fer.opp.model.Citizen;
-import hr.fer.opp.model.Person;
 import hr.fer.opp.services.LoginService;
 import hr.fer.opp.services.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -23,8 +21,8 @@ public class LoginController {
     @Autowired
     private PersonService personService;
 
-    @GetMapping(value="/auth")
-    public ResponseEntity<PersonREST> testAuthorization(@AuthenticationPrincipal User u){
+    @GetMapping(value = "/auth")
+    public ResponseEntity<PersonREST> testAuthorization(@AuthenticationPrincipal User u) {
         return new ResponseEntity<>(
                 new PersonREST(personService.fetchByEmail(u.getUsername())),
                 HttpStatus.OK);

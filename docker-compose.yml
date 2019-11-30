@@ -9,6 +9,7 @@ services:
       context: ./database
       dockerfile: Dockerfile
     env_file:
+      - database/kombinacija.env
       - database/postgres.env
     networks:
       - backend-net

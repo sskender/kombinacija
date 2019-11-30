@@ -45,12 +45,10 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - database
-    #deploy:
     environment:
       - DB_SERVER=database
-      - DB_NAME=kombinacijadb
-      - DB_USER=kombinacijauser
-      - DB_PASS=kombinacijapassword
+    env_file:
+      - database/kombinacija.env
     ports:
       - "8080:8080"
     networks:

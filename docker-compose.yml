@@ -61,23 +61,10 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    networks:
-      - proxy-web
-    restart: always
-
-  proxy:
-    container_name: proxy
-    build:
-      context: ./proxy
-      dockerfile: Dockerfile
     depends_on:
       - app
-      - pgadmin
-      - web
     networks:
       - proxy-app
-      - proxy-pgadmin
-      - proxy-web
     ports:
       - "80:80"
     restart: always
@@ -88,7 +75,6 @@ networks:
   pgadmin-net:
   proxy-app:
   proxy-pgadmin:
-  proxy-web:
 
 
 volumes:

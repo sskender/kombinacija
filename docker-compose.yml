@@ -23,12 +23,11 @@ services:
     depends_on:
       - database
     environment:
-      - PGADMIN_DEFAULT_EMAIL=postgres@example.com
-      - PGADMIN_DEFAULT_PASSWORD=strongpassword
+      - PGADMIN_DEFAULT_EMAIL=postgres@kombinacija.hopto.org
+      - PGADMIN_DEFAULT_PASSWORD=verymuchstrongpassword
     image: dpage/pgadmin4
     networks:
       - pgadmin-net
-      - proxy-pgadmin
     ports:
       - "5000:80"
     restart: always
@@ -49,8 +48,6 @@ services:
       - DB_SERVER=database
     env_file:
       - database/kombinacija.env
-    ports:
-      - "8080:8080"
     networks:
       - backend-net
       - proxy-app
@@ -65,7 +62,6 @@ services:
       - app
     networks:
       - proxy-app
-      - proxy-pgadmin
     ports:
       - "80:80"
     restart: always
@@ -75,7 +71,6 @@ networks:
   backend-net:
   pgadmin-net:
   proxy-app:
-  proxy-pgadmin:
 
 
 volumes:

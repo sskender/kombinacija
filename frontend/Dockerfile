@@ -11,6 +11,6 @@ RUN mkdir -p /kombinacija/html
 COPY public /kombinacija/html
 
 # replace production url
-RUN sed --in-place -E "s/localhost/$DOMAIN_NAME/g" /kombinacija/html/js/server.api.js
+RUN sed --in-place -E "s/localhost\:8080/$DOMAIN_NAME\/api\/v1/g" /kombinacija/html/js/server.api.js
 
 EXPOSE 80

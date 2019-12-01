@@ -57,17 +57,18 @@
 <!-- JS -->
 <script src="vendor/jquery/jquery.js"></script>
 <script src="js/main.js"></script>
+<script src="js/server.api.js"></script>
 <script>
 	function handleSubmit() {
 
 		var email = document.getElementById("email").value;
-		var pwd = document.getElementById("pass").value;
-		
+        var pwd = document.getElementById("pass").value;
+
 		$.ajax({
 			headers: {
 				"Authorization": "Basic " + btoa(email + ":" + pwd)
 			},
-			url: "http://localhost:8080/auth",
+            url: SERVER_URL + "/auth",
 			crossDomain: true,
 			type: "GET",
 			success: function(userJSON) {

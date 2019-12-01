@@ -68,14 +68,15 @@
 <!-- JS -->
 <script src="vendor/jquery/jquery.js"></script>
 <script src="js/main.js"></script>
+<script src="js/server.api.js"></script>
 <script>
 	function handleSubmit() {
-		
+
 		var checked = document.getElementById("agree-term").checked;
 		if(!checked){
 			alert("Morate se složiti sa uvjetima korištenja kako biste se registrirali.");
 			return;
-		} 
+		}
 		if(document.getElementById("pass").value != document.getElementById("re_pass").value) {
 			alert("Lozinke se ne podudaraju.");
 			return;
@@ -86,10 +87,10 @@
 			lastName: document.getElementById("lastname").value,
 			email: document.getElementById("email").value,
 			pwd: document.getElementById("pass").value
-		};
-		
+        };
+
 		$.ajax({
-			url: "http://localhost:8080/register",
+			url: SERVER_URL + "/register",
 			crossDomain: true,
 			type: "POST",
 			dataType: "json",

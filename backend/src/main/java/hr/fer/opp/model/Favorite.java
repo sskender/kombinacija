@@ -2,6 +2,7 @@ package hr.fer.opp.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Objects;
 
 @Entity
 @Table(name = "favorites")
@@ -10,8 +11,10 @@ public class Favorite implements Serializable {
     @Id
     @GeneratedValue
     private Long id;
+
     @ManyToOne
     private Citizen owner;
+
     @ManyToOne
     private Container container;
 
@@ -41,25 +44,16 @@ public class Favorite implements Serializable {
     }
 
     @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
-        return result;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Favorite)) return false;
+        Favorite favorite = (Favorite) o;
+        return getId().equals(favorite.getId());
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Favorite other = (Favorite) obj;
-        if (id == null) {
-            return other.id == null;
-        } else return id.equals(other.id);
+    public int hashCode() {
+        return Objects.hash(getId());
     }
 
     @Override

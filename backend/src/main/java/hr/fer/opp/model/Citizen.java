@@ -9,21 +9,20 @@ import java.io.Serializable;
 @Table(name = "citizens")
 public class Citizen extends Person implements Serializable {
 
+    @Column(nullable = false)
+    private Integer reputation;
 
-	@Column(nullable = false)
-	private Integer reputation;
+    public Citizen() {
+        super();
+    }
 
-	public Citizen() {
-		super();
-	}
+    public Integer getReputation() {
+        return reputation;
+    }
 
-	public Integer getReputation() {
-		return reputation;
-	}
-
-	public void setReputation(Integer reputation) {
-		this.reputation = reputation;
-	}
+    public void setReputation(Integer reputation) {
+        this.reputation = reputation;
+    }
 
 	@Override
 	public String toString() {

@@ -1,8 +1,11 @@
 package hr.fer.opp.model;
 
+import hr.fer.opp.model.enums.PingLevel;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.Objects;
 
 @Entity
 @Table(name = "pings")
@@ -11,15 +14,20 @@ public class Ping implements Serializable {
 	@Id
 	@GeneratedValue
 	private Long id;
+
 	@NotNull
 	@Enumerated(EnumType.ORDINAL)
 	private PingLevel level;
+
 	@Column(nullable = false)
 	private long timestamp;
+
 	@Column
 	private String photoPath;
+
 	@ManyToOne
 	private Person creator;
+
 	@ManyToOne
 	private Container container;
 
@@ -73,25 +81,16 @@ public class Ping implements Serializable {
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof Ping)) return false;
+		Ping ping = (Ping) o;
+		return getId().equals(ping.getId());
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Ping other = (Ping) obj;
-		if (id == null) {
-			return other.id == null;
-		} else return id.equals(other.id);
+	public int hashCode() {
+		return Objects.hash(getId());
 	}
 
 	@Override
@@ -105,4 +104,5 @@ public class Ping implements Serializable {
 				", container=" + container +
 				'}';
 	}
+
 }

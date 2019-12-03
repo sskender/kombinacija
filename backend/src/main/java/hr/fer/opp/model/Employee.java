@@ -14,8 +14,10 @@ public class Employee extends Person implements Serializable {
 	@NotNull
 	@Size(min = 11, max = 11)
 	private String OIB;
+
 	@ManyToOne
 	private Neighborhood neighborhood;
+
 	@OneToMany(mappedBy = "worker")
 	private List<Emptying> emptyings;
 

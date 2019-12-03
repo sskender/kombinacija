@@ -11,10 +11,13 @@ public class Emptying implements Serializable {
     @Id
     @GeneratedValue
     private Long id;
+
     @Column(nullable = false)
     private long timestamp;
+
     @ManyToOne
     private Employee worker;
+
     @ManyToOne
     private Container container;
 
@@ -73,4 +76,5 @@ public class Emptying implements Serializable {
                 ", container=" + container +
                 '}';
     }
+
 }

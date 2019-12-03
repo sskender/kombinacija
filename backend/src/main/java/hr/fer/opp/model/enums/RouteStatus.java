@@ -1,4 +1,4 @@
-package hr.fer.opp.model;
+package hr.fer.opp.model.enums;
 
 public enum RouteStatus {
     PENDING,

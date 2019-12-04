@@ -13,7 +13,7 @@ public class Favorite implements Serializable {
     private Long id;
 
     @ManyToOne
-    private Citizen owner;
+    private Person owner;
 
     @ManyToOne
     private Container container;
@@ -27,11 +27,11 @@ public class Favorite implements Serializable {
         return id;
     }
 
-    public Citizen getOwner() {
+    public Person getOwner() {
         return owner;
     }
 
-    public void setOwner(Citizen owner) {
+    public void setOwner(Person owner) {
         this.owner = owner;
     }
 

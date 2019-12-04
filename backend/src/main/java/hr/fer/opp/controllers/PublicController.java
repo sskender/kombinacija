@@ -35,6 +35,7 @@ public class PublicController {
 
     @GetMapping(value = "/trash/{id}/history")
     public String trashHistory(@PathVariable("id") Long id) {
+        // TODO
         return "Fetching emptying history for container " + id.toString();
     }
 
@@ -43,6 +44,7 @@ public class PublicController {
             @RequestParam("lat") Long latitude,
             @RequestParam("lon") Long longitude,
             @AuthenticationPrincipal User u) {
+        // TODO
         return "Fetching list of containers and list of permitted actions when user is: " + u.getUsername();
     }
 

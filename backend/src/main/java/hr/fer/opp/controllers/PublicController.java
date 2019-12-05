@@ -1,7 +1,7 @@
 package hr.fer.opp.controllers;
 
-import hr.fer.opp.dto.PersonREST;
-import hr.fer.opp.dto.RegisterDTO;
+import hr.fer.opp.dto.response.PersonREST;
+import hr.fer.opp.dto.request.RegisterDTO;
 import hr.fer.opp.model.Citizen;
 import hr.fer.opp.services.PersonService;
 import hr.fer.opp.services.PublicService;

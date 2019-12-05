@@ -1,8 +1,8 @@
 package hr.fer.opp.services;
 
-import hr.fer.opp.dto.AddContainerDTO;
-import hr.fer.opp.dto.AddNeighborhoodDTO;
-import hr.fer.opp.dto.RegisterEmployeeDTO;
+import hr.fer.opp.dto.request.AddContainerDTO;
+import hr.fer.opp.dto.request.AddNeighborhoodDTO;
+import hr.fer.opp.dto.request.RegisterEmployeeDTO;
 import hr.fer.opp.model.Container;
 import hr.fer.opp.model.Employee;
 import hr.fer.opp.model.Neighborhood;

@@ -2,7 +2,7 @@ package hr.fer.opp.services.impl;
 
 import hr.fer.opp.dao.CitizenRepository;
 import hr.fer.opp.dao.PersonRepository;
-import hr.fer.opp.dto.RegisterDTO;
+import hr.fer.opp.dto.request.RegisterDTO;
 import hr.fer.opp.exceptions.RequestDeniedException;
 import hr.fer.opp.model.Citizen;
 import hr.fer.opp.services.PublicService;

@@ -7,5 +7,4 @@ import org.springframework.stereotype.Service;
 public class CitizenServiceImpl implements CitizenService {
 
 
-
 }

@@ -1,6 +1,7 @@
 package hr.fer.opp.controllers;
 
 import hr.fer.opp.dto.response.PersonREST;
+import hr.fer.opp.services.CitizenService;
 import hr.fer.opp.services.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,10 +18,13 @@ public class CitizenController {
     @Autowired
     private PersonService personService;
 
+    @Autowired
+    private CitizenService citizenService;
+
     @GetMapping(value = "/auth")
     public ResponseEntity<PersonREST> testAuthorization(@AuthenticationPrincipal UserDetails userDetails) {
         return new ResponseEntity<>(
-                new PersonREST(personService.fetchByEmail(userDetails.getUsername())),
+                new PersonREST(personService.fetchByEmail(userDetails)),
                 HttpStatus.OK);
     }
 

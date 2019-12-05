@@ -1,8 +1,13 @@
 package hr.fer.opp.services;
 
 import hr.fer.opp.model.Person;
+import org.springframework.security.core.userdetails.UserDetails;
 
 public interface PersonService {
+
+    default Person fetchByEmail(UserDetails userDetails) {
+        return fetchByEmail(userDetails.getUsername());
+    }
 
     Person fetchByEmail(String email);
 

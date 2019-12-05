@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
-    public boolean confirmEmptyContainer(Long containerId) {
+    public boolean confirmContainerEmptied(Long containerId) {
         return false;
     }
 

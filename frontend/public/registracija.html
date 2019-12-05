@@ -13,6 +13,8 @@
 
     <!-- Main css -->
     <link rel="stylesheet" href="css/style.css">
+    <script src="js/server.api.js"></script>
+    <script src="js/auth.js"></script>
 </head>
 <body>
 
@@ -24,7 +26,7 @@
             <div class="signup-content">
                 <div class="signup-form">
                     <h2 class="form-title">Registriraj se!</h2>
-                    <form method="POST" onsubmit="event.preventDefault(); handleSubmit();" class="register-form" id="register-form">
+                    <form method="POST" onsubmit="event.preventDefault(); doRegister();" class="register-form" id="register-form">
                         <div class="form-group">
                             <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
                             <input type="text" name="name" id="name" placeholder="Tvoje Ime" required />
@@ -68,49 +70,7 @@
 <!-- JS -->
 <script src="vendor/jquery/jquery.js"></script>
 <script src="js/main.js"></script>
-<script src="js/server.api.js"></script>
-<script>
-	function handleSubmit() {
 
-		var checked = document.getElementById("agree-term").checked;
-		if(!checked){
-			alert("Morate se složiti sa uvjetima korištenja kako biste se registrirali.");
-			return;
-		}
-		if(document.getElementById("pass").value != document.getElementById("re_pass").value) {
-			alert("Lozinke se ne podudaraju.");
-			return;
-		}
-
-		var regDTO = {
-			name: document.getElementById("name").value,
-			lastName: document.getElementById("lastname").value,
-			email: document.getElementById("email").value,
-			pwd: document.getElementById("pass").value
-        };
-
-		$.ajax({
-			url: SERVER_URL + "/register",
-			crossDomain: true,
-			type: "POST",
-			dataType: "json",
-			contentType: "application/json;charset=utf-8",
-			data: JSON.stringify(regDTO),
-			success: function(userJSON) {
-				window.localStorage.setItem('basic-auth', btoa(regDTO.email+":"+regDTO.pwd));
-				window.localStorage.setItem('person-name', userJSON.name);
-				window.localStorage.setItem('person-id', userJSON.id);
-				window.localStorage.setItem('username', userJSON.email);
-				alert("Registracija uspješna!");
-				window.location.replace("index.html");
-			},
-			error: function(jqXHR, textStatus, errorThrown){
-				alert("Greška prilikom registracije - "+errorThrown);
-				document.getElementById("pass").value = "";
-			}
-		});
-	}
-</script>
 
 </body>
 </html>

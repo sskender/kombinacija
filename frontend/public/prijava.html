@@ -13,12 +13,12 @@
 
     <!-- Main css -->
     <link rel="stylesheet" href="css/style.css">
-	<script>
-		if(window.localStorage.getItem("basic-auth")) {
-			alert("Već ste prijavljeni u sustav kao "+window.localStorage.getItem("username"));
-			window.location.replace("index.html");
-		}
-	</script>
+    <script src="js/auth.js"></script>
+    <script src="js/designer.js"></script>
+    <script src="js/server.api.js"></script>
+  	<script>
+  		rejectLogin();
+  	</script>
 
 </head>
 <body>
@@ -34,7 +34,7 @@
 
                 <div class="signin-form">
                     <h2 class="form-title">Prijavi se!</h2>
-					<form method="POST" onsubmit="event.preventDefault(); handleSubmit();" class="login-form" id="login-form">
+					          <form method="POST" onsubmit="event.preventDefault(); doLogin();" class="login-form" id="login-form">
                        <div class="form-group">
                             <label for="email"><i class="zmdi zmdi-email"></i></label>
                             <input type="email" name="email" id="email" placeholder="Tvoj Email" required />
@@ -57,35 +57,5 @@
 <!-- JS -->
 <script src="vendor/jquery/jquery.js"></script>
 <script src="js/main.js"></script>
-<script src="js/server.api.js"></script>
-<script>
-	function handleSubmit() {
-
-		var email = document.getElementById("email").value;
-        var pwd = document.getElementById("pass").value;
-
-		$.ajax({
-			headers: {
-				"Authorization": "Basic " + btoa(email + ":" + pwd)
-			},
-            url: SERVER_URL + "/auth",
-			crossDomain: true,
-			type: "GET",
-			success: function(userJSON) {
-				window.localStorage.setItem('basic-auth', btoa(email+":"+pwd));
-				window.localStorage.setItem('person-name', userJSON.name);
-				window.localStorage.setItem('person-id', userJSON.id);
-				window.localStorage.setItem('username', userJSON.email);
-				alert("Prijava uspješna!");
-				window.location.replace("index.html");
-			},
-			error: function(jqXHR, textStatus, errorThrown){
-				alert("Greška prilikom prijave - "+errorThrown);
-				document.getElementById("pass").value = "";
-			}
-		});
-	}
-</script>
-
 </body>
 </html>

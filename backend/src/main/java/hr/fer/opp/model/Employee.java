@@ -11,7 +11,6 @@ import java.util.List;
 public class Employee extends Person implements Serializable {
 
 	@Column(nullable = false, unique = true)
-	@NotNull
 	@Size(min = 11, max = 11)
 	private String OIB;
 

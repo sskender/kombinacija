@@ -1,15 +1,11 @@
 package hr.fer.opp.controllers;
 
-import hr.fer.opp.dto.response.PersonREST;
 import hr.fer.opp.services.CitizenService;
 import hr.fer.opp.services.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-
 
 @RestController
 @CrossOrigin
@@ -20,13 +16,6 @@ public class CitizenController {
 
     @Autowired
     private CitizenService citizenService;
-
-    @GetMapping(value = "/auth")
-    public ResponseEntity<PersonREST> testAuthorization(@AuthenticationPrincipal UserDetails userDetails) {
-        return new ResponseEntity<>(
-                new PersonREST(personService.fetchByEmail(userDetails)),
-                HttpStatus.OK);
-    }
 
     @PostMapping(value = "/ping/{id}/f")
     public String pingFull(@PathVariable("id") Long id) {

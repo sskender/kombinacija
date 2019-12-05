@@ -19,7 +19,7 @@ import java.util.List;
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
-    PersonService personService;
+    private PersonService personService;
 
     @Override
     @Transactional(readOnly = true)
@@ -43,4 +43,5 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
         return new ArrayList<>();
     }
+
 }

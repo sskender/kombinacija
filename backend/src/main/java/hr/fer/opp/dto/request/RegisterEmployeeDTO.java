@@ -1,19 +1,24 @@
-package hr.fer.opp.dto;
+package hr.fer.opp.dto.request;
 
-public class RegisterDTO {
+import hr.fer.opp.model.Neighborhood;
+
+public class RegisterEmployeeDTO {
     private String name;
     private String lastName;
     private String email;
     private String pwd;
+    private Neighborhood neighborhood;
 
-    public RegisterDTO() {
+    public RegisterEmployeeDTO() {
     }
 
-    public RegisterDTO(String name, String lastName, String email, String pwd) {
+    public RegisterEmployeeDTO(String name, String lastName, String email, String pwd, Neighborhood neighborhood) {
+        super();
         this.name = name;
         this.lastName = lastName;
         this.email = email;
         this.pwd = pwd;
+        this.neighborhood = neighborhood;
     }
 
     public String getName() {
@@ -47,4 +52,13 @@ public class RegisterDTO {
     public void setPwd(String pwd) {
         this.pwd = pwd;
     }
+
+    public Neighborhood getNeighborhood() {
+        return neighborhood;
+    }
+
+    public void setNeighborhood(Neighborhood neighborhood) {
+        this.neighborhood = neighborhood;
+    }
+
 }

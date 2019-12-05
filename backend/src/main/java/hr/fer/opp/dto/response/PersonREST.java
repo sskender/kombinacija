@@ -1,8 +1,6 @@
-package hr.fer.opp.dto;
+package hr.fer.opp.dto.response;
 
 import hr.fer.opp.model.Person;
-
-import java.util.List;
 
 public class PersonREST {
 
@@ -11,7 +9,7 @@ public class PersonREST {
     private String lastName;
     private String email;
 
-    public PersonREST(Person person){
+    public PersonREST(Person person) {
         this.id = person.getId();
         this.name = person.getName();
         this.lastName = person.getLastName();

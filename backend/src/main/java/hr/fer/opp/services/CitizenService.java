@@ -1,16 +1,25 @@
 package hr.fer.opp.services;
 
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
+import hr.fer.opp.model.Favorite;
+import hr.fer.opp.model.Ping;
+
+import java.util.List;
 
 public interface CitizenService {
 
-    // add favorite container
-    String testPingGet(Long containerId);
-    String testPingPost(Long containerId);
+    Favorite addToFavorites(Long containerId);
 
-    // remove favorite container
+    boolean removeFromFavorites(Long containerId);
 
-    // ping container
+    Favorite getFavoriteById(Long favoriteId);
+
+    List<Favorite> getFavoriteContainers();
+
+
+    Ping pingEmpty(Long containerId);
+
+    Ping pingFull(Long containerId);
+
+    Ping pingUrgent(Long containerId);
 
 }

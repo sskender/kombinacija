@@ -1,6 +1,6 @@
 package hr.fer.opp.controllers;
 
-import hr.fer.opp.dto.PersonREST;
+import hr.fer.opp.dto.response.PersonREST;
 import hr.fer.opp.services.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

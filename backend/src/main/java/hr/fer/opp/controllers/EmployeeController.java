@@ -1,7 +1,7 @@
 package hr.fer.opp.controllers;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -9,16 +9,18 @@ import org.springframework.web.bind.annotation.*;
 public class EmployeeController {
 
     @GetMapping(value = "/route")
-    public String route(@AuthenticationPrincipal User u) {
+    public String route(@AuthenticationPrincipal UserDetails userDetails) {
         // TODO
-        return "Fetching list of containers to be emptied by " + u.getUsername();
+        return "Fetching list of containers to be emptied by " + userDetails.getUsername();
     }
 
     @PostMapping(value = "/empty/{id}")
-    public String empty(@PathVariable("id") Long contID,
-                        @AuthenticationPrincipal User u) {
+    public String empty(
+            @PathVariable("id") Long contID,
+            @AuthenticationPrincipal UserDetails userDetails
+    ) {
         // TODO
-        return "User " + u.getUsername() + " emptying container " + contID;
+        return "User " + userDetails.getUsername() + " emptying container " + contID;
     }
 
 }

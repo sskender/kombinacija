@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -18,9 +18,9 @@ public class CitizenController {
     private PersonService personService;
 
     @GetMapping(value = "/auth")
-    public ResponseEntity<PersonREST> testAuthorization(@AuthenticationPrincipal User u) {
+    public ResponseEntity<PersonREST> testAuthorization(@AuthenticationPrincipal UserDetails userDetails) {
         return new ResponseEntity<>(
-                new PersonREST(personService.fetchByEmail(u.getUsername())),
+                new PersonREST(personService.fetchByEmail(userDetails.getUsername())),
                 HttpStatus.OK);
     }
 
@@ -49,18 +49,22 @@ public class CitizenController {
     }
 
     @PostMapping(value = "/favorite/{id}")
-    public String addFavorite(@PathVariable("id") Long contID,
-                              @AuthenticationPrincipal User u) {
+    public String addFavorite(
+            @PathVariable("id") Long contID,
+            @AuthenticationPrincipal UserDetails userDetails
+    ) {
         // TODO
         // TODO error crash if user = null
-        return "Adding container " + contID + " as " + u.getUsername() + "'s favorite";
+        return "Adding container " + contID + " as " + userDetails.getUsername() + "'s favorite";
     }
 
     @DeleteMapping(value = "/favorite/{id}")
-    public String deleteFavorite(@PathVariable("id") Long contID,
-                                 @AuthenticationPrincipal User u) {
+    public String deleteFavorite(
+            @PathVariable("id") Long contID,
+            @AuthenticationPrincipal UserDetails userDetails
+    ) {
         // TODO
-        return "Removing container " + contID + " as " + u.getUsername() + "'s favorite";
+        return "Removing container " + contID + " as " + userDetails.getUsername() + "'s favorite";
     }
 
 }

@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -33,11 +33,10 @@ public class PublicController {
     public String map(
             @RequestParam("lat") Long latitude,
             @RequestParam("lon") Long longitude,
-            @AuthenticationPrincipal User u
+            @AuthenticationPrincipal UserDetails userDetails
     ) {
         // TODO
-        // TODO remove user ???
-        return "Fetching list of containers and list of permitted actions when user is: " + u.getUsername();
+        return "Fetching list of containers and list of permitted actions when user is: " + userDetails.getUsername();
     }
 
 }

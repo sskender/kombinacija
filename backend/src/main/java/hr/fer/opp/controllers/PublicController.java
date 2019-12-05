@@ -1,9 +1,7 @@
 package hr.fer.opp.controllers;
 
-import hr.fer.opp.dto.PersonREST;
 import hr.fer.opp.dto.RegisterDTO;
 import hr.fer.opp.model.Citizen;
-import hr.fer.opp.services.PersonService;
 import hr.fer.opp.services.PublicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,22 +16,14 @@ public class PublicController {
 
     @Autowired
     private PublicService publicService;
-    @Autowired
-    private PersonService personService;
-
-    @GetMapping(value = "/auth")
-    public ResponseEntity<PersonREST> testAuthorization(@AuthenticationPrincipal User u) {
-        return new ResponseEntity<>(
-                new PersonREST(personService.fetchByEmail(u.getUsername())),
-                HttpStatus.OK);
-    }
 
     @PostMapping(value = "/register")
     public ResponseEntity<Citizen> registerUser(@RequestBody RegisterDTO registerDTO) {
+        // TODO return dto, not citizen
         return new ResponseEntity<>(publicService.registerCitizen(registerDTO), HttpStatus.CREATED);
     }
 
-    @GetMapping(value = "/trash/{id}/history")
+    @GetMapping(value = "/history/container/{id}")
     public String trashHistory(@PathVariable("id") Long id) {
         // TODO
         return "Fetching emptying history for container " + id.toString();
@@ -43,8 +33,10 @@ public class PublicController {
     public String map(
             @RequestParam("lat") Long latitude,
             @RequestParam("lon") Long longitude,
-            @AuthenticationPrincipal User u) {
+            @AuthenticationPrincipal User u
+    ) {
         // TODO
+        // TODO remove user ???
         return "Fetching list of containers and list of permitted actions when user is: " + u.getUsername();
     }
 

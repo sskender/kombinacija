@@ -21,7 +21,7 @@ public interface AdminService {
     * @param neighborhoodId
     * @return
     */
-   List<Container> getContainerByNeighborhoodId(Long neighborhoodId);
+   List<Container> getContainersByNeighborhoodId(Long neighborhoodId);
 
    /**
     * @return
@@ -123,14 +123,14 @@ public interface AdminService {
     * @param neighborhoodId
     * @return
     */
-   List<Employee> getEmployeeByNeighborhoodId(Long neighborhoodId);
+   List<Employee> getEmployeesByNeighborhoodId(Long neighborhoodId);
 
    /**
     * @param neighborhood
     * @return
     */
-   default List<Employee> getEmployeeByNeighborhood(Neighborhood neighborhood) {
-      return getEmployeeByNeighborhoodId(neighborhood.getId());
+   default List<Employee> getEmployeesByNeighborhood(Neighborhood neighborhood) {
+      return getEmployeesByNeighborhoodId(neighborhood.getId());
    }
 
    /**

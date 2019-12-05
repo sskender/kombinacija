@@ -25,7 +25,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public List<Container> getContainerByNeighborhoodId(Long neighborhoodId) {
+    public List<Container> getContainersByNeighborhoodId(Long neighborhoodId) {
         return null;
     }
 
@@ -90,7 +90,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public List<Employee> getEmployeeByNeighborhoodId(Long neighborhoodId) {
+    public List<Employee> getEmployeesByNeighborhoodId(Long neighborhoodId) {
         return null;
     }
 

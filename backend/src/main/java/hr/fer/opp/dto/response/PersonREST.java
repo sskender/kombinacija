@@ -1,4 +1,4 @@
-package hr.fer.opp.dto;
+package hr.fer.opp.dto.response;
 
 import hr.fer.opp.model.Person;
 

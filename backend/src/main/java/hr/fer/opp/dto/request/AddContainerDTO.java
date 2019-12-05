@@ -1,4 +1,4 @@
-package hr.fer.opp.dto;
+package hr.fer.opp.dto.request;
 
 import hr.fer.opp.model.Neighborhood;
 

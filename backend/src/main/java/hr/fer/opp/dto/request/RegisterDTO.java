@@ -1,4 +1,4 @@
-package hr.fer.opp.dto;
+package hr.fer.opp.dto.request;
 
 public class RegisterDTO {
     private String name;

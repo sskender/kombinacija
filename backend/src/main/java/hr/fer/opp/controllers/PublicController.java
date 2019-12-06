@@ -25,14 +25,14 @@ public class PublicController {
     @GetMapping(value = "/auth")
     public ResponseEntity<PersonREST> testAuthorization(@AuthenticationPrincipal UserDetails userDetails) {
         return new ResponseEntity<>(
-                new PersonREST(personService.fetchByEmail(userDetails)),
+                new PersonREST(personService.fetchByEmail(userDetails.getUsername())),
                 HttpStatus.OK);
     }
 
     @PostMapping(value = "/register")
-    public ResponseEntity<Citizen> registerUser(@RequestBody RegisterDTO registerDTO) {
+    public ResponseEntity<PersonREST> registerUser(@RequestBody RegisterDTO registerDTO) {
         // TODO return dto, not citizen
-        return new ResponseEntity<>(publicService.registerCitizen(registerDTO), HttpStatus.CREATED);
+        return new ResponseEntity<>(new PersonREST(publicService.registerCitizen(registerDTO)), HttpStatus.CREATED);
     }
 
     @GetMapping(value = "/history/container/{id}")

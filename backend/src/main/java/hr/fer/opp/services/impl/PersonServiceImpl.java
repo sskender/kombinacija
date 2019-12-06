@@ -9,6 +9,8 @@ import hr.fer.opp.services.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class PersonServiceImpl implements PersonService {
 
@@ -26,8 +28,12 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public Person fetchByEmail(String email) {
-        return personRepository.findByEmail(email).orElseThrow(
-                RuntimeException::new);
+        Optional<Person> o = personRepository.findByEmail(email);
+        if(o.isPresent()){
+            return o.get();
+        } else {
+            return null;
+        }
     }
 
     @Override

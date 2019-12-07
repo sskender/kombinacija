@@ -2,7 +2,6 @@ package hr.fer.opp.controllers;
 
 import hr.fer.opp.dto.request.RegisterDTO;
 import hr.fer.opp.dto.response.PersonREST;
-import hr.fer.opp.model.Citizen;
 import hr.fer.opp.services.PersonService;
 import hr.fer.opp.services.PublicService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,12 +30,11 @@ public class PublicController {
 
     @PostMapping(value = "/register")
     public ResponseEntity<PersonREST> registerUser(@RequestBody RegisterDTO registerDTO) {
-        // TODO return dto, not citizen
         return new ResponseEntity<>(new PersonREST(publicService.registerCitizen(registerDTO)), HttpStatus.CREATED);
     }
 
     @GetMapping(value = "/history/container/{id}")
-    public String trashHistory(@PathVariable("id") Long id) {
+    public String containerHistory(@PathVariable("id") Long id) {
         // TODO
         return "Fetching emptying history for container " + id.toString();
     }

@@ -125,14 +125,16 @@ public class Container implements Serializable {
 
 	@Override
 	public String toString() {
-		return "TrashCan{" +
+		return "Container{" +
 				"id=" + id +
 				", latitude=" + latitude +
 				", longitude=" + longitude +
-				", pingCounter=" + pingsSinceEmptied +
+				", pingsSinceEmptied=" + pingsSinceEmptied +
+				", routeStatus=" + routeStatus +
 				", neighborhood=" + neighborhood +
 				", pings=" + pings +
 				", favorites=" + favorites +
+				", emptyings=" + emptyings +
 				'}';
 	}
 

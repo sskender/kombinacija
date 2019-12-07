@@ -61,7 +61,7 @@ public class Favorite implements Serializable {
         return "Favorite{" +
                 "id=" + id +
                 ", owner=" + owner +
-                ", trashCan=" + container +
+                ", container=" + container +
                 '}';
     }
 

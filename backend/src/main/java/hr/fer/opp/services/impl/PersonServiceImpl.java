@@ -29,11 +29,7 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public Person fetchByEmail(String email) {
         Optional<Person> o = personRepository.findByEmail(email);
-        if(o.isPresent()){
-            return o.get();
-        } else {
-            return null;
-        }
+        return o.orElse(null);
     }
 
     @Override

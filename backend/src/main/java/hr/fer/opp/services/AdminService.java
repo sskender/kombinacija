@@ -156,13 +156,13 @@ public interface AdminService {
      */
     boolean removeEmployeeById(Long employeeId);
 
-   /**
-    * @param employee
-    * @return
-    */
-   default boolean removeEmployee(Employee employee) {
-      return removeEmployeeById(employee.getId());
-   }
+    /**
+     * @param employee
+     * @return
+     */
+    default boolean removeEmployee(Employee employee) {
+        return removeEmployeeById(employee.getId());
+    }
 
     /**
      * @param employeeOIB

@@ -5,6 +5,7 @@ ENV DOMAIN_NAME=kombinacija.hopto.org
 # replace old conf
 RUN rm -rf /etc/nginx/conf.d/*.conf
 COPY nginx/kombinacija.conf /etc/nginx/conf.d/kombinacija.conf
+COPY nginx/cache-rules.conf /etc/nginx/conf/cache-rules.conf
 
 # copy website data
 RUN mkdir -p /kombinacija/html

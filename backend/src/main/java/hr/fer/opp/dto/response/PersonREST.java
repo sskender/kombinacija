@@ -8,12 +8,14 @@ public class PersonREST {
     private String name;
     private String lastName;
     private String email;
+    private String role;
 
-    public PersonREST(Person person) {
+    public PersonREST(Person person, String role) {
         this.id = person.getId();
         this.name = person.getName();
         this.lastName = person.getLastName();
         this.email = person.getEmail();
+        this.role = role;
     }
 
     public Long getId() {
@@ -46,5 +48,13 @@ public class PersonREST {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }

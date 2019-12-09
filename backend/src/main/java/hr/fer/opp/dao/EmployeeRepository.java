@@ -9,32 +9,38 @@ import java.util.Optional;
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
-    /**
-     * @param id
-     * @return
-     */
-    Optional<Employee> findById(Long id);
+	/**
+	 * @param id
+	 * @return
+	 */
+	Optional<Employee> findById(Long id);
 
-    /**
-     * @param email
-     * @return
-     */
-    Optional<Employee> findByEmail(String email);
+	/**
+	 * @param email
+	 * @return
+	 */
+	Optional<Employee> findByEmail(String email);
 
-    /**
-     * @param employee
-     * @return
-     */
-    default boolean insertEmployee(Employee employee) {
-        return employee.equals(save(employee));
-    }
+	/**
+	 * @param oib
+	 * @return
+	 */
+	Optional<Employee> findByOIB(String oib);
 
-    /**
-     * @param employees
-     * @return
-     */
-    default int insertAllEmployees(Iterable<Employee> employees) {
-        return saveAll(employees).size();
-    }
+	/**
+	 * @param employee
+	 * @return
+	 */
+	default boolean insertEmployee(Employee employee) {
+		return employee.equals(save(employee));
+	}
+
+	/**
+	 * @param employees
+	 * @return
+	 */
+	default int insertAllEmployees(Iterable<Employee> employees) {
+		return saveAll(employees).size();
+	}
 
 }

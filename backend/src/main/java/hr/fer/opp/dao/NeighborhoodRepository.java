@@ -9,18 +9,24 @@ import java.util.Optional;
 @Repository
 public interface NeighborhoodRepository extends JpaRepository<Neighborhood, Long> {
 
-    /**
-     * @param id
-     * @return
-     */
-    Optional<Neighborhood> findById(Long id);
+	/**
+	 * @param id
+	 * @return
+	 */
+	Optional<Neighborhood> findById(Long id);
 
-    /**
-     * @param neighborhood
-     * @return
-     */
-    default boolean insertNeighborhood(Neighborhood neighborhood) {
-        return neighborhood.equals(save(neighborhood));
-    }
+	/**
+	 * @param neighborhoodName
+	 * @return
+	 */
+	Optional<Neighborhood> findByName(String neighborhoodName);
+
+	/**
+	 * @param neighborhood
+	 * @return
+	 */
+	default boolean insertNeighborhood(Neighborhood neighborhood) {
+		return neighborhood.equals(save(neighborhood));
+	}
 
 }

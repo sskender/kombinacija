@@ -39,8 +39,8 @@ public class AdminController {
 	private CitizenRepository citizenRepository;
 
 	@GetMapping(value = "/trash")
-	public List<Container> listAllContainers() {
-		return adminService.getAllContainers();
+	public List<ContainerREST> listAllContainers() {
+		return ContainerREST.convertToREST(adminService.getAllContainers());
 	}
 
 	@PostMapping(value = "/trash")
@@ -49,7 +49,7 @@ public class AdminController {
 				HttpStatus.CREATED);
 	}
 
-	@PutMapping(value = "/trash")
+	@PutMapping(value = "/trash/{id}")
 	public ResponseEntity<ContainerREST> updateContainer(@RequestBody AddContainerDTO containerDTO,
 			@PathVariable("id") Long containerId) {
 		return new ResponseEntity<>(new ContainerREST(adminService.updateContainer(containerDTO, containerId)),
@@ -62,13 +62,13 @@ public class AdminController {
 	}
 
 	@GetMapping(value = "/employee")
-	public List<Employee> listAllEmployees() {
-		return adminService.getAllEmployees();
+	public List<PersonREST> listAllEmployees() {
+		return PersonREST.convertToREST(adminService.getAllEmployees());
 	}
 
 	@GetMapping(value = "/employee/{id}")
-	public Employee getEmployee(@PathVariable("id") Long employeeId) {
-		return adminService.getEmployeeById(employeeId);
+	public PersonREST getEmployee(@PathVariable("id") Long employeeId) {
+		return new PersonREST(adminService.getEmployeeById(employeeId), "employee");
 	}
 
 	@PostMapping(value = "/employee")
@@ -77,7 +77,7 @@ public class AdminController {
 				HttpStatus.CREATED);
 	}
 
-	@PutMapping(value = "/employee")
+	@PutMapping(value = "/employee/{id}")
 	public ResponseEntity<PersonREST> updateEmployee(@RequestBody RegisterEmployeeDTO registerEmployeeDTO,
 			@PathVariable("id") Long employeeId) {
 		return new ResponseEntity<>(
@@ -91,8 +91,8 @@ public class AdminController {
 	}
 
 	@GetMapping(value = "/neighborhood")
-	public List<Neighborhood> listAllNeighborhoods() {
-		return adminService.getAllNeighborhoods();
+	public List<NeighborhoodREST> listAllNeighborhoods() {
+		return NeighborhoodREST.convertToREST(adminService.getAllNeighborhoods());
 	}
 
 	@GetMapping(value = "/neighborhood/{id}")
@@ -101,13 +101,13 @@ public class AdminController {
 	}
 
 	@GetMapping(value = "/neighborhood/{id}/trash")
-	public List<Container> listAllContainersInNeighborhood(@PathVariable("id") Long neighborhoodId) {
-		return adminService.getContainersByNeighborhoodId(neighborhoodId);
+	public List<ContainerREST> listAllContainersInNeighborhood(@PathVariable("id") Long neighborhoodId) {
+		return ContainerREST.convertToREST(adminService.getContainersByNeighborhoodId(neighborhoodId));
 	}
 
 	@GetMapping(value = "/neighborhood/{id}/employee")
-	public List<Employee> listAllEmployeessInNeighborhood(@PathVariable("id") Long neighborhoodId) {
-		return adminService.getEmployeesByNeighborhoodId(neighborhoodId);
+	public List<PersonREST> listAllEmployeessInNeighborhood(@PathVariable("id") Long neighborhoodId) {
+		return PersonREST.convertToREST(adminService.getEmployeesByNeighborhoodId(neighborhoodId));
 	}
 
 	@PostMapping(value = "/neighborhood")
@@ -117,7 +117,7 @@ public class AdminController {
 				HttpStatus.CREATED);
 	}
 
-	@PutMapping(value = "/neighborhood")
+	@PutMapping(value = "/neighborhood/{id}")
 	public ResponseEntity<NeighborhoodREST> updateNeighborhood(@RequestBody AddNeighborhoodDTO registerNeighborhoodDTO,
 			@PathVariable("id") Long neighborhoodId) {
 		return new ResponseEntity<>(

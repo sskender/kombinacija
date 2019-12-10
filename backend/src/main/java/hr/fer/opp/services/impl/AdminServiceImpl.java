@@ -60,8 +60,14 @@ public class AdminServiceImpl implements AdminService {
 	@Transactional
 	public Container registerNewContainer(AddContainerDTO containerDTO) {
 		Container c = new Container();
+		Optional<Neighborhood> n = neighborhoodRepository.findById(containerDTO.getNeighborhoodId());
+		if (n.isPresent()) {
+			c.setNeighborhood(n.get());
+		} else {
+			throw new RequestDeniedException(
+					"Can't register given container in requested neighboorhood. Neighboorhood with given id does not exist.");
+		}
 
-		c.setNeighborhood(containerDTO.getNeighborhood());
 		c.setLatitude(containerDTO.getLatitude());
 		c.setLongitude(containerDTO.getLongitude());
 		c.setPingsSinceEmptied(0);
@@ -70,20 +76,31 @@ public class AdminServiceImpl implements AdminService {
 		c.setFavorites(new ArrayList<>());
 		c.setEmptyings(new ArrayList<>());
 
+		n.get().getContainers().add(c);
+
 		return containerRepository.save(c);
 	}
 
 	@Override
 	public Container updateContainer(AddContainerDTO containerDTO, Long containerId) {
-		Optional<Container> o = containerRepository.findById(containerId);
-		if (o.isPresent()) {
-			o.get().setLatitude(containerDTO.getLatitude());
-			o.get().setLongitude(containerDTO.getLongitude());
-			o.get().setNeighborhood(containerDTO.getNeighborhood());
+		Optional<Container> c = containerRepository.findById(containerId);
+		Optional<Neighborhood> n = neighborhoodRepository.findById(containerDTO.getNeighborhoodId());
 
-			return containerRepository.save(o.get());
+		if (c.isPresent() && n.isPresent()) {
+			c.get().getNeighborhood().getContainers().remove(c.get());
+			c.get().setLatitude(containerDTO.getLatitude());
+			c.get().setLongitude(containerDTO.getLongitude());
+			c.get().setNeighborhood(n.get());
+
+			n.get().getContainers().add(c.get());
+
+			return containerRepository.save(c.get());
 		}
-		throw new RequestDeniedException("Continer with given id does not exist.");
+		if (c.isEmpty())
+			throw new RequestDeniedException("Continer with given id does not exist.");
+		else
+			throw new RequestDeniedException(
+					"Can't update given container in requested neighboorhood. Neighboorhood with given id does not exist.");
 	}
 
 	@Override
@@ -191,10 +208,18 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	@Transactional
 	public Employee registerNewEmployee(RegisterEmployeeDTO employeeDTO) {
+		Optional<Neighborhood> n = neighborhoodRepository.findById(employeeDTO.getNeighborhoodId());
+		Employee e = new Employee();
 		if (employeeRepository.findByEmail(employeeDTO.getEmail()).isPresent()) {
 			throw new RequestDeniedException("Employee with given e-mail already exists.");
 		}
-		Employee e = new Employee();
+
+		if (n.isPresent()) {
+			e.setNeighborhood(n.get());
+		} else {
+			throw new RequestDeniedException(
+					"Can't register given employee in requested neighboorhood. Neighboorhood with given id does not exist.");
+		}
 
 		e.setName(employeeDTO.getName());
 		e.setLastName(employeeDTO.getLastName());
@@ -205,23 +230,34 @@ public class AdminServiceImpl implements AdminService {
 		e.setFavorites(new ArrayList<>());
 		e.setEmptyings(new ArrayList<>());
 
+		n.get().getAssignedEmployees().add(e);
+
 		return employeeRepository.save(e);
 	}
 
 	@Override
 	public Employee updateEmployeeProfile(RegisterEmployeeDTO employeeDTO, Long employeeId) {
-		Optional<Employee> o = employeeRepository.findById(employeeId);
-		if (o.isPresent()) {
-			o.get().setName(employeeDTO.getName());
-			o.get().setLastName(employeeDTO.getLastName());
-			o.get().setEmail(employeeDTO.getEmail());
-			o.get().setPwdHash(encoder.encode(employeeDTO.getPwd()));
-			o.get().setOIB(employeeDTO.getOIB());
+		Optional<Employee> e = employeeRepository.findById(employeeId);
+		Optional<Neighborhood> n = neighborhoodRepository.findById(employeeDTO.getNeighborhoodId());
 
-			return employeeRepository.save(o.get());
+		if (e.isPresent() && n.isPresent()) {
+			e.get().getNeighborhood().getAssignedEmployees().remove(e.get());
+			e.get().setName(employeeDTO.getName());
+			e.get().setLastName(employeeDTO.getLastName());
+			e.get().setEmail(employeeDTO.getEmail());
+			e.get().setPwdHash(encoder.encode(employeeDTO.getPwd()));
+			e.get().setOIB(employeeDTO.getOIB());
+			e.get().setNeighborhood(n.get());
+
+			n.get().getAssignedEmployees().add(e.get());
+
+			return employeeRepository.save(e.get());
 		}
-		throw new RequestDeniedException("Employee with given id does not exist.");
-
+		if (e.isEmpty())
+			throw new RequestDeniedException("Employee with given id does not exist.");
+		else
+			throw new RequestDeniedException(
+					"Can't update given employee in requested neighboorhood. Neighboorhood with given id does not exist.");
 	}
 
 	@Override

@@ -1,5 +1,8 @@
 package hr.fer.opp.dto.response;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import hr.fer.opp.model.Container;
 
 public class ContainerREST {
@@ -36,4 +39,12 @@ public class ContainerREST {
     public void setLongitude(Double longitude) {
         this.longitude = longitude;
     }
+    
+    public static List<ContainerREST> convertToREST(List<Container> containers){
+		List<ContainerREST> containersREST = new ArrayList<>();
+		for (Container c : containers) {
+			containersREST.add(new ContainerREST(c));
+		}
+		return containersREST;
+	}
 }

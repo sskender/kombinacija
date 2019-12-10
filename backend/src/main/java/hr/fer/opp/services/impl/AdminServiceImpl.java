@@ -40,7 +40,7 @@ public class AdminServiceImpl implements AdminService {
 		Optional<Container> o = containerRepository.findById(containerId);
 		if (o.isPresent())
 			return o.get();
-		throw new RequestDeniedException("Continer with given id does not exist.");
+		throw new RequestDeniedException("Container with given id does not exist.");
 	}
 
 	@Override

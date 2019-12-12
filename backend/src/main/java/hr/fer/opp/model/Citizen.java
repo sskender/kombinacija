@@ -9,6 +9,8 @@ import java.io.Serializable;
 @Table(name = "citizens")
 public class Citizen extends Person implements Serializable {
 
+    public static final int DEFAULT_CITIZEN_REPUTATION = 0;
+
     @Column(nullable = false)
     private Integer reputation;
 

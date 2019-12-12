@@ -12,6 +12,7 @@ import hr.fer.opp.model.Citizen;
 import hr.fer.opp.model.Container;
 import hr.fer.opp.model.Employee;
 import hr.fer.opp.model.Neighborhood;
+import hr.fer.opp.model.enums.EmploymentStatus;
 import hr.fer.opp.model.enums.RouteStatus;
 import hr.fer.opp.services.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,7 +76,7 @@ public class AdminServiceImpl implements AdminService {
 
 		c.setLatitude(containerDTO.getLatitude());
 		c.setLongitude(containerDTO.getLongitude());
-		c.setPingsSinceEmptied(0);
+		c.setPingsSinceEmptied(Container.DEFAULT_PINGS_SINCE_EMPTIED);
 		c.setRouteStatus(RouteStatus.PENDING);
 		c.setPings(new ArrayList<>());
 		c.setFavorites(new ArrayList<>());
@@ -94,6 +95,7 @@ public class AdminServiceImpl implements AdminService {
 
 		if (c.isPresent() && n.isPresent()) {
 			c.get().getNeighborhood().getContainers().remove(c.get());
+
 			c.get().setLatitude(containerDTO.getLatitude());
 			c.get().setLongitude(containerDTO.getLongitude());
 			c.get().setNeighborhood(n.get());
@@ -152,7 +154,7 @@ public class AdminServiceImpl implements AdminService {
 		n.setName(neighborhoodDTO.getName());
 		n.setLatitude(neighborhoodDTO.getCenterLatitude());
 		n.setLongitude(neighborhoodDTO.getCenterLongitude());
-		n.setWorkerCapacity(0);
+		n.setWorkerCapacity(Neighborhood.DEFAULT_WORKER_CAPACITY);
 		n.setContainers(new ArrayList<>());
 		n.setAssignedEmployees(new ArrayList<>());
 
@@ -197,12 +199,10 @@ public class AdminServiceImpl implements AdminService {
 			deleteContainer(container);
 		}
 
-		// convert assigned employees to citizens
+		// mark assigned employees as unemployed
 		for (Employee employee : getEmployeesByNeighborhoodId(neighborhoodId)) {
-			Citizen citizen = convertEmployeeToCitizenOnDelete(employee);
-			citizenRepository.save(citizen);
-
-			removeEmployee(employee);
+			employee.setAsUnemployed();
+			employeeRepository.save(employee);
 		}
 
 		// delete neighborhood
@@ -254,6 +254,7 @@ public class AdminServiceImpl implements AdminService {
 
 		if (n.isPresent()) {
 			e.setNeighborhood(n.get());
+			e.setEmploymentStatus(EmploymentStatus.EMPLOYED);
 		} else {
 			throw new RequestDeniedException(
 					"Can't register given employee in requested neighborhood. Neighborhood with given id does not exist.");

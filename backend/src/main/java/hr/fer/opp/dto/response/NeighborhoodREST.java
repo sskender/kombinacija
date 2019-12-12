@@ -1,70 +1,70 @@
 package hr.fer.opp.dto.response;
 
+import hr.fer.opp.model.Neighborhood;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import hr.fer.opp.model.Neighborhood;
-
 public class NeighborhoodREST {
-	private Long id;
-	private String name;
-	private Double longitude;
-	private Double latitude;
-	private Integer workerCapacity;
+    private Long id;
+    private String name;
+    private Double longitude;
+    private Double latitude;
+    private Integer workerCapacity;
 
-	public NeighborhoodREST(Neighborhood n) {
-		this.id = n.getId();
-		this.name = n.getName();
-		this.longitude = n.getLongitude();
-		this.latitude = n.getLatitude();
-		this.workerCapacity = n.getWorkerCapacity();
-	}
+    public NeighborhoodREST(Neighborhood n) {
+        this.id = n.getId();
+        this.name = n.getName();
+        this.longitude = n.getLongitude();
+        this.latitude = n.getLatitude();
+        this.workerCapacity = n.getWorkerCapacity();
+    }
 
-	public Long getId() {
-		return id;
-	}
+    public static List<NeighborhoodREST> convertToREST(List<Neighborhood> neighborhoods) {
+        List<NeighborhoodREST> neighborhoodsREST = new ArrayList<>();
+        for (Neighborhood n : neighborhoods) {
+            neighborhoodsREST.add(new NeighborhoodREST(n));
+        }
+        return neighborhoodsREST;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public Double getLongitude() {
-		return longitude;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setLongitude(Double longitude) {
-		this.longitude = longitude;
-	}
+    public Double getLongitude() {
+        return longitude;
+    }
 
-	public Double getLatitude() {
-		return latitude;
-	}
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
 
-	public void setLatitude(Double latitude) {
-		this.latitude = latitude;
-	}
+    public Double getLatitude() {
+        return latitude;
+    }
 
-	public Integer getWorkerCapacity() {
-		return workerCapacity;
-	}
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
 
-	public void setWorkerCapacity(Integer workerCapacity) {
-		this.workerCapacity = workerCapacity;
-	}
+    public Integer getWorkerCapacity() {
+        return workerCapacity;
+    }
 
-	public static List<NeighborhoodREST> convertToREST(List<Neighborhood> neighborhoods) {
-		List<NeighborhoodREST> neighborhoodsREST = new ArrayList<>();
-		for (Neighborhood n : neighborhoods) {
-			neighborhoodsREST.add(new NeighborhoodREST(n));
-		}
-		return neighborhoodsREST;
-	}
+    public void setWorkerCapacity(Integer workerCapacity) {
+        this.workerCapacity = workerCapacity;
+    }
 }

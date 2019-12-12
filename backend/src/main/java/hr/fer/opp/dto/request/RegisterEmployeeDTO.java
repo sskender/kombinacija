@@ -1,7 +1,5 @@
 package hr.fer.opp.dto.request;
 
-import hr.fer.opp.model.Neighborhood;
-
 public class RegisterEmployeeDTO {
 	private String name;
 	private String lastName;
@@ -14,7 +12,7 @@ public class RegisterEmployeeDTO {
 	}
 
 	public RegisterEmployeeDTO(String name, String lastName, String email, String pwd, String OIB,
-			Long neighborhoodId) {
+							   Long neighborhoodId) {
 		super();
 		this.name = name;
 		this.lastName = lastName;

@@ -65,7 +65,7 @@ public class AdminServiceImpl implements AdminService {
 			c.setNeighborhood(n.get());
 		} else {
 			throw new RequestDeniedException(
-					"Can't register given container in requested neighboorhood. Neighboorhood with given id does not exist.");
+					"Can't register given container in requested neighborhood. Neighborhood with given id does not exist.");
 		}
 
 		c.setLatitude(containerDTO.getLatitude());
@@ -82,6 +82,7 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
+	@Transactional
 	public Container updateContainer(AddContainerDTO containerDTO, Long containerId) {
 		Optional<Container> c = containerRepository.findById(containerId);
 		Optional<Neighborhood> n = neighborhoodRepository.findById(containerDTO.getNeighborhoodId());
@@ -96,14 +97,15 @@ public class AdminServiceImpl implements AdminService {
 
 			return containerRepository.save(c.get());
 		}
-		if (c.isEmpty())
-			throw new RequestDeniedException("Continer with given id does not exist.");
+		if (!c.isPresent())
+			throw new RequestDeniedException("Container with given id does not exist.");
 		else
 			throw new RequestDeniedException(
-					"Can't update given container in requested neighboorhood. Neighboorhood with given id does not exist.");
+					"Can't update given container in requested neighborhood. Neighborhood with given id does not exist.");
 	}
 
 	@Override
+	@Transactional
 	public boolean deleteContainerById(Long containerId) {
 		Optional<Container> o = containerRepository.findById(containerId);
 		if (o.isPresent()) {
@@ -153,6 +155,7 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
+	@Transactional
 	public Neighborhood updateNeighborhood(AddNeighborhoodDTO neighborhoodDTO, Long neighborhoodId) {
 		Optional<Neighborhood> o = neighborhoodRepository.findById(neighborhoodId);
 		if (o.isPresent()) {
@@ -167,6 +170,7 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
+	@Transactional
 	public boolean deleteNeighborhoodById(Long neighborhoodId) {
 		Optional<Neighborhood> o = neighborhoodRepository.findById(neighborhoodId);
 		if (o.isPresent()) {
@@ -218,7 +222,7 @@ public class AdminServiceImpl implements AdminService {
 			e.setNeighborhood(n.get());
 		} else {
 			throw new RequestDeniedException(
-					"Can't register given employee in requested neighboorhood. Neighboorhood with given id does not exist.");
+					"Can't register given employee in requested neighborhood. Neighborhood with given id does not exist.");
 		}
 
 		e.setName(employeeDTO.getName());
@@ -236,6 +240,7 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
+	@Transactional
 	public Employee updateEmployeeProfile(RegisterEmployeeDTO employeeDTO, Long employeeId) {
 		Optional<Employee> e = employeeRepository.findById(employeeId);
 		Optional<Neighborhood> n = neighborhoodRepository.findById(employeeDTO.getNeighborhoodId());
@@ -253,14 +258,15 @@ public class AdminServiceImpl implements AdminService {
 
 			return employeeRepository.save(e.get());
 		}
-		if (e.isEmpty())
+		if (!e.isPresent())
 			throw new RequestDeniedException("Employee with given id does not exist.");
 		else
 			throw new RequestDeniedException(
-					"Can't update given employee in requested neighboorhood. Neighboorhood with given id does not exist.");
+					"Can't update given employee in requested neighborhood. Neighborhood with given id does not exist.");
 	}
 
 	@Override
+	@Transactional
 	public boolean removeEmployeeById(Long employeeId) {
 		Optional<Employee> o = employeeRepository.findById(employeeId);
 		if (o.isPresent()) {

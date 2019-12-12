@@ -17,6 +17,14 @@ public class FavoriteREST {
         this.containerID = f.getContainer().getId();
     }
 
+    public static List<FavoriteREST> convertToREST(List<Favorite> favorites) {
+        List<FavoriteREST> favoriteREST = new ArrayList<>();
+        for (Favorite f : favorites) {
+            favoriteREST.add(new FavoriteREST(f));
+        }
+        return favoriteREST;
+    }
+
     public long getId() {
         return id;
     }
@@ -39,13 +47,5 @@ public class FavoriteREST {
 
     public void setContainerID(long containerID) {
         this.containerID = containerID;
-    }
-
-    public static List<FavoriteREST> convertToREST(List<Favorite> favorites) {
-        List<FavoriteREST> favoriteREST = new ArrayList<>();
-        for (Favorite f : favorites) {
-            favoriteREST.add(new FavoriteREST(f));
-        }
-        return favoriteREST;
     }
 }

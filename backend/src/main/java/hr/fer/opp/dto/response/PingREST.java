@@ -26,6 +26,14 @@ public class PingREST {
         this.timestamp = p.getTimestamp();
     }
 
+    public static List<PingREST> convertToREST(List<Ping> pings) {
+        List<PingREST> pingREST = new ArrayList<>();
+        for (Ping p : pings) {
+            pingREST.add(new PingREST(p));
+        }
+        return pingREST;
+    }
+
     public long getId() {
         return id;
     }
@@ -64,13 +72,5 @@ public class PingREST {
 
     public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
-    }
-
-    public static List<PingREST> convertToREST(List<Ping> pings) {
-        List<PingREST> pingREST = new ArrayList<>();
-        for (Ping p : pings) {
-            pingREST.add(new PingREST(p));
-        }
-        return pingREST;
     }
 }

@@ -145,7 +145,7 @@ public interface AdminService {
 	Employee registerNewEmployee(RegisterEmployeeDTO employeeDTO);
 
 	/**
-	 * @param employee
+	 * @param employeeDTO
 	 * @param employeeId
 	 * @return
 	 */

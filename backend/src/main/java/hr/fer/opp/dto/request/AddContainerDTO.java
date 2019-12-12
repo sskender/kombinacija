@@ -1,7 +1,5 @@
 package hr.fer.opp.dto.request;
 
-import hr.fer.opp.model.Neighborhood;
-
 public class AddContainerDTO {
 	private Long neighborhoodId;
 	private double latitude;

@@ -22,6 +22,14 @@ public class EmptyingREST {
         this.timestamp = e.getTimestamp();
     }
 
+    public static List<EmptyingREST> convertToREST(List<Emptying> emptyingList) {
+        List<EmptyingREST> emptyingRESTList = new ArrayList<>();
+        for (Emptying e : emptyingList) {
+            emptyingRESTList.add(new EmptyingREST(e));
+        }
+        return emptyingRESTList;
+    }
+
     public long getId() {
         return id;
     }
@@ -52,13 +60,5 @@ public class EmptyingREST {
 
     public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
-    }
-
-    public static List<EmptyingREST> convertToREST(List<Emptying> emptyingList) {
-        List<EmptyingREST> emptyingRESTList = new ArrayList<>();
-        for (Emptying e : emptyingList) {
-            emptyingRESTList.add(new EmptyingREST(e));
-        }
-        return emptyingRESTList;
     }
 }

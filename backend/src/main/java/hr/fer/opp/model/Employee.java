@@ -1,5 +1,7 @@
 package hr.fer.opp.model;
 
+import hr.fer.opp.model.enums.EmploymentStatus;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -13,6 +15,10 @@ public class Employee extends Person implements Serializable {
 	@Column(nullable = false, unique = true)
 	@Size(min = 11, max = 11)
 	private String OIB;
+
+	@NotNull
+	@Enumerated(EnumType.ORDINAL)
+	private EmploymentStatus employmentStatus;
 
 	@ManyToOne
 	private Neighborhood neighborhood;
@@ -30,6 +36,19 @@ public class Employee extends Person implements Serializable {
 
 	public void setOIB(String OIB) {
 		this.OIB = OIB;
+	}
+
+	public EmploymentStatus getEmploymentStatus() {
+		return employmentStatus;
+	}
+
+	public void setEmploymentStatus(EmploymentStatus employmentStatus) {
+		this.employmentStatus = employmentStatus;
+	}
+
+	public void setAsUnemployed() {
+		setEmploymentStatus(EmploymentStatus.UNEMPLOYED);
+		setNeighborhood(null);
 	}
 
 	public Neighborhood getNeighborhood() {

@@ -9,6 +9,8 @@ import java.util.Objects;
 @Table(name = "neighborhoods")
 public class Neighborhood implements Serializable {
 
+    public static final int DEFAULT_WORKER_CAPACITY = 10;
+
     @Id
     @GeneratedValue
     private Long id;

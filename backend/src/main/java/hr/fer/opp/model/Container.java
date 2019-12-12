@@ -12,6 +12,8 @@ import java.util.Objects;
 @Table(name = "containers")
 public class Container implements Serializable {
 
+	public static final int DEFAULT_PINGS_SINCE_EMPTIED = 0;
+
 	@Id
 	@GeneratedValue
 	private Long id;

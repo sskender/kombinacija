@@ -11,6 +11,8 @@ import java.util.Objects;
 @Table(name = "pings")
 public class Ping implements Serializable {
 
+	public static final String DEFAULT_PHOTO_PATH = "";
+
 	@Id
 	@GeneratedValue
 	private Long id;

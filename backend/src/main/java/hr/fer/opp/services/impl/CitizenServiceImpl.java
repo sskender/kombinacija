@@ -13,6 +13,7 @@ import hr.fer.opp.model.enums.PingLevel;
 import hr.fer.opp.services.CitizenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -34,50 +35,38 @@ public class CitizenServiceImpl implements CitizenService {
     private PingRepository pingRepository;
 
     @Override
+    @Transactional
     public Favorite addToFavorites(Long containerId, Person owner) {
-        Favorite f = new Favorite();
+        Optional<Container> containerOptional = containerRepository.findById(containerId);
 
-        Optional<Container> c = containerRepository.findById(containerId);
-
-        if(c.isPresent()) {
-            f.setContainer(c.get());
-        } else {
+        if (!containerOptional.isPresent()) {
             throw new RequestDeniedException("Can't register given container as a favorite. Container with the given id does not exist.");
         }
 
-        Optional<Person> p = personRepository.findById(owner.getId());
+        Favorite favorite = new Favorite();
+        favorite.setContainer(containerOptional.get());
+        favorite.setOwner(owner);
 
-        if(p.isPresent()) {
-            f.setOwner(p.get());
-        } else {
-            throw new RequestDeniedException("Person with the given id does not exist.");
-        }
+        containerOptional.get().getFavorites().add(favorite);
+        owner.getFavorites().add(favorite);
 
-        c.get().getFavorites().add(f);
-        p.get().getFavorites().add(f);
-
-        return favoriteRepository.save(f);
+        return favoriteRepository.save(favorite);
     }
 
     @Override
+    @Transactional
     public boolean removeFromFavorites(Long containerId, Person owner) {
-        Optional<Container> c = containerRepository.findById(containerId);
-        Optional<Person> p = personRepository.findById(owner.getId());
+        Optional<Container> containerOptional = containerRepository.findById(containerId);
 
-
-        if (!c.isPresent()) {
+        if (!containerOptional.isPresent()) {
             throw new RequestDeniedException("Container with given ID does not exist.");
         }
 
-        if (!p.isPresent()) {
-            throw new RequestDeniedException("Person with given ID does not exist.");
-        }
+        List<Favorite> favorites = owner.getFavorites();
 
-        List<Favorite> favorites = p.get().getFavorites();
-
-        for(Favorite f : favorites) {
-            if (f.getContainer().getId() == c.get().getId()) {
-                favoriteRepository.delete(f);
+        for (Favorite favorite : favorites) {
+            if (favorite.getContainer().getId().equals(containerOptional.get().getId())) {
+                favoriteRepository.delete(favorite);
                 return true;
             }
         }
@@ -86,40 +75,27 @@ public class CitizenServiceImpl implements CitizenService {
 
     @Override
     public List<Favorite> getFavoriteContainers(Person owner) {
-        Optional<Person> p = personRepository.findById(owner.getId());
-
-        if(p.isPresent()) {
-            return favoriteRepository.findAll().stream().filter(f -> f.getOwner().getId() == p.get().getId()).collect(Collectors.toList());
-        } else {
-            throw new RequestDeniedException("Person with given Id does not exist.");
-        }
+        return favoriteRepository.findAll().stream().filter(f -> f.getOwner().getId().equals(owner.getId())).collect(Collectors.toList());
     }
 
     @Override
+    @Transactional
     public Ping pingContainer(Long containerId, Person creator, PingLevel pingLevel) {
-        Optional<Container> c = containerRepository.findById(containerId);
-        Optional<Person> p = personRepository.findById(creator.getId());
-        Ping ping = new Ping();
+        Optional<Container> containerOptional = containerRepository.findById(containerId);
 
-        if (p.isPresent()) {
-            ping.setCreator(p.get());
-        } else {
-            throw new RequestDeniedException("Person with given ID does not exist.");
-        }
-
-        if (c.isPresent()) {
-            ping.setContainer(c.get());
-        } else {
+        if (!containerOptional.isPresent()) {
             throw new RequestDeniedException("Container with given ID does not exist.");
         }
 
-
+        Ping ping = new Ping();
+        ping.setCreator(creator);
+        ping.setContainer(containerOptional.get());
         ping.setLevel(pingLevel);
-        ping.setTimestamp(0);
-        ping.setPhotoPath("");
+        ping.setTimestamp(System.currentTimeMillis());
+        ping.setPhotoPath(Ping.DEFAULT_PHOTO_PATH);
 
-        p.get().getPings().add(ping);
-        c.get().getPings().add(ping);
+        creator.getPings().add(ping);
+        containerOptional.get().getPings().add(ping);
 
         return pingRepository.save(ping);
     }

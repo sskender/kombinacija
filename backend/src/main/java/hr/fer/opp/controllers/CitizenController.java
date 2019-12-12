@@ -24,29 +24,43 @@ public class CitizenController {
     private CitizenService citizenService;
 
     @PostMapping(value = "/ping/{id}/f")
-    public ResponseEntity<PingREST> pingFull(@PathVariable("id") Long id,
-                                             @AuthenticationPrincipal UserDetails userDetails) {
-        return new ResponseEntity<>(new PingREST(citizenService.pingContainerFull(id, personService.fetchByEmail(userDetails.getUsername()))),
-                HttpStatus.CREATED);
+    public ResponseEntity<PingREST> pingFull(
+            @PathVariable("id") Long id,
+            @AuthenticationPrincipal UserDetails userDetails
+    ) {
+        return new ResponseEntity<>(
+                new PingREST(citizenService.pingContainerFull(id, personService.fetchByEmail(userDetails.getUsername()))),
+                HttpStatus.CREATED
+        );
     }
 
     @PostMapping(value = "/ping/{id}/u")
-    public ResponseEntity<PingREST> pingUrgent(@PathVariable("id") Long id,
-                                               @AuthenticationPrincipal UserDetails userDetails) {
-        return new ResponseEntity<>(new PingREST(citizenService.pingContainerUrgent(id, personService.fetchByEmail(userDetails.getUsername()))),
-                HttpStatus.CREATED);
+    public ResponseEntity<PingREST> pingUrgent(
+            @PathVariable("id") Long id,
+            @AuthenticationPrincipal UserDetails userDetails
+    ) {
+        return new ResponseEntity<>(
+                new PingREST(citizenService.pingContainerUrgent(id, personService.fetchByEmail(userDetails.getUsername()))),
+                HttpStatus.CREATED
+        );
     }
 
     @PostMapping(value = "/ping/{id}/e")
-    public ResponseEntity<PingREST> pingEmpty(@PathVariable("id") Long id,
-                                              @AuthenticationPrincipal UserDetails userDetails) {
-        return  new ResponseEntity<>(new PingREST(citizenService.pingContainerEmpty(id, personService.fetchByEmail(userDetails.getUsername()))),
-                HttpStatus.CREATED);
+    public ResponseEntity<PingREST> pingEmpty(
+            @PathVariable("id") Long id,
+            @AuthenticationPrincipal UserDetails userDetails) {
+        return new ResponseEntity<>(
+                new PingREST(citizenService.pingContainerEmpty(id, personService.fetchByEmail(userDetails.getUsername()))),
+                HttpStatus.CREATED
+        );
     }
 
     @GetMapping(value = "/favorite")
-    public List<FavoriteREST> favorites(@AuthenticationPrincipal UserDetails userDetails) {
-        return FavoriteREST.convertToREST(citizenService.getFavoriteContainers(personService.fetchByEmail(userDetails.getUsername())));
+    public ResponseEntity<List<FavoriteREST>> favorites(@AuthenticationPrincipal UserDetails userDetails) {
+        return new ResponseEntity<>(
+                FavoriteREST.convertToREST(citizenService.getFavoriteContainers(personService.fetchByEmail(userDetails.getUsername()))),
+                HttpStatus.OK
+        );
     }
 
     @PostMapping(value = "/favorite/{id}")
@@ -54,16 +68,21 @@ public class CitizenController {
             @PathVariable("id") Long contID,
             @AuthenticationPrincipal UserDetails userDetails
     ) {
-        return new ResponseEntity<>(new FavoriteREST(citizenService.addToFavorites(contID, personService.fetchByEmail(userDetails.getUsername()))),
-                HttpStatus.CREATED);
+        return new ResponseEntity<>(
+                new FavoriteREST(citizenService.addToFavorites(contID, personService.fetchByEmail(userDetails.getUsername()))),
+                HttpStatus.CREATED
+        );
     }
 
     @DeleteMapping(value = "/favorite/{id}")
-    public boolean deleteFavorite(
+    public ResponseEntity<Boolean> deleteFavorite(
             @PathVariable("id") Long contID,
             @AuthenticationPrincipal UserDetails userDetails
     ) {
-        return citizenService.removeFromFavorites(contID, personService.fetchByEmail(userDetails.getUsername()));
+        return new ResponseEntity<>(
+                citizenService.removeFromFavorites(contID, personService.fetchByEmail(userDetails.getUsername())),
+                HttpStatus.OK
+        );
     }
 
 }

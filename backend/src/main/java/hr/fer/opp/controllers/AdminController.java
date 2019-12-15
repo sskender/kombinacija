@@ -30,6 +30,14 @@ public class AdminController {
 		);
 	}
 
+	@GetMapping(value = "/trash/{id}")
+	public ResponseEntity<ContainerREST> getContainer(@PathVariable("id") Long containerId) {
+		return new ResponseEntity<>(
+				new ContainerREST(adminService.getContainerById(containerId)),
+				HttpStatus.OK
+		);
+	}
+
 	@PostMapping(value = "/trash")
 	public ResponseEntity<ContainerREST> registerContainer(@RequestBody AddContainerDTO containerDTO) {
 		return new ResponseEntity<>(

@@ -1,0 +1,799 @@
+{
+	"info": {
+		"_postman_id": "660b9ac0-3ae9-44e2-99bc-8a51546506b7",
+		"name": "Kombinacija",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "admin",
+			"item": [
+				{
+					"name": "auth",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "kombinacija.hopto.org/api/v1/auth",
+							"host": [
+								"kombinacija",
+								"hopto",
+								"org"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create neighborhood",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"spansko drzava\",\n    \"centerLatitude\": 45.802,\n    \"centerLongitude\": 15.8964\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "kombinacija.hopto.org/api/v1/neighborhood",
+							"host": [
+								"kombinacija",
+								"hopto",
+								"org"
+							],
+							"path": [
+								"api",
+								"v1",
+								"neighborhood"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all neighborhoods",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "kombinacija.hopto.org/api/v1/neighborhood",
+							"host": [
+								"kombinacija",
+								"hopto",
+								"org"
+							],
+							"path": [
+								"api",
+								"v1",
+								"neighborhood"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get neighborhood with id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "kombinacija.hopto.org/api/v1/neighborhood/4",
+							"host": [
+								"kombinacija",
+								"hopto",
+								"org"
+							],
+							"path": [
+								"api",
+								"v1",
+								"neighborhood",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update neighborhood",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\":\"Spansko drzava\",\n\t\"centerLatitude\":45.8020,\n\t\"centerLongitude\":15.8964\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "kombinacija.hopto.org/api/v1/neighborhood/4",
+							"host": [
+								"kombinacija",
+								"hopto",
+								"org"
+							],
+							"path": [
+								"api",
+								"v1",
+								"neighborhood",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create employee FAIL",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\":\"miroslav\",\n\t\"lastName\":\"bicanic\",\n\t\"email\":\"miroslav.bicanic@fer.hr\",\n\t\"pwd\":\"password\",\n\t\"OIB\":\"12345678910\",\n\t\"neighborhoodId\":4\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "kombinacija.hopto.org/api/v1/employee",
+							"host": [
+								"kombinacija",
+								"hopto",
+								"org"
+							],
+							"path": [
+								"api",
+								"v1",
+								"employee"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all employees",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "kombinacija.hopto.org/api/v1/employee",
+							"host": [
+								"kombinacija",
+								"hopto",
+								"org"
+							],
+							"path": [
+								"api",
+								"v1",
+								"employee"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get employee with id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "kombinacija.hopto.org/api/v1/employee/14",
+							"host": [
+								"kombinacija",
+								"hopto",
+								"org"
+							],
+							"path": [
+								"api",
+								"v1",
+								"employee",
+								"14"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update employee FAIL",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"miroslav\",\n    \"lastName\": \"bicanic\",\n    \"email\": \"miroslav.bicanic@fer.hr\",\n    \"pwd\": \"password\",\n    \"OIB\": \"12345678999\",\n    \"neighborhoodId\": 4\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "kombinacija.hopto.org/api/v1/employee/14",
+							"host": [
+								"kombinacija",
+								"hopto",
+								"org"
+							],
+							"path": [
+								"api",
+								"v1",
+								"employee",
+								"14"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete employee with id FAIL",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "kombinacija.hopto.org/api/v1/employee/14",
+							"host": [
+								"kombinacija",
+								"hopto",
+								"org"
+							],
+							"path": [
+								"api",
+								"v1",
+								"employee",
+								"14"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get neighborhood employees",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "kombinacija.hopto.org/api/v1/neighborhood/4/employee",
+							"host": [
+								"kombinacija",
+								"hopto",
+								"org"
+							],
+							"path": [
+								"api",
+								"v1",
+								"neighborhood",
+								"4",
+								"employee"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create container",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"neighborhoodId\": 4,\n    \"latitude\": 45.804,\n    \"longitude\": 15.897\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "kombinacija.hopto.org/api/v1/container",
+							"host": [
+								"kombinacija",
+								"hopto",
+								"org"
+							],
+							"path": [
+								"api",
+								"v1",
+								"container"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all containers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "kombinacija.hopto.org/api/v1/container",
+							"host": [
+								"kombinacija",
+								"hopto",
+								"org"
+							],
+							"path": [
+								"api",
+								"v1",
+								"container"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get containers with id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "kombinacija.hopto.org/api/v1/container/17",
+							"host": [
+								"kombinacija",
+								"hopto",
+								"org"
+							],
+							"path": [
+								"api",
+								"v1",
+								"container",
+								"17"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update container",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"neighborhoodId\": 4,\n    \"latitude\": 45.899,\n    \"longitude\": 15.899\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "kombinacija.hopto.org/api/v1/container/18",
+							"host": [
+								"kombinacija",
+								"hopto",
+								"org"
+							],
+							"path": [
+								"api",
+								"v1",
+								"container",
+								"18"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete container with id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "kombinacija.hopto.org/api/v1/container/18",
+							"host": [
+								"kombinacija",
+								"hopto",
+								"org"
+							],
+							"path": [
+								"api",
+								"v1",
+								"container",
+								"18"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get neighborhood containers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "kombinacija.hopto.org/api/v1/neighborhood/4/container",
+							"host": [
+								"kombinacija",
+								"hopto",
+								"org"
+							],
+							"path": [
+								"api",
+								"v1",
+								"neighborhood",
+								"4",
+								"container"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "basic",
+				"basic": [
+					{
+						"key": "password",
+						"value": "password",
+						"type": "string"
+					},
+					{
+						"key": "username",
+						"value": "sven.skender@fer.hr",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "c04d196e-b88b-4993-b890-fbd401885cef",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "d22acc90-ed28-45a8-9059-dc7d39b22308",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "citizen",
+			"item": [
+				{
+					"name": "auth citizen",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "kombinacija.hopto.org/api/v1/auth",
+							"host": [
+								"kombinacija",
+								"hopto",
+								"org"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ping full",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "kombinacija.hopto.org/api/v1/ping/17/f",
+							"host": [
+								"kombinacija",
+								"hopto",
+								"org"
+							],
+							"path": [
+								"api",
+								"v1",
+								"ping",
+								"17",
+								"f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ping urgent",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "kombinacija.hopto.org/api/v1/ping/17/u",
+							"host": [
+								"kombinacija",
+								"hopto",
+								"org"
+							],
+							"path": [
+								"api",
+								"v1",
+								"ping",
+								"17",
+								"u"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ping empty",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "kombinacija.hopto.org/api/v1/ping/17/e",
+							"host": [
+								"kombinacija",
+								"hopto",
+								"org"
+							],
+							"path": [
+								"api",
+								"v1",
+								"ping",
+								"17",
+								"e"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "list favorites",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "kombinacija.hopto.org/api/v1/favorite",
+							"host": [
+								"kombinacija",
+								"hopto",
+								"org"
+							],
+							"path": [
+								"api",
+								"v1",
+								"favorite"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add favorite container",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "kombinacija.hopto.org/api/v1/favorite/21",
+							"host": [
+								"kombinacija",
+								"hopto",
+								"org"
+							],
+							"path": [
+								"api",
+								"v1",
+								"favorite",
+								"21"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "remove favorite container",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "kombinacija.hopto.org/api/v1/favorite/17",
+							"host": [
+								"kombinacija",
+								"hopto",
+								"org"
+							],
+							"path": [
+								"api",
+								"v1",
+								"favorite",
+								"17"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "basic",
+				"basic": [
+					{
+						"key": "username",
+						"value": "matea.vasilj@fer.hr",
+						"type": "string"
+					},
+					{
+						"key": "password",
+						"value": "password",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "de8cb450-e488-4a84-a494-866b84706a79",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "2bd94764-49e2-4a68-9170-1ba3203a035c",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "register",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\":\"sven\",\n\t\"lastName\":\"skender\",\n\t\"email\":\"sven.skender@fer.hr\",\n\t\"pwd\":\"password\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "kombinacija.hopto.org/api/v1/register",
+					"host": [
+						"kombinacija",
+						"hopto",
+						"org"
+					],
+					"path": [
+						"api",
+						"v1",
+						"register"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "91a4cfd4-baa8-4f9f-a2dc-238575fb7f98",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "f3bb3255-1ad7-43ff-9fae-a7e33d13d6fa",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

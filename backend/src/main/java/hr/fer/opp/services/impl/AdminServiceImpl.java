@@ -12,7 +12,6 @@ import hr.fer.opp.model.Citizen;
 import hr.fer.opp.model.Container;
 import hr.fer.opp.model.Employee;
 import hr.fer.opp.model.Neighborhood;
-import hr.fer.opp.model.enums.EmploymentStatus;
 import hr.fer.opp.model.enums.RouteStatus;
 import hr.fer.opp.services.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -119,7 +118,7 @@ public class AdminServiceImpl implements AdminService {
 			containerRepository.delete(o.get());
 			return true;
 		}
-		throw new RequestDeniedException("Continer with given id does not exist.");
+		throw new RequestDeniedException("Container with given id does not exist.");
 	}
 
 	@Override
@@ -199,10 +198,9 @@ public class AdminServiceImpl implements AdminService {
 			deleteContainer(container);
 		}
 
-		// mark assigned employees as unemployed
+		// convert assigned employees to citizens
 		for (Employee employee : getEmployeesByNeighborhoodId(neighborhoodId)) {
-			employee.setAsUnemployed();
-			employeeRepository.save(employee);
+			removeEmployee(employee);
 		}
 
 		// delete neighborhood
@@ -254,7 +252,6 @@ public class AdminServiceImpl implements AdminService {
 
 		if (n.isPresent()) {
 			e.setNeighborhood(n.get());
-			e.setEmploymentStatus(EmploymentStatus.EMPLOYED);
 		} else {
 			throw new RequestDeniedException(
 					"Can't register given employee in requested neighborhood. Neighborhood with given id does not exist.");

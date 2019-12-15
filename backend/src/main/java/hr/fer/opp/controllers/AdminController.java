@@ -22,7 +22,7 @@ public class AdminController {
 	@Autowired
 	private AdminService adminService;
 
-	@GetMapping(value = "/trash")
+	@GetMapping(value = "/container")
 	public ResponseEntity<List<ContainerREST>> listAllContainers() {
 		return new ResponseEntity<>(
 				ContainerREST.convertToREST(adminService.getAllContainers()),
@@ -30,7 +30,15 @@ public class AdminController {
 		);
 	}
 
-	@PostMapping(value = "/trash")
+	@GetMapping(value = "/container/{id}")
+	public ResponseEntity<ContainerREST> getContainer(@PathVariable("id") Long containerId) {
+		return new ResponseEntity<>(
+				new ContainerREST(adminService.getContainerById(containerId)),
+				HttpStatus.OK
+		);
+	}
+
+	@PostMapping(value = "/container")
 	public ResponseEntity<ContainerREST> registerContainer(@RequestBody AddContainerDTO containerDTO) {
 		return new ResponseEntity<>(
 				new ContainerREST(adminService.registerNewContainer(containerDTO)),
@@ -38,7 +46,7 @@ public class AdminController {
 		);
 	}
 
-	@PutMapping(value = "/trash/{id}")
+	@PutMapping(value = "/container/{id}")
 	public ResponseEntity<ContainerREST> updateContainer(
 			@RequestBody AddContainerDTO containerDTO,
 			@PathVariable("id") Long containerId
@@ -49,7 +57,7 @@ public class AdminController {
 		);
 	}
 
-	@DeleteMapping(value = "/trash/{id}")
+	@DeleteMapping(value = "/container/{id}")
 	public ResponseEntity<Boolean> deleteContainer(@PathVariable("id") Long containerId) {
 		return new ResponseEntity<>(
 				adminService.deleteContainerById(containerId),
@@ -116,7 +124,7 @@ public class AdminController {
 		);
 	}
 
-	@GetMapping(value = "/neighborhood/{id}/trash")
+	@GetMapping(value = "/neighborhood/{id}/container")
 	public ResponseEntity<List<ContainerREST>> listAllContainersInNeighborhood(@PathVariable("id") Long neighborhoodId) {
 		return new ResponseEntity<>(
 				ContainerREST.convertToREST(adminService.getContainersByNeighborhoodId(neighborhoodId)),

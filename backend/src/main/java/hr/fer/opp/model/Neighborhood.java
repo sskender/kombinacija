@@ -10,6 +10,7 @@ import java.util.Objects;
 public class Neighborhood implements Serializable {
 
     public static final int DEFAULT_WORKER_CAPACITY = 10;
+    public static final int DEFAULT_MIN_WORKER_CAPACITY = 2;
 
     @Id
     @GeneratedValue

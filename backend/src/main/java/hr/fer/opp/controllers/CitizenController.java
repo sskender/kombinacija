@@ -56,7 +56,7 @@ public class CitizenController {
     }
 
     @GetMapping(value = "/favorite")
-    public ResponseEntity<List<FavoriteREST>> favorites(@AuthenticationPrincipal UserDetails userDetails) {
+    public ResponseEntity<List<FavoriteREST>> listFavorites(@AuthenticationPrincipal UserDetails userDetails) {
         return new ResponseEntity<>(
                 FavoriteREST.convertToREST(citizenService.getFavoriteContainers(personService.fetchByEmail(userDetails.getUsername()))),
                 HttpStatus.OK

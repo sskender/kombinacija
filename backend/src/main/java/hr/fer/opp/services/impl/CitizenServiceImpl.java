@@ -2,7 +2,6 @@ package hr.fer.opp.services.impl;
 
 import hr.fer.opp.dao.ContainerRepository;
 import hr.fer.opp.dao.FavoriteRepository;
-import hr.fer.opp.dao.PersonRepository;
 import hr.fer.opp.dao.PingRepository;
 import hr.fer.opp.exceptions.RequestDeniedException;
 import hr.fer.opp.model.Container;
@@ -27,9 +26,6 @@ public class CitizenServiceImpl implements CitizenService {
 
     @Autowired
     private ContainerRepository containerRepository;
-
-    @Autowired
-    private PersonRepository personRepository;
 
     @Autowired
     private PingRepository pingRepository;
@@ -81,21 +77,29 @@ public class CitizenServiceImpl implements CitizenService {
     @Override
     @Transactional
     public Ping pingContainer(Long containerId, Person creator, PingLevel pingLevel) {
+        // fetch container by id
         Optional<Container> containerOptional = containerRepository.findById(containerId);
 
         if (!containerOptional.isPresent()) {
             throw new RequestDeniedException("Container with given ID does not exist.");
         }
 
+        Container container = containerOptional.get();
+
+        // create ping
         Ping ping = new Ping();
         ping.setCreator(creator);
-        ping.setContainer(containerOptional.get());
+        ping.setContainer(container);
         ping.setLevel(pingLevel);
         ping.setTimestamp(System.currentTimeMillis());
         ping.setPhotoPath(Ping.DEFAULT_PHOTO_PATH);
 
+        // update person
         creator.getPings().add(ping);
-        containerOptional.get().getPings().add(ping);
+
+        // update container
+        container.getPings().add(ping);
+        container.setPingsSinceEmptied(container.getPingsSinceEmptied() + 1);
 
         return pingRepository.save(ping);
     }

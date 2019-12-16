@@ -178,7 +178,7 @@ public class AdminServiceImpl implements AdminService {
 	private Citizen convertEmployeeToCitizenOnDelete(Employee employee) {
 		Citizen citizen = new Citizen();
 
-		//citizen.setId(employee.getId());
+		// citizen.setId(employee.getId());
 		citizen.setName(employee.getName());
 		citizen.setLastName(employee.getLastName());
 		citizen.setEmail(employee.getEmail());
@@ -261,7 +261,7 @@ public class AdminServiceImpl implements AdminService {
 		e.setLastName(employeeDTO.getLastName());
 		e.setEmail(employeeDTO.getEmail());
 		e.setPwdHash(encoder.encode(employeeDTO.getPwd()));
-		e.setOIB(employeeDTO.getOIB());
+		e.setOIB(employeeDTO.getOib());
 		e.setPings(new ArrayList<>());
 		e.setFavorites(new ArrayList<>());
 		e.setEmptyings(new ArrayList<>());
@@ -283,7 +283,7 @@ public class AdminServiceImpl implements AdminService {
 			e.get().setLastName(employeeDTO.getLastName());
 			e.get().setEmail(employeeDTO.getEmail());
 			e.get().setPwdHash(encoder.encode(employeeDTO.getPwd()));
-			e.get().setOIB(employeeDTO.getOIB());
+			e.get().setOIB(employeeDTO.getOib());
 			e.get().setNeighborhood(n.get());
 
 			n.get().getAssignedEmployees().add(e.get());

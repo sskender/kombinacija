@@ -8,7 +8,7 @@ public abstract class ExceptionMessages {
 
 	public static final String EXCEPTION_MESSAGE_EMPLOYEE_EMAIL_NOT_EXIST = "Employee with given email does not exist";
 
-	public static final String EXCEPTION_MESSAGE_EMPLOYEE_OIB_NOT_EXIST = "Container with given id does not exist";
+	public static final String EXCEPTION_MESSAGE_EMPLOYEE_OIB_NOT_EXIST = "Employee with given oib does not exist";
 
 	public static final String EXCEPTION_MESSAGE_EMPLOYEE_EXISTS = "Employee with given e-mail already exists.";
 

@@ -3,6 +3,7 @@ package hr.fer.opp.services.impl;
 import hr.fer.opp.dao.CitizenRepository;
 import hr.fer.opp.dao.PersonRepository;
 import hr.fer.opp.dto.request.RegisterDTO;
+import hr.fer.opp.exceptions.ExceptionMessages;
 import hr.fer.opp.exceptions.RequestDeniedException;
 import hr.fer.opp.model.Citizen;
 import hr.fer.opp.services.PublicService;
@@ -16,38 +17,38 @@ import java.util.ArrayList;
 @Service
 public class PublicServiceImpl implements PublicService {
 
-    private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+	private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-    @Autowired
-    private CitizenRepository citizenRepository;
+	@Autowired
+	private CitizenRepository citizenRepository;
 
-    @Autowired
-    private PersonRepository personRepository;
+	@Autowired
+	private PersonRepository personRepository;
 
-    @Override
-    @Transactional
-    public Citizen registerCitizen(RegisterDTO registerDTO) {
-        if (personRepository.findByEmail(registerDTO.getEmail()).isPresent()) {
-            throw new RequestDeniedException("User with given e-mail already exists.");
-        }
-        Citizen c = translate(registerDTO);
-        return citizenRepository.save(c);
-    }
+	@Override
+	@Transactional
+	public Citizen registerCitizen(RegisterDTO registerDTO) {
+		if (personRepository.findByEmail(registerDTO.getEmail()).isPresent()) {
+			throw new RequestDeniedException(ExceptionMessages.EXCEPTION_MESSAGE_USER_EXISTS);
+		}
+		Citizen c = translate(registerDTO);
+		return citizenRepository.save(c);
+	}
 
-    private Citizen translate(RegisterDTO registerDTO) {
-        Citizen c = new Citizen();
+	private Citizen translate(RegisterDTO registerDTO) {
+		Citizen c = new Citizen();
 
-        c.setEmail(registerDTO.getEmail());
-        c.setPwdHash(encoder.encode(registerDTO.getPwd()));
+		c.setEmail(registerDTO.getEmail());
+		c.setPwdHash(encoder.encode(registerDTO.getPwd()));
 
-        c.setName(registerDTO.getName());
-        c.setLastName(registerDTO.getLastName());
-        c.setReputation(0);
+		c.setName(registerDTO.getName());
+		c.setLastName(registerDTO.getLastName());
+		c.setReputation(0);
 
-        c.setPings(new ArrayList<>());
-        c.setFavorites(new ArrayList<>());
+		c.setPings(new ArrayList<>());
+		c.setFavorites(new ArrayList<>());
 
-        return c;
-    }
+		return c;
+	}
 
 }

@@ -733,6 +733,113 @@
 			"protocolProfileBehavior": {}
 		},
 		{
+			"name": "employee",
+			"item": [
+				{
+					"name": "auth employee",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "kombinacija.hopto.org/api/v1/auth",
+							"host": [
+								"kombinacija",
+								"hopto",
+								"org"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get work route",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "kombinacija.hopto.org/api/v1/auth",
+							"host": [
+								"kombinacija",
+								"hopto",
+								"org"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "empty container",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "kombinacija.hopto.org/api/v1/empty/43",
+							"host": [
+								"kombinacija",
+								"hopto",
+								"org"
+							],
+							"path": [
+								"api",
+								"v1",
+								"empty",
+								"43"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "basic",
+				"basic": [
+					{
+						"key": "username",
+						"value": "marko.perkovic@fer.hr",
+						"type": "string"
+					},
+					{
+						"key": "password",
+						"value": "password",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "cee1bfc0-d9a2-462c-9bff-fa0af6532c3f",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "f56be2c9-5f37-4e13-a7b7-e5e1dd1d0eec",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
 			"name": "register",
 			"request": {
 				"auth": {

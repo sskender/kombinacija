@@ -1,6 +1,5 @@
 package hr.fer.opp.services.impl;
 
-import hr.fer.opp.dao.CitizenRepository;
 import hr.fer.opp.dao.ContainerRepository;
 import hr.fer.opp.dao.EmployeeRepository;
 import hr.fer.opp.dao.NeighborhoodRepository;
@@ -8,7 +7,6 @@ import hr.fer.opp.dto.request.AddContainerDTO;
 import hr.fer.opp.dto.request.AddNeighborhoodDTO;
 import hr.fer.opp.dto.request.RegisterEmployeeDTO;
 import hr.fer.opp.exceptions.RequestDeniedException;
-import hr.fer.opp.model.Citizen;
 import hr.fer.opp.model.Container;
 import hr.fer.opp.model.Employee;
 import hr.fer.opp.model.Neighborhood;
@@ -27,9 +25,6 @@ import java.util.Optional;
 public class AdminServiceImpl implements AdminService {
 
 	private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-
-	@Autowired
-	private CitizenRepository citizenRepository;
 
 	@Autowired
 	private ContainerRepository containerRepository;
@@ -175,21 +170,6 @@ public class AdminServiceImpl implements AdminService {
 
 	}
 
-	private Citizen convertEmployeeToCitizenOnDelete(Employee employee) {
-		Citizen citizen = new Citizen();
-
-		// citizen.setId(employee.getId());
-		citizen.setName(employee.getName());
-		citizen.setLastName(employee.getLastName());
-		citizen.setEmail(employee.getEmail());
-		citizen.setPwdHash(employee.getPwdHash());
-		citizen.setPings(new ArrayList<>());
-		citizen.setFavorites(new ArrayList<>());
-		citizen.setReputation(Citizen.DEFAULT_CITIZEN_REPUTATION);
-
-		return citizen;
-	}
-
 	@Override
 	@Transactional
 	public boolean deleteNeighborhoodById(Long neighborhoodId) {
@@ -198,7 +178,7 @@ public class AdminServiceImpl implements AdminService {
 			deleteContainer(container);
 		}
 
-		// convert assigned employees to citizens
+		// delete employees
 		for (Employee employee : getEmployeesByNeighborhoodId(neighborhoodId)) {
 			removeEmployee(employee);
 		}
@@ -303,11 +283,6 @@ public class AdminServiceImpl implements AdminService {
 		Optional<Employee> o = employeeRepository.findById(employeeId);
 
 		if (o.isPresent()) {
-			// employee is now citizen
-			Citizen citizen = convertEmployeeToCitizenOnDelete(o.get());
-			citizenRepository.save(citizen);
-
-			// delete employee
 			employeeRepository.delete(o.get());
 			return true;
 		}

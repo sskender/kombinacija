@@ -1,7 +1,6 @@
 package hr.fer.opp.services.impl;
 
-import hr.fer.opp.dao.ContainerRepository;
-import hr.fer.opp.dao.EmployeeRepository;
+import hr.fer.opp.dao.*;
 import hr.fer.opp.exceptions.ExceptionMessages;
 import hr.fer.opp.exceptions.RequestDeniedException;
 import hr.fer.opp.model.Container;
@@ -9,6 +8,7 @@ import hr.fer.opp.model.Employee;
 import hr.fer.opp.model.Emptying;
 import hr.fer.opp.model.Person;
 import hr.fer.opp.model.enums.RouteStatus;
+import hr.fer.opp.services.CitizenService;
 import hr.fer.opp.services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,7 +23,19 @@ public class EmployeeServiceImpl implements EmployeeService {
     private ContainerRepository containerRepository;
 
     @Autowired
+    private EmptyingRepository emptyingRepository;
+
+    @Autowired
+    private PingRepository pingRepository;
+
+    @Autowired
+    private CitizenRepository citizenRepository;
+
+    @Autowired
     private EmployeeRepository employeeRepository;
+
+    @Autowired
+    private CitizenService citizenService;
 
     @Override
     public Emptying emptyContainer(Long containerId, Person worker) {
@@ -46,14 +58,15 @@ public class EmployeeServiceImpl implements EmployeeService {
         emptying.setTimestamp(System.currentTimeMillis());
 
         // update container
-        containerOptional.get().setPingsSinceEmptied(0);
+        containerOptional.get().setPingsSinceEmptied(Container.DEFAULT_PINGS_SINCE_EMPTIED);
         containerOptional.get().setRouteStatus(RouteStatus.PENDING);
         containerOptional.get().getEmptyings().add(emptying);
 
         // update worker
         employeeOptional.get().getEmptyings().add(emptying);
 
-        return emptying;
+        // save emptying record
+        return emptyingRepository.save(emptying);
     }
 
     @Override

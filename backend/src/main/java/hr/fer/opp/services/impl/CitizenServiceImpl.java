@@ -1,13 +1,11 @@
 package hr.fer.opp.services.impl;
 
+import hr.fer.opp.dao.CitizenRepository;
 import hr.fer.opp.dao.ContainerRepository;
 import hr.fer.opp.dao.FavoriteRepository;
 import hr.fer.opp.dao.PingRepository;
 import hr.fer.opp.exceptions.RequestDeniedException;
-import hr.fer.opp.model.Container;
-import hr.fer.opp.model.Favorite;
-import hr.fer.opp.model.Person;
-import hr.fer.opp.model.Ping;
+import hr.fer.opp.model.*;
 import hr.fer.opp.model.enums.PingLevel;
 import hr.fer.opp.services.CitizenService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +26,27 @@ public class CitizenServiceImpl implements CitizenService {
     private ContainerRepository containerRepository;
 
     @Autowired
+    private CitizenRepository citizenRepository;
+
+    @Autowired
     private PingRepository pingRepository;
+
+    @Override
+    @Transactional
+    public int increaseReputation(Citizen citizen) {
+        citizen.setReputation(citizen.getReputation() + Citizen.CITIZEN_REPUTATION_INCREASE);
+        return citizenRepository.save(citizen).getReputation();
+    }
+
+    @Override
+    @Transactional
+    public int decreaseReputation(Citizen citizen) {
+        citizen.setReputation(citizen.getReputation() - Citizen.CITIZEN_REPUTATION_DECREASE);
+        if (citizen.getReputation() < 0) {
+            citizen.setReputation(Citizen.DEFAULT_CITIZEN_REPUTATION);
+        }
+        return citizenRepository.save(citizen).getReputation();
+    }
 
     @Override
     @Transactional

@@ -1,5 +1,6 @@
 package hr.fer.opp.services;
 
+import hr.fer.opp.model.Citizen;
 import hr.fer.opp.model.Favorite;
 import hr.fer.opp.model.Person;
 import hr.fer.opp.model.Ping;
@@ -8,6 +9,22 @@ import hr.fer.opp.model.enums.PingLevel;
 import java.util.List;
 
 public interface CitizenService {
+
+    /**
+     * Increase citizen's reputation.
+     *
+     * @param citizen
+     * @return citizen's reputation after update
+     */
+    int increaseReputation(Citizen citizen);
+
+    /**
+     * Decrease citizen's reputation.
+     *
+     * @param citizen
+     * @return citizen's reputation after update
+     */
+    int decreaseReputation(Citizen citizen);
 
     /**
      * Mark container as favorite.

@@ -10,7 +10,9 @@ public abstract class ExceptionMessages {
 
 	public static final String EXCEPTION_MESSAGE_EMPLOYEE_OIB_NOT_EXIST = "Employee with given oib does not exist";
 
-	public static final String EXCEPTION_MESSAGE_EMPLOYEE_EXISTS = "Employee with given e-mail already exists.";
+	public static final String EXCEPTION_MESSAGE_EMPLOYEE_EMAIL_EXISTS = "Employee with given e-mail already exists.";
+
+	public static final String EXCEPTION_MESSAGE_EMPLOYEE_OIB_EXISTS = "Employee with given oib already exists.";
 
 	public static final String EXCEPTION_MESSAGE_EMPLOYEE_CAN_NOT_REGISTER = "Can't register given employee in requested neighborhoodt";
 

@@ -10,6 +10,22 @@ import java.util.List;
 public interface CitizenService {
 
     /**
+     * Increase citizen's reputation.
+     *
+     * @param creator ping creator
+     * @return citizen's reputation after update
+     */
+    int increaseReputation(Person creator);
+
+    /**
+     * Decrease citizen's reputation.
+     *
+     * @param creator ping creator
+     * @return citizen's reputation after update
+     */
+    int decreaseReputation(Person creator);
+
+    /**
      * Mark container as favorite.
      *
      * @param containerId

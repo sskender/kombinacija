@@ -5,20 +5,20 @@ public class RegisterEmployeeDTO {
 	private String lastName;
 	private String email;
 	private String pwd;
-	private String OIB;
+	private String oib;
 	private Long neighborhoodId;
 
 	public RegisterEmployeeDTO() {
 	}
 
-	public RegisterEmployeeDTO(String name, String lastName, String email, String pwd, String OIB,
-							   Long neighborhoodId) {
+	public RegisterEmployeeDTO(String name, String lastName, String email, String pwd, String oib,
+			Long neighborhoodId) {
 		super();
 		this.name = name;
 		this.lastName = lastName;
 		this.email = email;
 		this.pwd = pwd;
-		this.OIB = OIB;
+		this.oib = oib;
 		this.neighborhoodId = neighborhoodId;
 	}
 
@@ -54,12 +54,12 @@ public class RegisterEmployeeDTO {
 		this.pwd = pwd;
 	}
 
-	public String getOIB() {
-		return OIB;
+	public String getOib() {
+		return oib;
 	}
 
-	public void setOIB(String oIB) {
-		OIB = oIB;
+	public void setOib(String oib) {
+		this.oib = oib;
 	}
 
 	public Long getNeighborhoodId() {

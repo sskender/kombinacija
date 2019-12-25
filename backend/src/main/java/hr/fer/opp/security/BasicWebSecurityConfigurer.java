@@ -57,7 +57,7 @@ public class BasicWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
                 .requestMatchers(CorsUtils::isCorsRequest).permitAll()
                 .antMatchers("/history/**", "/map", "/register").permitAll()
                 .antMatchers("/container*", "/neighborhood*", "/employee*").hasAuthority("ADMIN")
-                .antMatchers("/route", "/empty/{\\d+}").hasAuthority("EMPLOYEE")
+                .antMatchers("/route", "/empty/{\\d+}", "/report/**").hasAuthority("EMPLOYEE")
                 .antMatchers("/ping/{\\d+}/*", "/favorite", "/favorite/{\\d+}", "/auth").hasAuthority("CITIZEN")
 
                 .and()

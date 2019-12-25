@@ -10,6 +10,8 @@ import java.io.Serializable;
 public class Citizen extends Person implements Serializable {
 
     public static final int DEFAULT_CITIZEN_REPUTATION = 0;
+    public static final int CITIZEN_REPUTATION_INCREASE = 10;
+    public static final int CITIZEN_REPUTATION_DECREASE = 15;
 
     @Column(nullable = false)
     private Integer reputation;

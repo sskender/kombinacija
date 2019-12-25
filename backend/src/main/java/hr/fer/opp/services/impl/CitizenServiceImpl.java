@@ -1,13 +1,12 @@
 package hr.fer.opp.services.impl;
 
+import hr.fer.opp.dao.CitizenRepository;
 import hr.fer.opp.dao.ContainerRepository;
 import hr.fer.opp.dao.FavoriteRepository;
 import hr.fer.opp.dao.PingRepository;
+import hr.fer.opp.exceptions.ExceptionMessages;
 import hr.fer.opp.exceptions.RequestDeniedException;
-import hr.fer.opp.model.Container;
-import hr.fer.opp.model.Favorite;
-import hr.fer.opp.model.Person;
-import hr.fer.opp.model.Ping;
+import hr.fer.opp.model.*;
 import hr.fer.opp.model.enums.PingLevel;
 import hr.fer.opp.services.CitizenService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,87 +20,126 @@ import java.util.stream.Collectors;
 @Service
 public class CitizenServiceImpl implements CitizenService {
 
-    @Autowired
-    private FavoriteRepository favoriteRepository;
+	@Autowired
+	private FavoriteRepository favoriteRepository;
 
-    @Autowired
-    private ContainerRepository containerRepository;
+	@Autowired
+	private ContainerRepository containerRepository;
 
-    @Autowired
-    private PingRepository pingRepository;
+	@Autowired
+	private CitizenRepository citizenRepository;
 
-    @Override
-    @Transactional
-    public Favorite addToFavorites(Long containerId, Person owner) {
-        Optional<Container> containerOptional = containerRepository.findById(containerId);
+	@Autowired
+	private PingRepository pingRepository;
 
-        if (!containerOptional.isPresent()) {
-            throw new RequestDeniedException("Can't register given container as a favorite. Container with the given id does not exist.");
-        }
+	@Override
+	@Transactional
+	public int increaseReputation(Person creator) {
+		Optional<Citizen> citizenOptional = citizenRepository.findByEmail(creator.getEmail());
 
-        Favorite favorite = new Favorite();
-        favorite.setContainer(containerOptional.get());
-        favorite.setOwner(owner);
+		if (citizenOptional.isPresent()) {
+			Citizen citizen = citizenOptional.get();
+			citizen.setReputation(citizen.getReputation() + Citizen.CITIZEN_REPUTATION_INCREASE);
 
-        containerOptional.get().getFavorites().add(favorite);
-        owner.getFavorites().add(favorite);
+			return citizenRepository.save(citizen).getReputation();
+		} else {
+			throw new RequestDeniedException(ExceptionMessages.EXCEPTION_MESSAGE_CITIZEN_NOT_EXIST);
+		}
+	}
 
-        return favoriteRepository.save(favorite);
-    }
+	@Override
+	@Transactional
+	public int decreaseReputation(Person creator) {
+		Optional<Citizen> citizenOptional = citizenRepository.findByEmail(creator.getEmail());
 
-    @Override
-    @Transactional
-    public boolean removeFromFavorites(Long containerId, Person owner) {
-        Optional<Container> containerOptional = containerRepository.findById(containerId);
+		if (citizenOptional.isPresent()) {
+			Citizen citizen = citizenOptional.get();
+			citizen.setReputation(citizen.getReputation() - Citizen.CITIZEN_REPUTATION_DECREASE);
 
-        if (!containerOptional.isPresent()) {
-            throw new RequestDeniedException("Container with given ID does not exist.");
-        }
+			if (citizen.getReputation() < 0) {
+				citizen.setReputation(Citizen.DEFAULT_CITIZEN_REPUTATION);
+			}
 
-        List<Favorite> favorites = owner.getFavorites();
+			return citizenRepository.save(citizen).getReputation();
+		} else {
+			throw new RequestDeniedException(ExceptionMessages.EXCEPTION_MESSAGE_CITIZEN_NOT_EXIST);
+		}
+	}
 
-        for (Favorite favorite : favorites) {
-            if (favorite.getContainer().getId().equals(containerOptional.get().getId())) {
-                favoriteRepository.delete(favorite);
-                return true;
-            }
-        }
-        throw new RequestDeniedException("Favorite does not exist.");
-    }
+	@Override
+	@Transactional
+	public Favorite addToFavorites(Long containerId, Person owner) {
+		Optional<Container> containerOptional = containerRepository.findById(containerId);
 
-    @Override
-    public List<Favorite> getFavoriteContainers(Person owner) {
-        return favoriteRepository.findAll().stream().filter(f -> f.getOwner().getId().equals(owner.getId())).collect(Collectors.toList());
-    }
+		if (!containerOptional.isPresent()) {
+			throw new RequestDeniedException(ExceptionMessages.EXCEPTION_MESSAGE_CONTAINER_CAN_NOT_REGISTER_FAVORITE
+					+ ExceptionMessages.EXCEPTION_MESSAGE_CONTAINER_NOT_EXIST);
+		}
 
-    @Override
-    @Transactional
-    public Ping pingContainer(Long containerId, Person creator, PingLevel pingLevel) {
-        // fetch container by id
-        Optional<Container> containerOptional = containerRepository.findById(containerId);
+		Favorite favorite = new Favorite();
+		favorite.setContainer(containerOptional.get());
+		favorite.setOwner(owner);
 
-        if (!containerOptional.isPresent()) {
-            throw new RequestDeniedException("Container with given ID does not exist.");
-        }
+		containerOptional.get().getFavorites().add(favorite);
+		owner.getFavorites().add(favorite);
 
-        Container container = containerOptional.get();
+		return favoriteRepository.save(favorite);
+	}
 
-        // create ping
-        Ping ping = new Ping();
-        ping.setCreator(creator);
-        ping.setContainer(container);
-        ping.setLevel(pingLevel);
-        ping.setTimestamp(System.currentTimeMillis());
-        ping.setPhotoPath(Ping.DEFAULT_PHOTO_PATH);
+	@Override
+	@Transactional
+	public boolean removeFromFavorites(Long containerId, Person owner) {
+		Optional<Container> containerOptional = containerRepository.findById(containerId);
 
-        // update person
-        creator.getPings().add(ping);
+		if (!containerOptional.isPresent()) {
+			throw new RequestDeniedException(ExceptionMessages.EXCEPTION_MESSAGE_CONTAINER_NOT_EXIST);
+		}
 
-        // update container
-        container.getPings().add(ping);
-        container.setPingsSinceEmptied(container.getPingsSinceEmptied() + 1);
+		List<Favorite> favorites = owner.getFavorites();
 
-        return pingRepository.save(ping);
-    }
+		for (Favorite favorite : favorites) {
+			if (favorite.getContainer().getId().equals(containerOptional.get().getId())) {
+				favoriteRepository.delete(favorite);
+				return true;
+			}
+		}
+		throw new RequestDeniedException(ExceptionMessages.EXCEPTION_MESSAGE_FAVORITE_NOT_EXIST);
+	}
+
+	@Override
+	public List<Favorite> getFavoriteContainers(Person owner) {
+		return favoriteRepository.findAll().stream().filter(f -> f.getOwner().getId().equals(owner.getId()))
+				.collect(Collectors.toList());
+	}
+
+	@Override
+	@Transactional
+	public Ping pingContainer(Long containerId, Person creator, PingLevel pingLevel) {
+		// fetch container by id
+		Optional<Container> containerOptional = containerRepository.findById(containerId);
+
+		if (!containerOptional.isPresent()) {
+			throw new RequestDeniedException(ExceptionMessages.EXCEPTION_MESSAGE_FAVORITE_NOT_EXIST);
+		}
+
+		Container container = containerOptional.get();
+
+		// create ping
+		Ping ping = new Ping();
+		ping.setCreator(creator);
+		ping.setContainer(container);
+		ping.setLevel(pingLevel);
+		ping.setTimestamp(System.currentTimeMillis());
+		ping.setPhotoPath(Ping.DEFAULT_PHOTO_PATH);
+
+		// update person
+		creator.getPings().add(ping);
+
+		// update container
+		container.getPings().add(ping);
+		container.setPingsSinceEmptied(container.getPingsSinceEmptied() + 1);
+
+		return pingRepository.save(ping);
+	}
 
 }

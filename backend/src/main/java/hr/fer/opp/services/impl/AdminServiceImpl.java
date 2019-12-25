@@ -1,14 +1,13 @@
 package hr.fer.opp.services.impl;
 
-import hr.fer.opp.dao.CitizenRepository;
 import hr.fer.opp.dao.ContainerRepository;
 import hr.fer.opp.dao.EmployeeRepository;
 import hr.fer.opp.dao.NeighborhoodRepository;
 import hr.fer.opp.dto.request.AddContainerDTO;
 import hr.fer.opp.dto.request.AddNeighborhoodDTO;
 import hr.fer.opp.dto.request.RegisterEmployeeDTO;
+import hr.fer.opp.exceptions.ExceptionMessages;
 import hr.fer.opp.exceptions.RequestDeniedException;
-import hr.fer.opp.model.Citizen;
 import hr.fer.opp.model.Container;
 import hr.fer.opp.model.Employee;
 import hr.fer.opp.model.Neighborhood;
@@ -29,9 +28,6 @@ public class AdminServiceImpl implements AdminService {
 	private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
 	@Autowired
-	private CitizenRepository citizenRepository;
-
-	@Autowired
 	private ContainerRepository containerRepository;
 
 	@Autowired
@@ -45,7 +41,7 @@ public class AdminServiceImpl implements AdminService {
 		Optional<Container> o = containerRepository.findById(containerId);
 		if (o.isPresent())
 			return o.get();
-		throw new RequestDeniedException("Container with given id does not exist.");
+		throw new RequestDeniedException(ExceptionMessages.EXCEPTION_MESSAGE_CONTAINER_NOT_EXIST);
 	}
 
 	@Override
@@ -53,7 +49,7 @@ public class AdminServiceImpl implements AdminService {
 		Optional<Neighborhood> o = neighborhoodRepository.findById(neighborhoodId);
 		if (o.isPresent())
 			return o.get().getContainers();
-		throw new RequestDeniedException("Neighborhood with given id does not exist.");
+		throw new RequestDeniedException(ExceptionMessages.EXCEPTION_MESSAGE_NEIGHBORHOOD_NOT_EXIST);
 	}
 
 	@Override
@@ -69,8 +65,8 @@ public class AdminServiceImpl implements AdminService {
 		if (n.isPresent()) {
 			c.setNeighborhood(n.get());
 		} else {
-			throw new RequestDeniedException(
-					"Can't register given container in requested neighborhood. Neighborhood with given id does not exist.");
+			throw new RequestDeniedException(ExceptionMessages.EXCEPTION_MESSAGE_CONTAINER_CAN_NOT_REGISTER
+					+ ExceptionMessages.EXCEPTION_MESSAGE_NEIGHBORHOOD_NOT_EXIST);
 		}
 
 		c.setLatitude(containerDTO.getLatitude());
@@ -104,10 +100,10 @@ public class AdminServiceImpl implements AdminService {
 			return containerRepository.save(c.get());
 		}
 		if (!c.isPresent())
-			throw new RequestDeniedException("Container with given id does not exist.");
+			throw new RequestDeniedException(ExceptionMessages.EXCEPTION_MESSAGE_CONTAINER_NOT_EXIST);
 		else
-			throw new RequestDeniedException(
-					"Can't update given container in requested neighborhood. Neighborhood with given id does not exist.");
+			throw new RequestDeniedException(ExceptionMessages.EXCEPTION_MESSAGE_CONTAINER_CAN_NOT_UPDATE
+					+ ExceptionMessages.EXCEPTION_MESSAGE_NEIGHBORHOOD_NOT_EXIST);
 	}
 
 	@Override
@@ -118,7 +114,7 @@ public class AdminServiceImpl implements AdminService {
 			containerRepository.delete(o.get());
 			return true;
 		}
-		throw new RequestDeniedException("Container with given id does not exist.");
+		throw new RequestDeniedException(ExceptionMessages.EXCEPTION_MESSAGE_CONTAINER_NOT_EXIST);
 	}
 
 	@Override
@@ -126,7 +122,7 @@ public class AdminServiceImpl implements AdminService {
 		Optional<Neighborhood> o = neighborhoodRepository.findById(neighborhoodId);
 		if (o.isPresent())
 			return o.get();
-		throw new RequestDeniedException("Neighborhood with given id does not exist.");
+		throw new RequestDeniedException(ExceptionMessages.EXCEPTION_MESSAGE_NEIGHBORHOOD_NOT_EXIST);
 	}
 
 	@Override
@@ -134,7 +130,7 @@ public class AdminServiceImpl implements AdminService {
 		Optional<Neighborhood> o = neighborhoodRepository.findByName(neighborhoodName);
 		if (o.isPresent())
 			return o.get();
-		throw new RequestDeniedException("Neighborhood with given name does not exist.");
+		throw new RequestDeniedException(ExceptionMessages.EXCEPTION_MESSAGE_NEIGHBORHOOD_NAME_NOT_EXIST);
 	}
 
 	@Override
@@ -146,7 +142,7 @@ public class AdminServiceImpl implements AdminService {
 	@Transactional
 	public Neighborhood registerNewNeighborhood(AddNeighborhoodDTO neighborhoodDTO) {
 		if (neighborhoodRepository.findByName(neighborhoodDTO.getName()).isPresent()) {
-			throw new RequestDeniedException("Neighborhood with given name already exists.");
+			throw new RequestDeniedException(ExceptionMessages.EXCEPTION_MESSAGE_NEIGHBORHOOD_NAME_EXISTS);
 		}
 		Neighborhood n = new Neighborhood();
 
@@ -171,23 +167,8 @@ public class AdminServiceImpl implements AdminService {
 
 			return neighborhoodRepository.save(o.get());
 		}
-		throw new RequestDeniedException("Neighborhood with given id does not exist.");
+		throw new RequestDeniedException(ExceptionMessages.EXCEPTION_MESSAGE_NEIGHBORHOOD_NOT_EXIST);
 
-	}
-
-	private Citizen convertEmployeeToCitizenOnDelete(Employee employee) {
-		Citizen citizen = new Citizen();
-
-		//citizen.setId(employee.getId());
-		citizen.setName(employee.getName());
-		citizen.setLastName(employee.getLastName());
-		citizen.setEmail(employee.getEmail());
-		citizen.setPwdHash(employee.getPwdHash());
-		citizen.setPings(new ArrayList<>());
-		citizen.setFavorites(new ArrayList<>());
-		citizen.setReputation(Citizen.DEFAULT_CITIZEN_REPUTATION);
-
-		return citizen;
 	}
 
 	@Override
@@ -198,7 +179,7 @@ public class AdminServiceImpl implements AdminService {
 			deleteContainer(container);
 		}
 
-		// convert assigned employees to citizens
+		// delete assigned employees
 		for (Employee employee : getEmployeesByNeighborhoodId(neighborhoodId)) {
 			removeEmployee(employee);
 		}
@@ -209,7 +190,7 @@ public class AdminServiceImpl implements AdminService {
 			neighborhoodRepository.delete(o.get());
 			return true;
 		}
-		throw new RequestDeniedException("Neighborhood with given id does not exist.");
+		throw new RequestDeniedException(ExceptionMessages.EXCEPTION_MESSAGE_NEIGHBORHOOD_NOT_EXIST);
 	}
 
 	@Override
@@ -217,7 +198,7 @@ public class AdminServiceImpl implements AdminService {
 		Optional<Employee> o = employeeRepository.findById(employeeId);
 		if (o.isPresent())
 			return o.get();
-		throw new RequestDeniedException("Employee with given id does not exist.");
+		throw new RequestDeniedException(ExceptionMessages.EXCEPTION_MESSAGE_EMPLOYEE_NOT_EXIST);
 	}
 
 	@Override
@@ -225,7 +206,7 @@ public class AdminServiceImpl implements AdminService {
 		Optional<Employee> o = employeeRepository.findByOIB(OIB);
 		if (o.isPresent())
 			return o.get();
-		throw new RequestDeniedException("Employee with given OIB does not exist.");
+		throw new RequestDeniedException(ExceptionMessages.EXCEPTION_MESSAGE_EMPLOYEE_OIB_NOT_EXIST);
 	}
 
 	@Override
@@ -233,7 +214,7 @@ public class AdminServiceImpl implements AdminService {
 		Optional<Neighborhood> o = neighborhoodRepository.findById(neighborhoodId);
 		if (o.isPresent())
 			return o.get().getAssignedEmployees();
-		throw new RequestDeniedException("Neighborhood with given id does not exist.");
+		throw new RequestDeniedException(ExceptionMessages.EXCEPTION_MESSAGE_NEIGHBORHOOD_NOT_EXIST);
 	}
 
 	@Override
@@ -247,21 +228,25 @@ public class AdminServiceImpl implements AdminService {
 		Optional<Neighborhood> n = neighborhoodRepository.findById(employeeDTO.getNeighborhoodId());
 		Employee e = new Employee();
 		if (employeeRepository.findByEmail(employeeDTO.getEmail()).isPresent()) {
-			throw new RequestDeniedException("Employee with given e-mail already exists.");
+			throw new RequestDeniedException(ExceptionMessages.EXCEPTION_MESSAGE_EMPLOYEE_EMAIL_EXISTS);
+		}
+
+		if (employeeRepository.findByOIB(employeeDTO.getOib()).isPresent()) {
+			throw new RequestDeniedException(ExceptionMessages.EXCEPTION_MESSAGE_EMPLOYEE_OIB_EXISTS);
 		}
 
 		if (n.isPresent()) {
 			e.setNeighborhood(n.get());
 		} else {
-			throw new RequestDeniedException(
-					"Can't register given employee in requested neighborhood. Neighborhood with given id does not exist.");
+			throw new RequestDeniedException(ExceptionMessages.EXCEPTION_MESSAGE_EMPLOYEE_CAN_NOT_REGISTER
+					+ ExceptionMessages.EXCEPTION_MESSAGE_NEIGHBORHOOD_NOT_EXIST);
 		}
 
 		e.setName(employeeDTO.getName());
 		e.setLastName(employeeDTO.getLastName());
 		e.setEmail(employeeDTO.getEmail());
 		e.setPwdHash(encoder.encode(employeeDTO.getPwd()));
-		e.setOIB(employeeDTO.getOIB());
+		e.setOIB(employeeDTO.getOib());
 		e.setPings(new ArrayList<>());
 		e.setFavorites(new ArrayList<>());
 		e.setEmptyings(new ArrayList<>());
@@ -283,7 +268,7 @@ public class AdminServiceImpl implements AdminService {
 			e.get().setLastName(employeeDTO.getLastName());
 			e.get().setEmail(employeeDTO.getEmail());
 			e.get().setPwdHash(encoder.encode(employeeDTO.getPwd()));
-			e.get().setOIB(employeeDTO.getOIB());
+			e.get().setOIB(employeeDTO.getOib());
 			e.get().setNeighborhood(n.get());
 
 			n.get().getAssignedEmployees().add(e.get());
@@ -291,10 +276,10 @@ public class AdminServiceImpl implements AdminService {
 			return employeeRepository.save(e.get());
 		}
 		if (!e.isPresent())
-			throw new RequestDeniedException("Employee with given id does not exist.");
+			throw new RequestDeniedException(ExceptionMessages.EXCEPTION_MESSAGE_EMPLOYEE_NOT_EXIST);
 		else
-			throw new RequestDeniedException(
-					"Can't update given employee in requested neighborhood. Neighborhood with given id does not exist.");
+			throw new RequestDeniedException(ExceptionMessages.EXCEPTION_MESSAGE_EMPLOYEE_CAN_NOT_UPDATE
+					+ ExceptionMessages.EXCEPTION_MESSAGE_NEIGHBORHOOD_NOT_EXIST);
 	}
 
 	@Override
@@ -303,15 +288,11 @@ public class AdminServiceImpl implements AdminService {
 		Optional<Employee> o = employeeRepository.findById(employeeId);
 
 		if (o.isPresent()) {
-			// employee is now citizen
-			Citizen citizen = convertEmployeeToCitizenOnDelete(o.get());
-			citizenRepository.save(citizen);
-
 			// delete employee
 			employeeRepository.delete(o.get());
 			return true;
 		}
-		throw new RequestDeniedException("Employee with given id does not exist.");
+		throw new RequestDeniedException(ExceptionMessages.EXCEPTION_MESSAGE_EMPLOYEE_NOT_EXIST);
 	}
 
 }

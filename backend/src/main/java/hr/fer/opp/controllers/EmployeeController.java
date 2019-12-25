@@ -1,6 +1,7 @@
 package hr.fer.opp.controllers;
 
-import hr.fer.opp.model.Container;
+import hr.fer.opp.dto.response.ContainerREST;
+import hr.fer.opp.dto.response.EmptyingREST;
 import hr.fer.opp.services.EmployeeService;
 import hr.fer.opp.services.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,21 +24,37 @@ public class EmployeeController {
     private EmployeeService employeeService;
 
     @GetMapping(value = "/route")
-    public ResponseEntity<List<Container>> getRoute(@AuthenticationPrincipal UserDetails userDetails) {
+    public ResponseEntity<List<ContainerREST>> getRoute(@AuthenticationPrincipal UserDetails userDetails) {
         return new ResponseEntity<>(
-                employeeService.getWorkRoute(personService.fetchByEmail(userDetails.getUsername())),
+                null,
                 HttpStatus.OK
         );
     }
 
     @PostMapping(value = "/empty/{id}")
-    public ResponseEntity<Boolean> emptyContainer(
+    public ResponseEntity<EmptyingREST> emptyContainer(
             @PathVariable("id") Long continerID,
             @AuthenticationPrincipal UserDetails userDetails
     ) {
         return new ResponseEntity<>(
-                employeeService.emptyContainer(continerID, personService.fetchByEmail(userDetails.getUsername())),
-                HttpStatus.CREATED
+                new EmptyingREST(employeeService.emptyContainer(continerID, personService.fetchByEmail(userDetails.getUsername()))),
+                HttpStatus.OK
+        );
+    }
+
+    @PostMapping(value = "/report/{id}/legit")
+    public ResponseEntity<Boolean> reportLegitimatePing(@PathVariable("id") Long containerId) {
+        return new ResponseEntity<>(
+                employeeService.reportLegitimatePing(containerId),
+                HttpStatus.OK
+        );
+    }
+
+    @PostMapping(value = "/report/{id}/fake")
+    public ResponseEntity<Boolean> reportFakePing(@PathVariable("id") Long containerId) {
+        return new ResponseEntity<>(
+                employeeService.reportFakePing(containerId),
+                HttpStatus.OK
         );
     }
 

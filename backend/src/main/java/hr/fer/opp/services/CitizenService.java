@@ -1,6 +1,5 @@
 package hr.fer.opp.services;
 
-import hr.fer.opp.model.Citizen;
 import hr.fer.opp.model.Favorite;
 import hr.fer.opp.model.Person;
 import hr.fer.opp.model.Ping;
@@ -13,18 +12,18 @@ public interface CitizenService {
     /**
      * Increase citizen's reputation.
      *
-     * @param citizen
+     * @param creator ping creator
      * @return citizen's reputation after update
      */
-    int increaseReputation(Citizen citizen);
+    int increaseReputation(Person creator);
 
     /**
      * Decrease citizen's reputation.
      *
-     * @param citizen
+     * @param creator ping creator
      * @return citizen's reputation after update
      */
-    int decreaseReputation(Citizen citizen);
+    int decreaseReputation(Person creator);
 
     /**
      * Mark container as favorite.

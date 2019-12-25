@@ -34,19 +34,36 @@ public class CitizenServiceImpl implements CitizenService {
 
 	@Override
 	@Transactional
-	public int increaseReputation(Citizen citizen) {
-		citizen.setReputation(citizen.getReputation() + Citizen.CITIZEN_REPUTATION_INCREASE);
-		return citizenRepository.save(citizen).getReputation();
+	public int increaseReputation(Person creator) {
+		Optional<Citizen> citizenOptional = citizenRepository.findByEmail(creator.getEmail());
+
+		if (citizenOptional.isPresent()) {
+			Citizen citizen = citizenOptional.get();
+			citizen.setReputation(citizen.getReputation() + Citizen.CITIZEN_REPUTATION_INCREASE);
+
+			return citizenRepository.save(citizen).getReputation();
+		} else {
+			throw new RequestDeniedException(ExceptionMessages.EXCEPTION_MESSAGE_CITIZEN_NOT_EXIST);
+		}
 	}
 
 	@Override
 	@Transactional
-	public int decreaseReputation(Citizen citizen) {
-		citizen.setReputation(citizen.getReputation() - Citizen.CITIZEN_REPUTATION_DECREASE);
-		if (citizen.getReputation() < 0) {
-			citizen.setReputation(Citizen.DEFAULT_CITIZEN_REPUTATION);
+	public int decreaseReputation(Person creator) {
+		Optional<Citizen> citizenOptional = citizenRepository.findByEmail(creator.getEmail());
+
+		if (citizenOptional.isPresent()) {
+			Citizen citizen = citizenOptional.get();
+			citizen.setReputation(citizen.getReputation() - Citizen.CITIZEN_REPUTATION_DECREASE);
+
+			if (citizen.getReputation() < 0) {
+				citizen.setReputation(Citizen.DEFAULT_CITIZEN_REPUTATION);
+			}
+
+			return citizenRepository.save(citizen).getReputation();
+		} else {
+			throw new RequestDeniedException(ExceptionMessages.EXCEPTION_MESSAGE_CITIZEN_NOT_EXIST);
 		}
-		return citizenRepository.save(citizen).getReputation();
 	}
 
 	@Override

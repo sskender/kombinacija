@@ -4,6 +4,8 @@ public abstract class ExceptionMessages {
 
 	public static final String EXCEPTION_MESSAGE_USER_EXISTS = "User with given e-mail already exists.";
 
+	public static final String EXCEPTION_MESSAGE_CITIZEN_NOT_EXIST = "Citizen with given e-mail does not exist";
+
 	public static final String EXCEPTION_MESSAGE_EMPLOYEE_NOT_EXIST = "Employee with given id does not exist";
 
 	public static final String EXCEPTION_MESSAGE_EMPLOYEE_EMAIL_NOT_EXIST = "Employee with given email does not exist";

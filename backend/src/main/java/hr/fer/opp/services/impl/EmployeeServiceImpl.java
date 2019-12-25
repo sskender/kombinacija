@@ -13,6 +13,7 @@ import hr.fer.opp.services.CitizenService;
 import hr.fer.opp.services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -36,6 +37,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     private CitizenService citizenService;
 
     @Override
+    @Transactional
     public Emptying emptyContainer(Long containerId, Person worker) {
         // get container
         Optional<Container> containerOptional = containerRepository.findById(containerId);

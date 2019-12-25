@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class CitizenServiceImpl implements CitizenService {
@@ -69,53 +68,60 @@ public class CitizenServiceImpl implements CitizenService {
 	@Override
 	@Transactional
 	public Favorite addToFavorites(Long containerId, Person owner) {
-		Optional<Container> containerOptional = containerRepository.findById(containerId);
-
-		if (!containerOptional.isPresent()) {
-			throw new RequestDeniedException(ExceptionMessages.EXCEPTION_MESSAGE_CONTAINER_CAN_NOT_REGISTER_FAVORITE
-					+ ExceptionMessages.EXCEPTION_MESSAGE_CONTAINER_NOT_EXIST);
-		}
-
-		Favorite favorite = new Favorite();
-		favorite.setContainer(containerOptional.get());
-		favorite.setOwner(owner);
-
-		containerOptional.get().getFavorites().add(favorite);
-		owner.getFavorites().add(favorite);
-
-		return favoriteRepository.save(favorite);
-	}
-
-	@Override
-	@Transactional
-	public boolean removeFromFavorites(Long containerId, Person owner) {
+		// check container exists
 		Optional<Container> containerOptional = containerRepository.findById(containerId);
 
 		if (!containerOptional.isPresent()) {
 			throw new RequestDeniedException(ExceptionMessages.EXCEPTION_MESSAGE_CONTAINER_NOT_EXIST);
 		}
 
-		List<Favorite> favorites = owner.getFavorites();
+		// check if container already marked as favorite
+		List<Favorite> favoriteList = favoriteRepository.findByOwner_IdAndContainer_Id(owner.getId(), containerId);
 
-		for (Favorite favorite : favorites) {
-			if (favorite.getContainer().getId().equals(containerOptional.get().getId())) {
-				favoriteRepository.delete(favorite);
-				return true;
-			}
+		if (favoriteList.isEmpty()) {
+
+			// create new favorite
+			Favorite favorite = new Favorite();
+			favorite.setContainer(containerOptional.get());
+			favorite.setOwner(owner);
+
+			containerOptional.get().getFavorites().add(favorite);
+			owner.getFavorites().add(favorite);
+
+			return favoriteRepository.save(favorite);
+
+		} else {
+			throw new RequestDeniedException(ExceptionMessages.EXCEPTION_MESSAGE_CONTAINER_CAN_NOT_REGISTER_FAVORITE);
 		}
-		throw new RequestDeniedException(ExceptionMessages.EXCEPTION_MESSAGE_FAVORITE_NOT_EXIST);
+	}
+
+	@Override
+	@Transactional
+	public boolean removeFromFavorites(Long containerId, Person owner) {
+		List<Favorite> favoriteList = favoriteRepository.findByOwner_IdAndContainer_Id(owner.getId(), containerId);
+
+		if (favoriteList.isEmpty()) {
+			throw new RequestDeniedException(ExceptionMessages.EXCEPTION_MESSAGE_FAVORITE_NOT_EXIST);
+		} else {
+
+			for (Favorite favorite : favoriteList) {
+				favoriteRepository.delete(favorite);
+			}
+
+			return true;
+		}
+
 	}
 
 	@Override
 	public List<Favorite> getFavoriteContainers(Person owner) {
-		return favoriteRepository.findAll().stream().filter(f -> f.getOwner().getId().equals(owner.getId()))
-				.collect(Collectors.toList());
+		return favoriteRepository.findByOwner_Id(owner.getId());
 	}
 
 	@Override
 	@Transactional
 	public Ping pingContainer(Long containerId, Person creator, PingLevel pingLevel) {
-		// fetch container by id
+		// check container exists
 		Optional<Container> containerOptional = containerRepository.findById(containerId);
 
 		if (!containerOptional.isPresent()) {

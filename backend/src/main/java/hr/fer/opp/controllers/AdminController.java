@@ -117,9 +117,9 @@ public class AdminController {
 	}
 
 	@GetMapping(value = "/neighborhood/{id}")
-	public ResponseEntity<Neighborhood> getNeighborhood(@PathVariable("id") Long neighborhoodId) {
+	public ResponseEntity<NeighborhoodREST> getNeighborhood(@PathVariable("id") Long neighborhoodId) {
 		return new ResponseEntity<>(
-				adminService.getNeighborhoodById(neighborhoodId),
+				new NeighborhoodREST(adminService.getNeighborhoodById(neighborhoodId)),
 				HttpStatus.OK
 		);
 	}

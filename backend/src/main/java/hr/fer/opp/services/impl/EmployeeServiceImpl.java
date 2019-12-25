@@ -99,7 +99,32 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public boolean reportFakePing(Long containerId) {
-        return false;
+        // select time of latest (newest) emptying for this container
+        List<Emptying> emptyingList = emptyingRepository.findByContainer_IdOrderByTimestampDesc(containerId);
+
+        // craft list of pings
+        List<Ping> pingList;
+
+        if (emptyingList.isEmpty()) {
+            // select * from pings where container id ?
+            pingList = pingRepository.findByContainer_Id(containerId);
+
+        } else {
+            // grab oldest timestamp
+            long timestamp = emptyingList.get(0).getTimestamp();
+
+            // select * from pings where container id ?
+            //                      and timestamp > ?
+            pingList = pingRepository.findByContainer_IdAndTimestampGreaterThan(containerId, timestamp);
+        }
+
+        // filter through ping list and decrease reputation for fake pings
+        pingList.stream()
+                .filter(ping -> ping.getLevel().equals(PingLevel.FULL) || ping.getLevel().equals(PingLevel.URGENT))
+                .map(Ping::getCreator)
+                .forEach(person -> citizenService.decreaseReputation(person));
+
+        return true;
     }
 
     @Override

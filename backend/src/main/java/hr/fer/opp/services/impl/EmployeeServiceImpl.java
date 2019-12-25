@@ -1,12 +1,13 @@
 package hr.fer.opp.services.impl;
 
-import hr.fer.opp.dao.*;
+import hr.fer.opp.dao.ContainerRepository;
+import hr.fer.opp.dao.EmployeeRepository;
+import hr.fer.opp.dao.EmptyingRepository;
+import hr.fer.opp.dao.PingRepository;
 import hr.fer.opp.exceptions.ExceptionMessages;
 import hr.fer.opp.exceptions.RequestDeniedException;
-import hr.fer.opp.model.Container;
-import hr.fer.opp.model.Employee;
-import hr.fer.opp.model.Emptying;
-import hr.fer.opp.model.Person;
+import hr.fer.opp.model.*;
+import hr.fer.opp.model.enums.PingLevel;
 import hr.fer.opp.model.enums.RouteStatus;
 import hr.fer.opp.services.CitizenService;
 import hr.fer.opp.services.EmployeeService;
@@ -27,9 +28,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Autowired
     private PingRepository pingRepository;
-
-    @Autowired
-    private CitizenRepository citizenRepository;
 
     @Autowired
     private EmployeeRepository employeeRepository;
@@ -71,7 +69,32 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public boolean reportLegitimatePing(Long containerId) {
-        return false;
+        // select time of latest (newest) emptying for this container
+        List<Emptying> emptyingList = emptyingRepository.findByContainer_IdOrderByTimestampDesc(containerId);
+
+        // craft list of pings
+        List<Ping> pingList;
+
+        if (emptyingList.isEmpty()) {
+            // select * from pings where container id ?
+            pingList = pingRepository.findByContainer_Id(containerId);
+
+        } else {
+            // grab oldest timestamp
+            long timestamp = emptyingList.get(0).getTimestamp();
+
+            // select * from pings where container id ?
+            //                      and timestamp > ?
+            pingList = pingRepository.findByContainer_IdAndTimestampGreaterThan(containerId, timestamp);
+        }
+
+        // filter through ping list and increase reputation for legit pings
+        pingList.stream()
+                .filter(ping -> ping.getLevel().equals(PingLevel.FULL) || ping.getLevel().equals(PingLevel.URGENT))
+                .map(Ping::getCreator)
+                .forEach(person -> citizenService.increaseReputation(person));
+
+        return true;
     }
 
     @Override

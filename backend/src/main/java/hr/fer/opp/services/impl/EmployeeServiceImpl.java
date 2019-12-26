@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -91,10 +92,17 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
 
         // filter through ping list and increase reputation for legit pings
+        List<Person> processedPersonList = new ArrayList<>();
+
         pingList.stream()
                 .filter(ping -> ping.getLevel().equals(PingLevel.FULL) || ping.getLevel().equals(PingLevel.URGENT))
                 .map(Ping::getCreator)
-                .forEach(person -> citizenService.increaseReputation(person));
+                .forEach(person -> {
+                    if (!processedPersonList.contains(person)) {
+                        citizenService.increaseReputation(person);
+                        processedPersonList.add(person);
+                    }
+                });
 
         return true;
     }
@@ -121,10 +129,17 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
 
         // filter through ping list and decrease reputation for fake pings
+        List<Person> processedPersonList = new ArrayList<>();
+
         pingList.stream()
                 .filter(ping -> ping.getLevel().equals(PingLevel.FULL) || ping.getLevel().equals(PingLevel.URGENT))
                 .map(Ping::getCreator)
-                .forEach(person -> citizenService.decreaseReputation(person));
+                .forEach(person -> {
+                    if (!processedPersonList.contains(person)) {
+                        citizenService.decreaseReputation(person);
+                        processedPersonList.add(person);
+                    }
+                });
 
         return true;
     }

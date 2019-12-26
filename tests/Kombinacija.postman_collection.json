@@ -524,6 +524,46 @@
 			"name": "citizen",
 			"item": [
 				{
+					"name": "register citizen",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Matea\",\n    \"lastName\": \"Vasilj\",\n    \"email\": \"matea.vasilj@fer.hr\",\n    \"pwd\": \"password\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "kombinacija.hopto.org/api/v1/register",
+							"host": [
+								"kombinacija",
+								"hopto",
+								"org"
+							],
+							"path": [
+								"api",
+								"v1",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "auth citizen",
 					"request": {
 						"method": "GET",
@@ -762,7 +802,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "kombinacija.hopto.org/api/v1/auth",
+							"raw": "kombinacija.hopto.org/api/v1/route",
 							"host": [
 								"kombinacija",
 								"hopto",
@@ -771,7 +811,7 @@
 							"path": [
 								"api",
 								"v1",
-								"auth"
+								"route"
 							]
 						}
 					},
@@ -783,7 +823,7 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "kombinacija.hopto.org/api/v1/empty/43",
+							"raw": "kombinacija.hopto.org/api/v1/empty/47",
 							"host": [
 								"kombinacija",
 								"hopto",
@@ -793,7 +833,53 @@
 								"api",
 								"v1",
 								"empty",
-								"43"
+								"47"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "report legit",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "kombinacija.hopto.org/api/v1/report/43/legit",
+							"host": [
+								"kombinacija",
+								"hopto",
+								"org"
+							],
+							"path": [
+								"api",
+								"v1",
+								"report",
+								"43",
+								"legit"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "report fake",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "kombinacija.hopto.org/api/v1/report/43/fake",
+							"host": [
+								"kombinacija",
+								"hopto",
+								"org"
+							],
+							"path": [
+								"api",
+								"v1",
+								"report",
+								"43",
+								"fake"
 							]
 						}
 					},
@@ -805,7 +891,7 @@
 				"basic": [
 					{
 						"key": "username",
-						"value": "marko.perkovic@fer.hr",
+						"value": "miroslav.bicanic@fer.hr",
 						"type": "string"
 					},
 					{
@@ -838,46 +924,6 @@
 				}
 			],
 			"protocolProfileBehavior": {}
-		},
-		{
-			"name": "register",
-			"request": {
-				"auth": {
-					"type": "noauth"
-				},
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"name": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"name\":\"sven\",\n\t\"lastName\":\"skender\",\n\t\"email\":\"sven.skender@fer.hr\",\n\t\"pwd\":\"password\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "kombinacija.hopto.org/api/v1/register",
-					"host": [
-						"kombinacija",
-						"hopto",
-						"org"
-					],
-					"path": [
-						"api",
-						"v1",
-						"register"
-					]
-				}
-			},
-			"response": []
 		}
 	],
 	"event": [

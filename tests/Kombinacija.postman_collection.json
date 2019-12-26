@@ -155,20 +155,20 @@
 					"response": []
 				},
 				{
-					"name": "create employee FAIL",
+					"name": "create employee",
 					"request": {
 						"method": "POST",
 						"header": [
 							{
 								"key": "Content-Type",
 								"name": "Content-Type",
-								"value": "application/json",
-								"type": "text"
+								"type": "text",
+								"value": "application/json"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"name\":\"miroslav\",\n\t\"lastName\":\"bicanic\",\n\t\"email\":\"miroslav.bicanic@fer.hr\",\n\t\"pwd\":\"password\",\n\t\"OIB\":\"12345678910\",\n\t\"neighborhoodId\":4\n}",
+							"raw": "{\n\t\"name\":\"miroslav\",\n\t\"lastName\":\"bicanic\",\n\t\"email\":\"miroslav.bicanic@fer.hr\",\n\t\"pwd\":\"password\",\n\t\"oib\":\"12345678910\",\n\t\"neighborhoodId\":4\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -235,7 +235,7 @@
 					"response": []
 				},
 				{
-					"name": "update employee FAIL",
+					"name": "update employee",
 					"request": {
 						"method": "PUT",
 						"header": [
@@ -248,7 +248,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"miroslav\",\n    \"lastName\": \"bicanic\",\n    \"email\": \"miroslav.bicanic@fer.hr\",\n    \"pwd\": \"password\",\n    \"OIB\": \"12345678999\",\n    \"neighborhoodId\": 4\n}",
+							"raw": "{\n    \"name\": \"miroslav\",\n    \"lastName\": \"bicanic\",\n    \"email\": \"miroslav.bicanic@fer.hr\",\n    \"pwd\": \"password\",\n    \"oib\": \"12345678999\",\n    \"neighborhoodId\": 4\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -273,7 +273,7 @@
 					"response": []
 				},
 				{
-					"name": "delete employee with id FAIL",
+					"name": "delete employee with id",
 					"request": {
 						"method": "DELETE",
 						"header": [],

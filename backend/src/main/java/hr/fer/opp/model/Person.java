@@ -43,6 +43,13 @@ public class Person implements Serializable {
     public Person() {
     }
 
+    public Person(@NotNull @Size(min = 1, max = 30) String name, @NotNull @Size(min = 1, max = 30) String lastName, @NotNull String email, @NotNull String pwdHash) {
+        this.name = name;
+        this.lastName = lastName;
+        this.email = email;
+        this.pwdHash = pwdHash;
+    }
+
     public Long getId() {
         return id;
     }

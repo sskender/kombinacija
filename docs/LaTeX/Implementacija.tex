@@ -22,4 +22,117 @@
 		
 		\section{Upute za puštanje u pogon}
 		
-			\eject 
+		\noindent {\textbf{Mikroservisi i Docker}}
+	
+		
+		Sustav je razvijen idejom mikroservisne arhitekture. Svaki dio aplikacije je napravljen kao poseban servis koji može raditi na jednom ili na više različitih poslužitelja (i fizičkih i virtualnih). Ova tehnika omogućuje visoku skalabilnost, olakšan daljnji razvoj te testiranje. Jezgra aplikacije, točnije backend pisan u Javi, trenutno podsjeća na monolit, ali ako se u budućnosti ukaže potreba moguće ga je razlomiti na više manjih servisa. 
+
+		Svaki servis je izoliran u poseban kontejner, a kontejner je virtualiziran na nivou OS-a. To je realizirano Docker Engine-om. Na taj način omogućeno je vrlo jednostavno puštanje u pogon, neovisno o sustavu na poslužitelju, dokle god je podržana virtualizacija. 
+
+		Docker je široko dostupan na Windows i UNIX sustavima, a nalazi se u repozitorijima većine Linux distribucija. Podržan je i na Azure-u, OpenShift-u i AWS-u.\\
+		
+		
+		\noindent {\textbf{Automatsko puštanje u pogon pomoću docker-compose datoteke}}
+		
+	
+		U mapama database, backend i frontend nalaze se konfiguracijske datoteke Dockerfile. U njima je definirano kako će svaki taj dio aplikacije biti napravljen u Docker image koji će kasnije biti pokrenut kao zaseban servis te koje parametre mu je potrebno predati za pokretanje. 
+			
+			Ako će se mijenjati domena aplikacije, onda je nužno u datoteci frontend/Dockerfile promijeniti environment varijablu DOMAIN\_NAME. Trenutno je stavljena na vrijednost „kombinacija.hopto.org“ što je ujedno i aktivna domena. Sve drugo nije potrebno mijenjati.
+			
+			Glavna datoteka je docker-compose.yml i nalazi se u root mapi projekta. Ona spaja sve Dockerfile konfiguracijske datoteke, iz njih kreira Docker image te pokreće kao Docker servise. Svakom servisu predaje potrebnu env datoteku s definiranim environment varijablama koje taj servis koristi. Brine se da konfiguracije poput korisnika i lozinke za bazu podataka završe samo kod onih servisa kojima je ta informacija potrebna. Također stvara virtualne mreže preko kojih svi servisi komuniciraju te tako dodatno izolira backend i bazu kojima nikako nije moguće pristupiti izvana. Stvara Docker volume za bazu podataka na koji se spremaju svi podatci. Vodi računa da su svi servisi aktivni, ako neki padne odmah ga ponovno vraća online. Omogućava skaliranje na više replika pojedinog servisa. Otvara portove 80 i 443 za web aplikaciju. Nikakvo dodatno konfiguriranje ni izmjene nisu potrebne.
+	
+		Kako bi se cijeli sustav upalio (posebno kreiranje JAR paketa nije potrebno jer to također obavlja Dockerfile) treba izvršiti samo jednu komandu u terminalu:
+		
+		\$ docker-compose up -d --build
+		
+		\begin{figure}[H]
+					\includegraphics[scale=0.5]{figures/terminl_1.PNG}
+					\centering
+					\caption{docker-compose up}
+					\label{fig:sekv-uc13}
+				\end{figure}
+				
+		\begin{figure}[H]
+					\includegraphics[scale=1]{figures/2-ps.PNG}
+					\centering
+					\caption{docker ps}
+					\label{fig:sekv-uc13}
+				\end{figure}
+						
+				
+				
+				
+		\noindent {\textbf{Dodatna konfiguracija database servisa}}		
+				
+		Database/Dockerfile konfiguracijska datoteka preuzima najnoviju verziju PostgreSQL baze podataka. Kreira početnog korisnika „postgres“ i dodatnog korisnika „kombinacijauser“. Korisnik „kombinacijauser“ je jedini korisnik koji može raditi izmjene u bazi „kombinacijadb“. Sve navedene vrijednosti je moguće promijeniti u env datotekama. Nikakve druge izmjene nisu potrebne jer će svi ostali servisi uspješno primiti nove vrijednosti.
+
+		Database servisu nije moguće pristupiti izvana, izoliran je na unutarnjoj virtualnoj mreži, ali dijeli dodatnu mrežu s pgAdminom. Za slučaj da se to želi izbjeći potrebno je ukloniti tu mrežu (pgadmin-net) iz database servisa u docker-compose.yml datoteci.	
+			
+			
+						
+		\begin{figure}[H]
+					\includegraphics[scale=0.9]{figures/initdb.PNG}
+					\centering
+					\caption{database networks}
+					\label{fig:sekv-uc13}
+				\end{figure}
+						
+			
+			
+				
+		Bazi je moguće pristupiti preko pgAdmin servisa koji je pokrenut na portu 5000. Podatci za autentifikaciju na pgAdmin se nalaze u docker-compose.yml datoteci. Podatci za pristup bazi su oni navedeni u env datotekama. Docker ima svoj DNS sustav pa se kao hostname može koristiti ime servisa od baze podataka i interna IP adresa nije potrebna.		
+				
+		\begin{figure}[H]
+					\includegraphics[scale=0.6]{figures/4-pgadmin.PNG}
+					\centering
+					\caption{pgadmin connect to database}
+					\label{fig:sekv-uc13}
+				\end{figure} 
+												
+				
+		\noindent {\textbf{Dodatna konfiguracija app servisa}}
+		
+		Backend/Dockerfile konfiguracijska datoteka preuzima maven 3.6.2 i prevodi Java kod u JAR datoteku. Nakon toga kopira JAR paket u novi servis koji se naziva app servis, a maven servis odbacuje jer više nije potreban. Podatke za spajanje na bazu čita iz environment varijabli koje servisu predaje docker-compose.yml, a čita se iz env datoteka spremljenih u mapi database. U slučaju da su ti podatci prethodno promijenjeni, nije potrebno raditi nikakve izmjene kako u samom izvornom kodu, tako ni u  samim konfiguracijskim datotekama jer će novi biti pročitani pri svakom ponovnom pokretanju.		
+		
+		\begin{figure}[H]
+					\includegraphics[scale=0.8]{figures/5-env.PNG}
+					\centering
+					\caption{env app}
+					\label{fig:env app}
+				\end{figure} 
+				
+		Za dodatno konfiguriranje Spring-a na serveru potrebno je promijeniti application-prod.properties datoteku jer se ta prenosi u app servis i koristi u produkciji, a obična application.properties datoteka se ignorira. 
+Iako se Java aplikacija pokreće na portu 8080, taj port nikada neće biti javno dostupan na serveru nego izoliran u Dockeru, a njemu će se pristupati samo unutar sustava preko web servisa koji ima definiran proxy specijalno za tu ulogu.
+
+		Pri prvom pokretanju svi članovi tima se dodaju u bazu kao administratori.\\
+		
+		
+		\noindent {\textbf{Dodatna konfiguracija web servisa}}
+		
+		Frontend/Dockerfile  konfiguracijska datoteka preuzima najnoviju verziju Nginx-a, kopira mapu frontend/public u nginx poslužiteljsku mapu kako bi HTML stranice bile javno dostupne, kopira napravljenu Nginx konfiguraciju, namješta domenu servera koju čita iz env varijable (ovu varijablu je potrebno promijeniti), otvara portove 80 i 443 na kojima web poslužitelj sluša te time stvara Docker web servis na koji se primaju zahtjevi.
+
+		Nginx konfiguracija se nalazi u datoteci frontend/nginx/kombinacija.conf. U njoj je na početku definiran load balancer koji vodi na app servis (backend). U load balanceru se trenutno nalazi samo jedan redak jer postoji samo jedna replika app servisa. RR algoritam je zamijenjen preusmjeravanjem na servis s najmanje aktivnih konekcija.
+		
+		\begin{figure}[H]
+					\includegraphics[scale=0.8]{figures/6-load-balancer.PNG}
+					\centering
+					\caption{load-balancer}
+					\label{fig:load-balancer}
+				\end{figure} 
+		
+		Za Nginx su napravljena pravila za cache kako bi se uštedio bandwidth na poslužitelju i smanjila veličina podataka koja se prenosi. Datoteke se čuvaju u web pregledniku klijenata više dana, ali se aktivno provjerava odgovaraju li onima na poslužitelju kako nijedan klijent ne bi imao zastarjelu verziju web stranice.
+		
+		Naveden je put do SSL certifikata i pravila koja preusmjeravaju korisnike s HTTP-a na HTTPS. Certifikat je generiran LetsEncrypt certbot-om. Putanju do certifikata je potrebno promijeniti ukoliko bi se mijenjao certifikat i lokacija istoga.\\
+		
+		\noindent {\textbf{MINIMALNI ZAHTJEVI ZA POKRETANJE}}
+		
+		Aplikacija je pokrenuta na VPS poslužitelju na kojem je instaliran Cent OS 8 Linux. Poslužitelj ima 500 MB RAM memorije, 500 MB SWAP memorije, 5 GB SSD memorije i jednu virtualnu jezgru Intel Xeon procesora (točan broj modela nije otkriven od strane hosting kompanije). To su ujedno i minimalni zahtjevi za pokretanje aplikacije i svih servisa o kojima ovisi. Važno je primijetiti da su to zahtjevi za pokretanje, a ne puštanje u pogon gdje se očekuje veći broj klijenata!
+		
+		\begin{figure}[H]
+					\includegraphics[scale=0.8]{figures/7-htop.PNG}
+					\centering
+					\caption{htop}
+					\label{fig:htop}
+				\end{figure} 
+		
+		\eject 

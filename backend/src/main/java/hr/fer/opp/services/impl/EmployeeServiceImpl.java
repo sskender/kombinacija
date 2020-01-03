@@ -244,7 +244,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     }
 
-    private List<Ping> getPingsSinceLastEmptying(Container c) {
+    public List<Ping> getPingsSinceLastEmptying(Container c) {
         //extract timestamp of latest emptying
         long ts = 0;
         for(Emptying e : c.getEmptyings()){

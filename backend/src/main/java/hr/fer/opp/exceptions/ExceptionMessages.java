@@ -35,4 +35,6 @@ public abstract class ExceptionMessages {
 	public static final String EXCEPTION_MESSAGE_CONTAINER_CAN_NOT_REGISTER_FAVORITE = "Can't register given container as a favorite";
 
 	public static final String EXCEPTION_MESSAGE_FAVORITE_NOT_EXIST = "Favorite does not exist.";
+
+	public static final String EXCEPTION_MESSAGE_EMPTY_PING_NOT_ALLOWED = "Cannot ping container as empty when it has not yet been pinged as full.";
 }

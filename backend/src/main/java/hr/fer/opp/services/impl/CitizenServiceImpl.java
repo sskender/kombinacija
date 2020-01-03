@@ -9,6 +9,7 @@ import hr.fer.opp.exceptions.RequestDeniedException;
 import hr.fer.opp.model.*;
 import hr.fer.opp.model.enums.PingLevel;
 import hr.fer.opp.services.CitizenService;
+import hr.fer.opp.services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +31,9 @@ public class CitizenServiceImpl implements CitizenService {
 
 	@Autowired
 	private PingRepository pingRepository;
+
+	@Autowired
+	private EmployeeService employeeService;
 
 	@Override
 	@Transactional
@@ -127,8 +131,21 @@ public class CitizenServiceImpl implements CitizenService {
 		if (!containerOptional.isPresent()) {
 			throw new RequestDeniedException(ExceptionMessages.EXCEPTION_MESSAGE_CONTAINER_NOT_EXIST);
 		}
-
 		Container container = containerOptional.get();
+
+		if(pingLevel.equals(PingLevel.EMPTY)){
+			List<Ping> pings = employeeService.getPingsSinceLastEmptying(container);
+			boolean hasFullOrUrgentPing = false;
+			for(Ping p : pings){
+				if(p.getLevel().equals(PingLevel.FULL) || p.getLevel().equals(PingLevel.URGENT)){
+					hasFullOrUrgentPing = true;
+					break;
+				}
+			}
+			if(!hasFullOrUrgentPing){
+				throw new RequestDeniedException(ExceptionMessages.EXCEPTION_MESSAGE_EMPTY_PING_NOT_ALLOWED);
+			}
+		}
 
 		// create ping
 		Ping ping = new Ping();

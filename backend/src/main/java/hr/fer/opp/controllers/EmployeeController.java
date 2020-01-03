@@ -25,10 +25,8 @@ public class EmployeeController {
 
     @GetMapping(value = "/route")
     public ResponseEntity<List<ContainerREST>> getRoute(@AuthenticationPrincipal UserDetails userDetails) {
-
-
         return new ResponseEntity<>(
-                null,
+                ContainerREST.convertToREST(employeeService.getWorkRoute(personService.fetchByEmail(userDetails.getUsername()))),
                 HttpStatus.OK
         );
     }

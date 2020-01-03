@@ -125,7 +125,7 @@ public class CitizenServiceImpl implements CitizenService {
 		Optional<Container> containerOptional = containerRepository.findById(containerId);
 
 		if (!containerOptional.isPresent()) {
-			throw new RequestDeniedException(ExceptionMessages.EXCEPTION_MESSAGE_FAVORITE_NOT_EXIST);
+			throw new RequestDeniedException(ExceptionMessages.EXCEPTION_MESSAGE_CONTAINER_NOT_EXIST);
 		}
 
 		Container container = containerOptional.get();

@@ -25,6 +25,8 @@ public class EmployeeController {
 
     @GetMapping(value = "/route")
     public ResponseEntity<List<ContainerREST>> getRoute(@AuthenticationPrincipal UserDetails userDetails) {
+
+
         return new ResponseEntity<>(
                 null,
                 HttpStatus.OK
@@ -33,11 +35,11 @@ public class EmployeeController {
 
     @PostMapping(value = "/empty/{id}")
     public ResponseEntity<EmptyingREST> emptyContainer(
-            @PathVariable("id") Long continerID,
+            @PathVariable("id") Long containerID,
             @AuthenticationPrincipal UserDetails userDetails
     ) {
         return new ResponseEntity<>(
-                new EmptyingREST(employeeService.emptyContainer(continerID, personService.fetchByEmail(userDetails.getUsername()))),
+                new EmptyingREST(employeeService.emptyContainer(containerID, personService.fetchByEmail(userDetails.getUsername()))),
                 HttpStatus.OK
         );
     }

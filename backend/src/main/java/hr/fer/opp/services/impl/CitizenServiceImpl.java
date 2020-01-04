@@ -139,10 +139,8 @@ public class CitizenServiceImpl implements CitizenService {
 		boolean exists = false;
 		for (Ping p : pings) {
 			//if new ping is EMPTY and at least one FULL or URGENT ping exists, it is okay
-			if (pingLevel.equals(PingLevel.EMPTY) &&
-					(p.getLevel().equals(PingLevel.FULL) || p.getLevel().equals(PingLevel.URGENT))) {
+			if (p.getLevel().equals(PingLevel.FULL) || p.getLevel().equals(PingLevel.URGENT)) {
 				hasFullOrUrgentPing = true;
-				break;
 			}
 			//if the same user already created a ping for the given container
 			if (p.getCreator().getId().equals(creator.getId()) && p.businessEquals(pingLevel)) {
@@ -150,7 +148,7 @@ public class CitizenServiceImpl implements CitizenService {
 				break;
 			}
 		}
-		if (!hasFullOrUrgentPing) {
+		if (!hasFullOrUrgentPing && pingLevel.equals(PingLevel.EMPTY)) {
 			throw new RequestDeniedException(ExceptionMessages.EXCEPTION_MESSAGE_EMPTY_PING_NOT_ALLOWED);
 		}
 		if (exists) {

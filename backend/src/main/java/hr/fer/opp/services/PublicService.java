@@ -17,7 +17,7 @@ public interface PublicService {
      */
     Citizen registerCitizen(RegisterDTO registerDTO);
 
-    List<Container> getContainersInRadius(Long latitude, Long longitude);
+    List<Container> getContainersInRadius(Double latitude, Double longitude);
 
     String getClearance(Long userId);
 }

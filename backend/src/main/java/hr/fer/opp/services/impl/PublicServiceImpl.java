@@ -64,7 +64,10 @@ public class PublicServiceImpl implements PublicService {
 	}
 
 	@Override
-	public List<Container> getContainersInRadius(Long latitude, Long longitude) {
+	public List<Container> getContainersInRadius(Double latitude, Double longitude) {
+		if(latitude==null || longitude==null){
+
+		}
 		List<Neighborhood> closestNeighborhoods = new ArrayList<>();
 		List<Neighborhood> allHoods = neighborhoodRepository.findAll();
 		allHoods.sort((n1, n2) -> {
@@ -77,7 +80,7 @@ public class PublicServiceImpl implements PublicService {
 			}
 		});
 		List<Container> closeContainers = new ArrayList<>();
-		for(int i=0; i<3; i++){
+		for(int i=0, s=allHoods.size(); i<3 && i<s; i++){
 			closeContainers.addAll(allHoods.get(i).getContainers());
 		}
 		closeContainers.sort((c1, c2) -> {

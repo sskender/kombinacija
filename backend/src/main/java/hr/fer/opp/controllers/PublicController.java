@@ -3,6 +3,7 @@ package hr.fer.opp.controllers;
 import hr.fer.opp.dto.request.RegisterDTO;
 import hr.fer.opp.dto.response.ContainerREST;
 import hr.fer.opp.dto.response.PersonREST;
+import hr.fer.opp.services.AdminService;
 import hr.fer.opp.services.PersonService;
 import hr.fer.opp.services.PublicService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,9 @@ public class PublicController {
 
     @Autowired
     private PersonService personService;
+
+    @Autowired
+    private AdminService adminService;
 
     @GetMapping(value = "/auth")
     public ResponseEntity<PersonREST> testAuthorization(@AuthenticationPrincipal UserDetails userDetails) {
@@ -60,14 +64,21 @@ public class PublicController {
 
     @GetMapping(value = "/map")
     public ResponseEntity<List<ContainerREST>> map(
-            @RequestParam("lat") Long latitude,
-            @RequestParam("lon") Long longitude
+            @RequestParam(value="lat") Double latitude,
+            @RequestParam(value = "lon") Double longitude
     ) {
         return new ResponseEntity<List<ContainerREST>>(ContainerREST.convertToREST(publicService.getContainersInRadius(latitude, longitude)), HttpStatus.OK);
     }
 
+    @GetMapping(value = "/map/{id}")
+    public ResponseEntity<List<ContainerREST>> mapNeighborhood(
+            @PathVariable("id") Long hoodId
+    ) {
+        return new ResponseEntity<List<ContainerREST>>(ContainerREST.convertToREST(adminService.getContainersByNeighborhoodId(hoodId)), HttpStatus.OK);
+    }
+
     @GetMapping(value="/clearance")
-    public String clearance(@RequestParam("uid") Long userId) {
+    public String clearance(@RequestParam(value = "uid", required = false) Long userId) {
         return publicService.getClearance(userId);
     }
 }

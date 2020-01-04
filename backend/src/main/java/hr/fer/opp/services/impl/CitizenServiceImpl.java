@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.chrono.ChronoZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -133,18 +134,27 @@ public class CitizenServiceImpl implements CitizenService {
 		}
 		Container container = containerOptional.get();
 
-		if(pingLevel.equals(PingLevel.EMPTY)){
-			List<Ping> pings = employeeService.getPingsSinceLastEmptying(container);
-			boolean hasFullOrUrgentPing = false;
-			for(Ping p : pings){
-				if(p.getLevel().equals(PingLevel.FULL) || p.getLevel().equals(PingLevel.URGENT)){
-					hasFullOrUrgentPing = true;
-					break;
-				}
+		List<Ping> pings = employeeService.getPingsSinceLastEmptying(container);
+		boolean hasFullOrUrgentPing = false;
+		boolean exists = false;
+		for (Ping p : pings) {
+			//if new ping is EMPTY and at least one FULL or URGENT ping exists, it is okay
+			if (pingLevel.equals(PingLevel.EMPTY) &&
+					(p.getLevel().equals(PingLevel.FULL) || p.getLevel().equals(PingLevel.URGENT))) {
+				hasFullOrUrgentPing = true;
+				break;
 			}
-			if(!hasFullOrUrgentPing){
-				throw new RequestDeniedException(ExceptionMessages.EXCEPTION_MESSAGE_EMPTY_PING_NOT_ALLOWED);
+			//if the same user already created a ping for the given container
+			if (p.getCreator().getId().equals(creator.getId()) && p.businessEquals(pingLevel)) {
+				exists = true;
+				break;
 			}
+		}
+		if (!hasFullOrUrgentPing) {
+			throw new RequestDeniedException(ExceptionMessages.EXCEPTION_MESSAGE_EMPTY_PING_NOT_ALLOWED);
+		}
+		if (exists) {
+			throw new RequestDeniedException(ExceptionMessages.EXCEPTION_MESSAGE_PING_ALREADY_EXISTS);
 		}
 
 		// create ping

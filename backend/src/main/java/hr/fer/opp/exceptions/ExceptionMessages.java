@@ -37,4 +37,6 @@ public abstract class ExceptionMessages {
 	public static final String EXCEPTION_MESSAGE_FAVORITE_NOT_EXIST = "Favorite does not exist.";
 
 	public static final String EXCEPTION_MESSAGE_EMPTY_PING_NOT_ALLOWED = "Cannot ping container as empty when it has not yet been pinged as full.";
+
+	public static final String EXCEPTION_MESSAGE_PING_ALREADY_EXISTS = "Can't create the same ping multiple times between two emptyings.";
 }

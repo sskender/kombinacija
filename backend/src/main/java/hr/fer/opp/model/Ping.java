@@ -90,6 +90,12 @@ public class Ping implements Serializable {
 		return getId().equals(ping.getId());
 	}
 
+	public boolean businessEquals(PingLevel otherLevel){
+		return ((otherLevel.equals(PingLevel.URGENT) || otherLevel.equals(PingLevel.FULL))
+						&& (level.equals(PingLevel.FULL) || level.equals(PingLevel.URGENT)))
+						|| (otherLevel.equals(PingLevel.EMPTY) && level.equals(PingLevel.EMPTY));
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(getId());

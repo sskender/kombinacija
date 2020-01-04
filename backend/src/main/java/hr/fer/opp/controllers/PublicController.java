@@ -1,6 +1,7 @@
 package hr.fer.opp.controllers;
 
 import hr.fer.opp.dto.request.RegisterDTO;
+import hr.fer.opp.dto.response.ContainerREST;
 import hr.fer.opp.dto.response.PersonREST;
 import hr.fer.opp.services.PersonService;
 import hr.fer.opp.services.PublicService;
@@ -11,6 +12,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @CrossOrigin
@@ -56,13 +59,14 @@ public class PublicController {
     }
 
     @GetMapping(value = "/map")
-    public String map(
+    public ResponseEntity<List<ContainerREST>> map(
             @RequestParam("lat") Long latitude,
-            @RequestParam("lon") Long longitude,
-            @AuthenticationPrincipal UserDetails userDetails
+            @RequestParam("lon") Long longitude
     ) {
-        // TODO
-        return "Fetching list of containers and list of permitted actions when user is: " + userDetails.getUsername();
+        return new ResponseEntity<List<ContainerREST>>(ContainerREST.convertToREST(publicService.getContainersInRadius(latitude, longitude)), HttpStatus.OK);
     }
 
+    public String clearance(@RequestParam("uid") Long userId) {
+        return publicService.getClearance(userId);
+    }
 }

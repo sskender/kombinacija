@@ -66,6 +66,7 @@ public class PublicController {
         return new ResponseEntity<List<ContainerREST>>(ContainerREST.convertToREST(publicService.getContainersInRadius(latitude, longitude)), HttpStatus.OK);
     }
 
+    @GetMapping(value="/clearance")
     public String clearance(@RequestParam("uid") Long userId) {
         return publicService.getClearance(userId);
     }

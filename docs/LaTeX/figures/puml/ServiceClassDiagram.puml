@@ -1,0 +1,104 @@
+@startuml
+interface Service
+
+class PublicServiceImpl {
+    -citizenRepository : CitizenRepository
+    -personRepository : PersonRepository
+    -neighborhoodRepository : NeighborhoodRepository
+    -personService : PersonService
+    +registerCitizen(RegisterDTO) : Citizen
+    -translate(RegisterDTO) : Citizen
+    +getContainersInRadius(Double, Double) : List<Container>
+    {static} -getDistance(double, double, double, double) : double
+    +getClearance(Long) : String
+}
+
+class PersonServiceImpl {
+    -personRepository : PersonRepository
+    -citizenRepository : CitizenRepository
+    -employeeRepository : EmployeeRepository
+    -adminRepository : AdminRepository
+    +fetchByEmail(String) : Person
+    +isAdmin(Person) : boolean
+    +isEmployee(Person) : boolean
+    +isCitizen(Person) : boolean
+}
+
+class EmployeeServiceImpl {
+    {static} -DEFAULT_NECESSARY_PINGS : int
+    {static} -DEFAULT_ROUTE_CAPACITY : int
+    -adminRepository : AdminRepository
+    -employeeRepository : EmployeeRepository
+    -containerRepository : ContainerRepository
+    -pingRepository : PingRepository
+    -emptyingRepository : EmptyingRepository
+    -citizenService : CitizenService
+    -adminService : AdminService
+    +emptyContainer(Long, Person) : Emptying
+    +reportLegitimatePing(Long) : boolean
+    +reportFakePing(Long) : boolean
+    +getWorkRoute(Person) : List<Container>
+    +getPingsSinceLastEmptying(Container) : List<Ping>
+    -findClosestContainer(Container, List<Container>) : Container
+    -distance(Container, Container) : double
+    -computeAverage(List<Ping>) : double
+}
+
+class CitizenServiceImpl {
+    -citizenRepository : CitizenRepository
+    -containerRepository : ContainerRepository
+    -pingRepository : PingRepository
+    -favoriteRepository : FavoriteRepository
+    -employeeService : EmployeeService
+    +increaseReputation(Person) : int
+    +decreaseReputation(Person) : int
+    +addToFavorites(Long, Person) : Favorite
+    +removeFromFavorites(Long, Person) : boolean
+    +pingContainer(Long, Person, PingLevel) : Ping
+}
+
+class AdminServiceImpl {
+    -neighborhoodRepository : NeighborhoodRepository
+    -employeeRepository : EmployeeRepository
+    -containerRepository : ContainerRepository
+    +getContainerById(Long) : Container
+    +getContainersByNeighborhoodId(Long) : List<Container>
+    +getAllContainers() : List<Container>
+    +registerNewContainer(AddContainerDTO) : Container
+    +updateContainer(AddContainerDTO, Long) : Container
+    +deleteContainerById(Long) : boolean
+    +getNeighborhoodById(Long) : Neighborhood
+    +getNeighborhoodByName(String) : Neighborhood
+    +getAllNeighborhoods() : List<Neighborhood>
+    +registerNewNeighborhood(AddNeighborhoodDTO) : Neighborhood
+    +updateNeighborhood(AddNeighborhoodDTO) : Neighborhood
+    +deleteNeighborhoodById(Long) : boolean
+    +getAllEmployees() : List<Employee>
+    +getEmployeeById(Long) : Employee
+    +getEmployeeByOIB(String) : Employee
+    +getEmployeesByNeighborhoodId(Long) : List<Employee>
+    +registerNewEmployee(RegisterEmployeeDTO) : Employee
+    +updateEmployeeProfile(RegisterEmployeeDTO, Long) : Employee
+    +removeEmployeeById(Long) : boolean
+}
+
+class UserDetailsServiceImpl {
+    -personService : PersonService
+    +loadUserByUsername(String) : UserDetails
+    -authorities(Person) : List<GrantedAuthority>
+}
+
+AdminServiceImpl -|> Service
+Service <|- EmployeeServiceImpl
+UserDetailsServiceImpl --|> Service
+CitizenServiceImpl --|> Service
+Service <|-- PersonServiceImpl
+Service <|-  PublicServiceImpl
+
+EmployeeServiceImpl <.. AdminServiceImpl
+PersonServiceImpl ..> PublicServiceImpl
+PersonServiceImpl ..> UserDetailsServiceImpl
+EmployeeServiceImpl <..> CitizenServiceImpl
+
+
+@enduml

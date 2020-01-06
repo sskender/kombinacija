@@ -1,39 +1,57 @@
 @startuml
 interface Controller
-class LoginController {
+class PublicController {
     -loginService : LoginService
     -personService : PersonService
-    +registerUser(RegisterDTO) : ResponseEntity<Citizen>
-    +testAuthorization(User) : ResponseEntity<Person>
+    -adminService : AdminService
+    +registerUser(RegisterDTO) : ResponseEntity<PersonREST>
+    +testAuthorization(UserDetails) : ResponseEntity<PersonREST>
+    +map(Double, Double) : ResponseEntity<List<ContainerREST>>
+    +mapNeighborhood(Long) : ResponseEntity<List<ContainerREST>>
+    +clearance(Long) : ResponseEntity<String>
 }
-Controller <|-- LoginController
-
-class LoginService {
-    -citizenRepository : CitizenRepository
-    -personRepository : PersonRepository
-    +registerUser(RegisterDTO) : Citizen
-    -translate(RegisterDTO) : Citizen
+class AdminController {
+    -adminService : AdminService
+    +listAllContainers() : ResponseEntity<List<ContainerREST>>
+    +getContainer(Long) : ResponseEntity<ContainerREST>
+    +registerContainer(AddContainerDTO) : ResponseEntity<ContainerREST>
+    +updateContainer(AddContainerDTO, Long) : ResponseEntity<ContainerREST>
+    +deleteContainer(Long) : ResponseEntity<Boolean>
+    +listAllEmployees() : ResponseEntity<List<PersonREST>>
+    +getEmployee(Long) : ResponseEntity<PersonREST>
+    +registerEmployee(RegisterEmployeeDTO) : ResponseEntity<PersonREST>
+    +updateEmployee(RegisterEmployeeDTO, Long) : ResponseEntity<PersonREST>
+    +deleteEmployee(Long) : ResponseEntity<Boolean>
+    +listAllNeighborhoods() : ResponseEntity<List<NeighborhoodREST>>
+    +getNeighborhood(Long) : ResponseEntity<NeighborhoodREST>
+    +listAllContainersInNeighborhood(Long) : ResponseEntity<List<ContainerREST>>
+    +listAllEmployeesInNeighborhood(Long) : ResponseEntity<List<PersonREST>>
+    +registerNeighborhood(AddNeighborhoodDTO) : ResponseEntity<NeighborhoodREST>
+    +updateNeighborhood(AddNeighborhoodDTO, Long) : ResponseEntity<NeighborhoodREST>
+    +deleteNeighborhood(Long) : ResponseEntity<Boolean>
 }
-
-class PersonService {
-    -personRepository : PersonRepository
-    -citizenRepository : CitizenRepository
-    -employeeRepository : EmployeeRepository
-    -adminRepository : AdminRepository
-    +fetchByEmail(String) : Person
-    +isAdmin(Person) : boolean
-    +isEmployee(Person) : boolean
-    +isCitizen(Person) : boolean
-}
-
-class UserDetailsServiceImpl {
+class CitizenController {
     -personService : PersonService
-    +loadUserByUsername(String) : UserDetails
-    -authorities(Person) : List<GrantedAuthority>
+    -citizenService : CitizenService
+    +pingFull(Long, UserDetails) : ResponseEntity<PingREST>
+    +pingUrgent(Long, UserDetails) : ResponseEntity<PingREST>
+    +pingEmpty(Long, UserDetails) : ResponseEntity<PingREST>
+    +listFavorites() : ResponseEntity<List<FavoriteREST>>
+    +addFavorite(Long, UserDetails) : ResponseEntity<FavoriteREST>
+    +deleteFavorite(Long, UserDetails) : ResponseEntity<Boolean>
+}
+class EmployeeController {
+    -personService : PersonService
+    -employeeService : EmployeeService
+    +getRoute(UserDetails) : ResponseEntity<List<ContainerREST>>
+    +emptyContainer(Long, UserDetails) : ResponseEntity<EmptyingREST>
+    +reportLegitimatePing(Long) : ResponseEntity<Boolean>
+    +reportFakePing(Long) : ResponseEntity<Boolean>
 }
 
-UserDetailsServiceImpl <.. PersonService
-LoginController <.. UserDetailsServiceImpl
-LoginController <.. PersonService
-LoginController <.. LoginService
+Controller <|- AdminController
+CitizenController -|> Controller
+Controller <|-- PublicController
+Controller <|-- EmployeeController
+
 @enduml

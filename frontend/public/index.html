@@ -24,21 +24,8 @@
     <!-- Theme CSS - Includes Bootstrap -->
     <link href="css/creative.min.css" rel="stylesheet">
 
-    <style>
-        .map-container-3{
-            overflow:hidden;
-            padding-bottom:56.25%;
-            position:relative;
-            height:0;
-        }
-        .map-container-3 iframe{
-            left:0;
-            top:0;
-            height:100%;
-            width:100%;
-            position:absolute;
-        }
-    </style>
+    <!-- Our Custom CSS -->
+    <link rel="stylesheet" href="style.css">
 
 </head>
 
@@ -47,12 +34,20 @@
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
     <div class="container">
-      <a class="navbar-brand js-scroll-trigger" href="#page-top">KOMBINACIJA</a>
+        <a class="navbar-brand js-scroll-trigger" href="#page-top">KOMBINACIJA</a>
 
-  		<ul class="nav navbar-nav navbar-right">
-  			<li><button class="btn btn-primary" onclick="logMeOut();" id="logout"> Odjavi se </button> </li>
-  			<li><button class="btn btn-primary" onclick="window.location.replace('registracija.html');" id="register"> Registracija </button> </li>
-  		</ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                <button class="btn btn-primary btn-xl js-scroll-trigger" onclick="logMeOut();" id="logout"> Odjavi se
+                </button>
+            </li>
+            <li>
+                <button class="btn btn-primary btn-xl js-scroll-trigger"
+                        onclick="window.location.replace('registracija.html');" id="register">
+                    Registriraj se
+                </button>
+            </li>
+        </ul>
     </div>
 </nav>
 
@@ -60,15 +55,16 @@
 <header class="masthead">
     <div class="container h-100">
         <div class="row h-100 align-items-center justify-content-center text-center">
-			<div class="col-lg-10 align-self-end">
-				<h1 class="text-uppercase text-white font-weight-bold" id="welcome-msg">Pomozite nam održati grad čistim</h1>
-				<hr class="divider my-4">
-			</div>
-			<div class="col-lg-8 align-self-baseline">
-				<p class="text-white-75 font-weight-light mb-5">Svaka puna kanta može biti prijavljena!</p>
-				<a class="btn btn-primary btn-xl js-scroll-trigger" href="prijava.html" id="login-link">Prijavi se</a>
-			</div>
-		</div>
+            <div class="col-lg-10 align-self-end">
+                <h1 class="text-uppercase text-white font-weight-bold" id="welcome-msg">Pomozite nam održati grad
+                    čistim</h1>
+                <hr class="divider my-4">
+            </div>
+            <div class="col-lg-8 align-self-baseline">
+                <p class="text-white-75 font-weight-light mb-5">Svaka puna kanta može biti prijavljena!</p>
+                <a class="btn btn-primary btn-xl js-scroll-trigger" href="prijava.html" id="login-link">Prijavi se</a>
+            </div>
+        </div>
     </div>
 </header>
 
@@ -113,9 +109,19 @@
 </section>
 
 <!--Google map-->
-<div id="map-container-google-3" class="z-depth-1-half map-container-3">
-    <iframe src="https://maps.google.com/maps?q=zagreb&t=k&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0"
-            style="border:0" allowfullscreen></iframe>
+<div align="center">
+    <div id="map_canvas" style=" width: 100%; height: 800px;">
+    </div>
+    <form method="POST" onsubmit="event.preventDefault(); doNewContainer();">
+        <div class="btn-group" role="group" style="padding-top: 50px">
+            <button type="button" class="btn btn-primary btn-xl">Prijavi kao "PUN"</button>
+            <button type="button" class="btn btn-primary btn-xl">Prijavi kao "PREPUN"</button>
+            <button type="button" class="btn btn-primary btn-xl">Prijavi kao "PRAZAN"</button>
+            <button type="button" class="btn btn-primary btn-xl">Dodaj u "OMILJENE"</button>
+            <!-- Mozemo napraviti da su omiljeni oznaceni plavim tagom, mislim da je to najlakse i najljepse vizualno -->
+            <button type="button" class="btn btn-primary btn-xl">Obriši iz "OMILJENIH"</button>
+        </div>
+    </form>
 </div>
 
 
@@ -139,7 +145,55 @@
 <script src="js/auth.js"></script>
 <script src="js/designer.js"></script>
 <script>
-		window.onload = handleDisplay();
+    window.onload = handleDisplay();
+</script>
+
+<!-- Skripta za random markere na google mapi -->
+<script src="https://maps.googleapis.com/maps/api/js?v=3.11&sensor=false" type="text/javascript"></script>
+<script>
+    // check DOM Ready
+    $(document).ready(function () {
+        // execute
+        (function () {
+            // map options
+            var options = {
+                zoom: 14,
+                center: new google.maps.LatLng(45.79964, 15.97880), // centered Zagreb
+                mapTypeId: google.maps.MapTypeId.HYBRID,
+                mapTypeControl: false
+            };
+
+            // init map
+            var map = new google.maps.Map(document.getElementById('map_canvas'), options);
+
+            // Gračani and Utrine sample Lat / Lng
+            var southWest = new google.maps.LatLng(45.789826, 15.921120);
+            var northEast = new google.maps.LatLng(45.813641, 16.019654);
+            var lngSpan = northEast.lng() - southWest.lng();
+            var latSpan = northEast.lat() - southWest.lat();
+
+            // set multiple marker
+            for (var i = 0; i < 200; i++) {
+                // init markers
+                var marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(southWest.lat() + latSpan * Math.random(), southWest.lng() + lngSpan * Math.random()),
+                    map: map,
+                    title: 'Click Me ' + i
+                });
+
+                // process multiple info windows
+                (function (marker, i) {
+                    // add click event
+                    google.maps.event.addListener(marker, 'click', function () {
+                        infowindow = new google.maps.InfoWindow({
+                            content: 'Pozdrav Zagrebe!'
+                        });
+                        infowindow.open(map, marker);
+                    });
+                })(marker, i);
+            }
+        })();
+    });
 </script>
 
 </body>

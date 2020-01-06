@@ -1,16 +1,16 @@
 #!/bin/bash
 
 # css
-curl -I http://kombinacija.hopto.org/css/style.css
+curl --insecure -I https://kombinacija.hopto.org/css/style.css
 
 # html
-curl -I http://kombinacija.hopto.org
+curl --insecure -I https://kombinacija.hopto.org
 
 # images
-curl -I http://kombinacija.hopto.org/img/ManGarbage.jpg
+curl --insecure -I https://kombinacija.hopto.org/img/ManGarbage.jpg
 
 # js api
-curl -I http://kombinacija.hopto.org/js/auth.js
+curl --insecure -I https://kombinacija.hopto.org/js/auth.js
 
 # js bootstrap
-curl -I http://kombinacija.hopto.org/vendor/bootstrap/js/bootstrap.bundle.js
+curl --insecure -I https://kombinacija.hopto.org/vendor/bootstrap/js/bootstrap.bundle.js

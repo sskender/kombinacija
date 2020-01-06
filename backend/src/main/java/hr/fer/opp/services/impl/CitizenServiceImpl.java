@@ -9,10 +9,12 @@ import hr.fer.opp.exceptions.RequestDeniedException;
 import hr.fer.opp.model.*;
 import hr.fer.opp.model.enums.PingLevel;
 import hr.fer.opp.services.CitizenService;
+import hr.fer.opp.services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.chrono.ChronoZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,6 +32,9 @@ public class CitizenServiceImpl implements CitizenService {
 
 	@Autowired
 	private PingRepository pingRepository;
+
+	@Autowired
+	private EmployeeService employeeService;
 
 	@Override
 	@Transactional
@@ -125,10 +130,30 @@ public class CitizenServiceImpl implements CitizenService {
 		Optional<Container> containerOptional = containerRepository.findById(containerId);
 
 		if (!containerOptional.isPresent()) {
-			throw new RequestDeniedException(ExceptionMessages.EXCEPTION_MESSAGE_FAVORITE_NOT_EXIST);
+			throw new RequestDeniedException(ExceptionMessages.EXCEPTION_MESSAGE_CONTAINER_NOT_EXIST);
 		}
-
 		Container container = containerOptional.get();
+
+		List<Ping> pings = employeeService.getPingsSinceLastEmptying(container);
+		boolean hasFullOrUrgentPing = false;
+		boolean exists = false;
+		for (Ping p : pings) {
+			//if new ping is EMPTY and at least one FULL or URGENT ping exists, it is okay
+			if (p.getLevel().equals(PingLevel.FULL) || p.getLevel().equals(PingLevel.URGENT)) {
+				hasFullOrUrgentPing = true;
+			}
+			//if the same user already created a ping for the given container
+			if (p.getCreator().getId().equals(creator.getId()) && p.businessEquals(pingLevel)) {
+				exists = true;
+				break;
+			}
+		}
+		if (!hasFullOrUrgentPing && pingLevel.equals(PingLevel.EMPTY)) {
+			throw new RequestDeniedException(ExceptionMessages.EXCEPTION_MESSAGE_EMPTY_PING_NOT_ALLOWED);
+		}
+		if (exists) {
+			throw new RequestDeniedException(ExceptionMessages.EXCEPTION_MESSAGE_PING_ALREADY_EXISTS);
+		}
 
 		// create ping
 		Ping ping = new Ping();

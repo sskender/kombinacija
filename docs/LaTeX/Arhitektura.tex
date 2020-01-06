@@ -20,7 +20,7 @@
 		\end{packed_item}
 	
 		Klijent koristeći URL aplikacije - \url{https://kombinacija.hopto.org} - šalje HTTPS zahtjeve aplikaciji koristeći se pritom nekim web preglednikom. Ti upiti pristižu na \textit{reverse proxy} poslužitelj NGINX koji je osiguran SSL-om, a svojim \textit{Load Balancer-ima} upravlja zahtjevima i raspoređuje ih na točne portove. Pri tome se zahtjevi oblika https://kombinacija.hopto.org/api/... prosljeđuju na port :8080 prema \textit{Tomcat} poslužitelju, a zahtjevi oblika https://kombinacija.hopto.org/... na port :80 prema drugom NGINX poslužitelju.
-		Java aplikacija pokrenuta na \textit{Tomcat} poslužitelju putem \textit{Redis cache-a} pristupa PostgreSQL bazi podataka na portu :5432.
+		Java aplikacija pokrenuta na \textit{Tomcat} poslužitelju putem \textit{Redis cache-a} pristupa PostgreSQL bazi podataka na portu 5432.
 		
 		Poslužitelji \textit{Tomcat} i \textit{2. NGINX} su \textit{instance}, što znači da se u slučaju preintenzivnog korištenja aplikacije može napraviti dodatni poslužitelj sa jednakim sadržajem, a \textit{Load Balancer-i} će osigurati da se svakom daje podjednak udio zahtjeva. Zbog toga je aplikacija lako skalabilna.
 		

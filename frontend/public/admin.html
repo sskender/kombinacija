@@ -31,9 +31,8 @@
 </head>
 <body>
 <div class="wrapper">
-
     <!-- Sidebar Admin Panel -->
-    <nav id="sidebar">
+    <nav id="sidebar" style="border-right: 10px #0b0b0b ">
         <div class="sidebar-header">
             <a href="#" onclick="toggleVisibility('A0');"><h3>Admin Panel</h3></a>
         </div>
@@ -124,7 +123,7 @@
             </div>
         </section>
         <form method="POST" onsubmit="event.preventDefault(); doNewContainer();">
-            <button class="btn btn-primary"
+            <button class="btn btn-primary btn-xl"
                     style="display: inline-block; background-color: #EB6038; border-color: #EB6038">Dodaj
             </button>
         </form>
@@ -135,13 +134,17 @@
         <section>
             <div id="map"></div>
         </section>
+        <form method="POST" onsubmit="event.preventDefault(); doNewContainer();">
+            <button class="btn btn-primary btn-xl js-scroll-trigger"
+                    style="background-color: #EB6038; margin-top: 50px; border-color: #EB6038">Obriši kontejner
+            </button>
+        </form>
     </div>
 
     <!-- Upravljanje komunalnim radnicima -->
     <div id="C1" style="display: none;">Dodaj novog radnika</div>
     <div id="C2" style="display: none;">Premjesti postojećeg radnika</div>
     <div id="C3" style="display: none;">Izbriši postojećeg radnika</div>
-
 
 </div>
 

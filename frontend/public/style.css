@@ -1,4 +1,5 @@
-/* Ovaj dio je za sidebar admin panela */
+/* Sidebar Admin Panela */
+
 
 .wrapper {
     display: flex;
@@ -47,9 +48,6 @@ a[data-toggle="collapse"] {
         margin-left: 0;
     }
 }
-
-@import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
-
 
 body {
     font-family: 'Poppins', sans-serif;

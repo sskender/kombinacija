@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Admin Panel</title>
+
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
+          integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+
+    <!-- Our Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Font Awesome JS -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js"
+            integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ"
+            crossorigin="anonymous"></script>
+
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js"
+            integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY"
+            crossorigin="anonymous"></script>
+
+    <!-- For Google Maps -->
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>
+
+
+</head>
+<body>
+<div class="wrapper">
+
+    <!-- Sidebar Admin Panel -->
+    <nav id="sidebar">
+        <div class="sidebar-header">
+            <a href="#" onclick="toggleVisibility('A0');"><h3>Admin Panel</h3></a>
+        </div>
+        <ul class="list-unstyled">
+            <li>
+                <a href="#kvartsubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Kvartovska
+                    poduzeća</a>
+                <ul class="collapse list-unstyled" id="kvartsubmenu">
+                    <li>
+                        <a href="#" onclick="toggleVisibility('A1');">Dodaj novo</a>
+                    </li>
+                    <li>
+                        <a href="#" onclick="toggleVisibility('A2');">Obriši postojeće</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#kontejnersubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Kontejneri</a>
+                <ul class="collapse list-unstyled" id="kontejnersubmenu">
+                    <li>
+                        <a href="#" onclick="toggleVisibility('B1');">Dodaj novi</a>
+                    </li>
+                    <li>
+                        <a href="#" onclick="toggleVisibility('B2');">Obriši postojeći</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Komunalni
+                    radnici</a>
+                <ul class="collapse list-unstyled" id="pageSubmenu">
+                    <li>
+                        <a href="#" onclick="toggleVisibility('C1');">Dodaj novog radnika</a>
+                    </li>
+                    <li>
+                        <a href="#" onclick="toggleVisibility('C2');">Premjesti postojećeg radnika</a>
+                    </li>
+                    <li>
+                        <a href="#" onclick="toggleVisibility('C3');">Izbriši postojećeg radnika</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Masthead -->
+    <div class="container h-100" id="A0">
+        <div class="row h-100 align-items-center justify-content-center text-center">
+            <div class="col-lg-10 align-self-end">
+                <h1 style="padding-top: 50px" class="text-uppercase text-black-50 font-weight-bold" id="welcome-msg">
+                    Dobrodošli u Admin Panel</h1>
+                <hr class="divider my-lg-4">
+            </div>
+        </div>
+    </div>
+
+    <!-- Dodavanje novog kvartovskog poduzeća -->
+    <div id="A1" align="center" style="display: none;">
+        <section>
+            <div id='map_canvas0'></div>
+            <div id="current0">
+                <p>Pomaknite marker na karti kako bi odabrali središte novog kvartovskog poduzeća.</p>
+            </div>
+        </section>
+        <form method="POST" onsubmit="event.preventDefault(); doNewNeighborhood();">
+            <p style="display: inline-block">
+                <label>Ime novog kvartovskog poduzeća:
+                    <input type="text" id="name"><br>
+                </label>
+            </p>
+            <button class="btn btn-primary"
+                    style="display: inline-block; background-color: #EB6038; border-color: #EB6038">Dodaj
+            </button>
+        </form>
+    </div>
+
+    <!-- Brisanje postojećeg kvartovskog poduzeća -->
+    <div id="A2" style="display: none;">Ovdje ne znam napraviti dohvat podataka iz JSON da prebaci u tablicu</div>
+
+
+    <!-- Dodavanje novog kontejnera -->
+
+    <div id="B1" align="center" style="display: none;">
+        <section>
+            <div id='map_canvas1'></div>
+            <div id="current1">
+                <p>Pomaknite marker na karti kako bi postavili lokaciju novog kontejnera.</p>
+            </div>
+        </section>
+        <form method="POST" onsubmit="event.preventDefault(); doNewContainer();">
+            <button class="btn btn-primary"
+                    style="display: inline-block; background-color: #EB6038; border-color: #EB6038">Dodaj
+            </button>
+        </form>
+    </div>
+
+    <!-- Brisanje postojećeg kontejnera -->
+    <div id="B2" align="center" style="display: none;">
+        <section>
+            <div id="map"></div>
+        </section>
+    </div>
+
+    <!-- Upravljanje komunalnim radnicima -->
+    <div id="C1" style="display: none;">Dodaj novog radnika</div>
+    <div id="C2" style="display: none;">Premjesti postojećeg radnika</div>
+    <div id="C3" style="display: none;">Izbriši postojećeg radnika</div>
+
+
+</div>
+
+<!-- jQuery CDN - Slim version (=without AJAX) -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<!-- Popper.JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"
+        integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
+        crossorigin="anonymous"></script>
+<!-- Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
+        integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
+        crossorigin="anonymous"></script>
+
+
+<!-- Skripta za prikaz pojedinih blokova ovisno o tome koji dio admin sučelja je odabran -->
+<script>
+    var divs = ["A0", "A1", "A2", "B1", "B2", "C1", "C2", "C3"];
+    var visibleDivId = null;
+
+    function toggleVisibility(divId) {
+        if (visibleDivId === divId) {
+            //visibleDivId = null;
+        } else {
+            visibleDivId = divId;
+        }
+        hideNonVisibleDivs();
+    }
+
+    function hideNonVisibleDivs() {
+        var i, divId, div;
+        for (i = 0; i < divs.length; i++) {
+            divId = divs[i];
+            div = document.getElementById(divId);
+            if (visibleDivId === divId) {
+                div.style.display = "block";
+            } else {
+                div.style.display = "none";
+            }
+        }
+    }
+</script>
+
+
+<!-- Skripta za prikaz markera na googli karti za kvartove te ispis njegove lng i lat kordinate -->
+<script>
+    var map0 = new google.maps.Map(document.getElementById('map_canvas0'), {
+        zoom: 13,
+        center: new google.maps.LatLng(45.814, 15.980),
+        mapTypeId: google.maps.MapTypeId.HYBRID
+    });
+    map0.setTilt(0);
+
+
+    var myMarker0 = new google.maps.Marker({
+        position: new google.maps.LatLng(45.814, 15.980),
+        draggable: true
+    });
+
+    google.maps.event.addListener(myMarker0, 'dragend', function (evt) {
+        document.getElementById('current0').innerHTML = '<p>Kordinate središta novog kvartovskog poduzeća su: ' + evt.latLng.lat().toFixed(6) + ' i ' + evt.latLng.lng().toFixed(6) + '</p>';
+    });
+
+    google.maps.event.addListener(myMarker0, 'dragstart', function (evt) {
+        document.getElementById('current0').innerHTML = '<p>Trenutno pomičete marker.</p>';
+    });
+
+    map0.setCenter(myMarker0.position);
+    myMarker0.setMap(map0);
+</script>
+
+<!-- Skripta za prikaz markera na googli karti za kontejnere te ispis njegove lng i lat kordinate jbg copy paste je easiest bio-->
+<script>
+    var map1 = new google.maps.Map(document.getElementById('map_canvas1'), {
+        zoom: 13,
+        center: new google.maps.LatLng(45.814, 15.980),
+        mapTypeId: google.maps.MapTypeId.HYBRID
+    });
+    map1.setTilt(0);
+
+
+    var myMarker1 = new google.maps.Marker({
+        position: new google.maps.LatLng(45.814, 15.980),
+        draggable: true
+    });
+
+    google.maps.event.addListener(myMarker1, 'dragend', function (evt) {
+        document.getElementById('current1').innerHTML = '<p>Kordinate novog kontejnera su: ' + evt.latLng.lat().toFixed(6) + ' i ' + evt.latLng.lng().toFixed(6) + '</p>';
+    });
+
+    google.maps.event.addListener(myMarker1, 'dragstart', function (evt) {
+        document.getElementById('current1').innerHTML = '<p>Trenutno pomičete marker.</p>';
+    });
+
+    map1.setCenter(myMarker1.position);
+    myMarker1.setMap(map1);
+</script>
+
+<!-- Skripta sa primjerom par kanti koje bi trebalo kao moci removat iz kontejnera -->
+<script type="text/javascript">
+    var locations = [
+        ['Sabor', 45.81638, 15.97418, 6],
+        ['Kod KSET-a', 45.80180, 15.97199, 5],
+        ['Iza KSET-a', 45.80157, 15.97194, 4],
+        ['FER-ovo smeće', 45.80132, 15.97181, 3],
+        ['SD Martinovka', 45.80188, 15.97301, 2],
+        ['Holding', 45.80050, 15.97231, 1]
+    ];
+
+    var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 14,
+        center: new google.maps.LatLng(45.814, 15.980),
+        mapTypeId: google.maps.MapTypeId.HYBRID
+    });
+    map.setTilt(0);
+
+
+    var infowindow = new google.maps.InfoWindow();
+
+    var marker, i;
+
+    for (i = 0; i < locations.length; i++) {
+        marker = new google.maps.Marker({
+            position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+            map: map
+        });
+
+        google.maps.event.addListener(marker, 'click', (function (marker, i) {
+            return function () {
+                infowindow.setContent(locations[i][0]);
+                infowindow.open(map, marker);
+            }
+        })(marker, i));
+    }
+</script>
+
+
+<!-- Skripta za slanje podatakak novog kvarta prema serveru -->
+<script>
+    function doNewNeighborhood() {
+        var centerLatitude = evt.latLng.lat().toFixed(3);
+        var centerLongitude = evt.latLng.lng().toFixed(3);
+        var name = document.getElementById("name").value;
+
+        // Ovaj dio sad dalje ne znam napisati :( //
+    }
+</script>
+
+</body>
+
+</html>

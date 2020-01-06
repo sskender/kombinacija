@@ -169,6 +169,7 @@
 				latitude & DOUBLE & Geografska širina lokacije komunalnog središta u susjedstvu; ne smije biti NULL. \\ \hline
 				longitude & DOUBLE & Geografska dužina lokacije komunalnog središta u susjedstvu; ne smije biti NULL. \\ \hline
 				name & VARCHAR & Ime susjedstva; ne smije biti NULL. \\ \hline
+				workerCapacity & INT & Kapacitet za radnike; ne smije biti NULL. \\ \hline
 				
 				\caption{\label{tab:tbl-neighborhood} Tablica \textit{Neighborhood}}
 				
@@ -199,7 +200,7 @@
 				\endhead
 				
 				\textbf{id} & BIGINT	&   Identifikator prijave; svako označavanje ima svoj jedinstveni ID. \\ \hline
-				ping\textunderscore level & INT & Level koji označava vrstu prijave: 0 je prijava praznog, 1 prijava punog i 2 prijava pretrpanog kontejnera; ne smije biti NULL \\ \hline
+				level & INT & Level koji označava vrstu prijave: 0 je prijava praznog, 1 prijava punog i 2 prijava pretrpanog kontejnera; ne smije biti NULL \\ \hline
 				timestamp & BIGINT & Vremenska oznaka trenutka u kojem se dogodila prijava kontejnera; ne smije biti NULL \\ \hline
 				photo\textunderscore path & VARCHAR & Mjesto na disku na kojem se nalazi fotografija koju je priložio korisnik \\ \hline
 				\textit{container\textunderscore id} & BIGINT & Strani ključ koji pokazuje na relaciju Container \\ \hline

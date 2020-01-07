@@ -2,6 +2,7 @@ package hr.fer.opp.controllers;
 
 import hr.fer.opp.dto.request.RegisterDTO;
 import hr.fer.opp.dto.response.ContainerREST;
+import hr.fer.opp.dto.response.NeighborhoodREST;
 import hr.fer.opp.dto.response.PersonREST;
 import hr.fer.opp.services.AdminService;
 import hr.fer.opp.services.PersonService;
@@ -80,5 +81,10 @@ public class PublicController {
     @GetMapping(value="/clearance")
     public String clearance(@RequestParam(value = "uid", required = false) Long userId) {
         return publicService.getClearance(userId);
+    }
+
+    @GetMapping(value="/hoods")
+    public ResponseEntity<List<NeighborhoodREST>> getHoods(){
+        return new ResponseEntity<>(NeighborhoodREST.convertToREST(adminService.getAllNeighborhoods()), HttpStatus.OK);
     }
 }

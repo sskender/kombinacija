@@ -4,6 +4,7 @@ import hr.fer.opp.dto.request.RegisterDTO;
 import hr.fer.opp.dto.response.ContainerREST;
 import hr.fer.opp.dto.response.NeighborhoodREST;
 import hr.fer.opp.dto.response.PersonREST;
+import hr.fer.opp.model.Person;
 import hr.fer.opp.services.AdminService;
 import hr.fer.opp.services.PersonService;
 import hr.fer.opp.services.PublicService;
@@ -32,24 +33,10 @@ public class PublicController {
 
     @GetMapping(value = "/auth")
     public ResponseEntity<PersonREST> testAuthorization(@AuthenticationPrincipal UserDetails userDetails) {
-
+        Person p = personService.fetchByEmail(userDetails.getUsername());
         return new ResponseEntity<>(
-                new PersonREST(personService.fetchByEmail(userDetails.getUsername()), extractHighestAuthority(userDetails)),
+                new PersonREST(p, clearance(p.getId()).getBody()),
                 HttpStatus.OK);
-    }
-
-    private String extractHighestAuthority(UserDetails userDetails) {
-        String role = "";
-        for(GrantedAuthority a : userDetails.getAuthorities()) {
-            if(a.getAuthority().equals("ADMIN")){
-                role="admin";
-            } else if(a.getAuthority().equals("EMPLOYEE") && !role.equals("admin")){
-                role="employee";
-            } else if (a.getAuthority().equals("CITIZEN") && !role.equals("admin") && !role.equals("employee")){
-                role="citizen";
-            }
-        }
-        return role;
     }
 
     @PostMapping(value = "/register")
@@ -79,8 +66,8 @@ public class PublicController {
     }
 
     @GetMapping(value="/clearance")
-    public String clearance(@RequestParam(value = "uid", required = false) Long userId) {
-        return publicService.getClearance(userId);
+    public ResponseEntity<String> clearance(@RequestParam(value = "uid", required = false) Long userId) {
+        return new ResponseEntity<>(publicService.getClearance(userId), HttpStatus.OK);
     }
 
     @GetMapping(value="/hoods")

@@ -1,5 +1,6 @@
 function ping(id, level){
   var user = getLoggedInUser();
+  console.log("IN PING: USER: "+user);
   $.ajax({
     headers: {
       "Authorization": "Basic " + btoa(user.email + ":" + user.pwd)
@@ -7,11 +8,36 @@ function ping(id, level){
     url: SERVER_URL + "/ping/"+id+"/"+level,
     crossDomain: true,
     type: "POST",
+    dataType: "json",
+    contentType: "application/json;charset=utf-8",
+    data: "{}",
     success: function(ping) {
       return ping;
     },
     error: function(jqXHR, textStatus, errorThrown){
       alert("Greška prilikom prijave kontejnera "+jqXHR);
+    }
+  });
+}
+
+function testAuthorization(email, pwd){
+  $.ajax({
+    headers: {
+      "Authorization": "Basic " + btoa(email + ":" + pwd)
+    },
+    url: SERVER_URL + "/auth",
+    crossDomain: true,
+    type: "GET",
+    success: function(userJSON) {
+      window.localStorage.setItem('basic-auth', btoa(email+":"+pwd));
+      window.localStorage.setItem('user-name', userJSON.name);
+      window.localStorage.setItem('user-id', userJSON.id);
+      window.localStorage.setItem('user-email', userJSON.email);
+      window.location.href = "index.html";
+    },
+    error: function(jqXHR, textStatus, errorThrown){
+      alert("Greška prilikom prijave - "+jqXHR);
+      document.getElementById("pass").value = "";
     }
   });
 }

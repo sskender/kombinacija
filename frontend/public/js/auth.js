@@ -30,7 +30,7 @@ function logMeOut() {
   window.localStorage.removeItem("user-name");
   window.localStorage.removeItem("user-id");
   window.localStorage.removeItem("user-email");
-  window.location.href("index.html");
+  window.location.href = "index.html";
 }
 
 function getLoggedInUser() {

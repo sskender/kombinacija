@@ -25,7 +25,7 @@ function registerCitizen(regDTO){
       window.localStorage.setItem('user-name', userJSON.name);
       window.localStorage.setItem('user-id', userJSON.id);
       window.localStorage.setItem('user-email', userJSON.email);
-      window.location.href("index.html");
+      window.location.href = "index.html";
     },
     error: function(jqXHR, textStatus, errorThrown){
       alert("Greška prilikom registracije - "+jqXHR);
@@ -48,7 +48,7 @@ function testAuthorization(email, pwd){
       window.localStorage.setItem('user-name', userJSON.name);
       window.localStorage.setItem('user-id', userJSON.id);
       window.localStorage.setItem('user-email', userJSON.email);
-      window.location.href("index.html");
+      window.location.href = "index.html";
     },
     error: function(jqXHR, textStatus, errorThrown){
       alert("Greška prilikom prijave - "+jqXHR);
@@ -57,13 +57,13 @@ function testAuthorization(email, pwd){
   });
 }
 
-function map(latitude, longitude) {
+function map(latitude, longitude, onsuccess) {
   $.ajax({
     url: SERVER_URL + "/map?lat=" + latitude + "&lon=" + longitude,
     crossDomain: true,
     type: "GET",
-    success: function(containerList) {
-      return containerList;
+    success: function(containers) {
+      onsuccess(containers);
     },
     error: function(jqXHR, textStatus, errorThrown){
       alert("Greška prilikom dohvacanja liste kontejnera "+jqXHR);

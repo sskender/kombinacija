@@ -71,12 +71,13 @@
 <!--Google map-->
 <div align="center">
   <div class="btn-group" role="group" style="padding-top: 50px; padding-bottom: 50px">
-      <button type="button" class="btn btn-primary btn-xl">Prijavi kao "PUN"</button>
-      <button type="button" class="btn btn-primary btn-xl">Prijavi kao "PREPUN"</button>
-      <button type="button" class="btn btn-primary btn-xl">Prijavi kao "PRAZAN"</button>
-      <button type="button" class="btn btn-primary btn-xl">Dodaj u "OMILJENE"</button>
+      <button id="btn-history" type="button" class="btn btn-primary btn-xl" style="display: none;">Zapisi</button>
+      <button id="btn-ping-full" type="button" class="btn btn-primary btn-xl" style="display: none;">Prijavi kao "PUN"</button>
+      <button id="btn-ping-urgent" type="button" class="btn btn-primary btn-xl" style="display: none;">Prijavi kao "PREPUN"</button>
+      <button id="btn-ping-empty" type="button" class="btn btn-primary btn-xl" style="display: none;">Prijavi kao "PRAZAN"</button>
+      <button id="btn-add-fav" type="button" class="btn btn-primary btn-xl" style="display: none;">Dodaj u "OMILJENE"</button>
       <!-- Mozemo napraviti da su omiljeni oznaceni plavim tagom, mislim da je to najlakse i najljepse vizualno -->
-      <button type="button" class="btn btn-primary btn-xl">Obriši iz "OMILJENIH"</button>
+      <button id="btn-del-fav" type="button" class="btn btn-primary btn-xl" style="display: none;">Obriši iz "OMILJENIH"</button>
   </div>
   <div id="map_canvas" style=" width: 100%; height: 800px;">
   </div>
@@ -138,9 +139,11 @@
 
 <!-- Custom scripts for this template -->
 <script src="js/creative.min.js"></script>
+<script src="js/server.api.js"></script>
 <script src="js/auth.js"></script>
 <script src="js/designer.js"></script>
 <script src="js/public_requests.js"></script>
+<script src="js/citizen_requests.js"></script>
 <script>
     window.onload = handleDisplay();
 </script>
@@ -148,73 +151,79 @@
 <!-- Skripta za random markere na google mapi -->
 <script src="https://maps.googleapis.com/maps/api/js?v=3.11&sensor=false" type="text/javascript"></script>
 
-<script type="text/javascript">
-  function getLocation(recipient, errorHandler) {
-    if(navigator.geolocation){
-      navigator.geolocation.getCurrentPosition(recipient, errorHandler);
-    } else {
-      initMapWithHoods();
+  <script type="text/javascript">
+
+    var googleMap = configMap();
+
+    function getLocation(recipient, errorHandler) {
+      if(navigator.geolocation){
+        navigator.geolocation.getCurrentPosition(recipient, errorHandler);
+      } else {
+      //  initMapWithHoods();
+      }
     }
-  }
 
-  configMap();
-  function configMap() {
-    var options = {
-      zoom: 14,
-      center: new google.maps.LatLng(45.79964, 15.97880), // centered Zagreb
-      mapTypeId: google.maps.MapTypeId.HYBRID,
-      mapTypeControl: false
+    function configMap() {
+      var options = {
+        zoom: 14,
+        center: new google.maps.LatLng(45.79964, 15.97880), // centered Zagreb
+        mapTypeId: google.maps.MapTypeId.HYBRID,
+        mapTypeControl: false
+      }
+      var map = new google.maps.Map(document.getElementById('map_canvas'), options);
+      return map;
     }
-    var map = new google.maps.Map(document.getElementById('map_canvas'), options);
-    return map;
-  }
-  function initMap(position) {
-    var containers =
-  }
-  function handleError(error){
-    initMapWithHoods();
-  }
-  getLocation(initMap, handleError);
-</script>
 
-<script>
-    // check DOM Ready
-    $(document).ready(function () {
-        // execute
-        (function () {
 
-            // init map
-            var map = new google.maps.Map(document.getElementById('map_canvas'), options);
+    function buttonDisplayManager(user, marker){
 
-            // Gračani and Utrine sample Lat / Lng
-            var southWest = new google.maps.LatLng(45.789826, 15.921120);
-            var northEast = new google.maps.LatLng(45.813641, 16.019654);
-            var lngSpan = northEast.lng() - southWest.lng();
-            var latSpan = northEast.lat() - southWest.lat();
+      var bHisto = document.getElementById("btn-history");
+      var bPingf = document.getElementById("btn-ping-full");
+      var bPingu = document.getElementById("btn-ping-urgent");
+      var bPinge = document.getElementById("btn-ping-empty");
+      var bFava = document.getElementById("btn-add-fav");
+      var bFavd = document.getElementById("btn-del-fav");
+      var role;
+      if(user){
+        bHisto.style.display = "block";
+        bPingf.style.display = "block";
+        bPingf.onclick = function(){ pingFull(marker.containerID) };
+        bPingu.style.display = "block";
+        bPingu.onclick = function(){ pingUrgent(marker.containerID) };
+        bPinge.style.display = "block";
+        bPinge.onclick = function(){ pingEmpty(marker.containerID) };
+        bFava.style.display = "block";
+        bFava.onclick = function(){ postFavorite(marker.containerID) };
+        bFavd.style.display = "block";
+        bFavd.onclick = function(){ deleteFavorite(marker.containerID) };
+      } else {
+        bHisto.style.display = "block";
+      }
+    }
 
-            // set multiple marker
-            for (var i = 0; i < 200; i++) {
-                // init markers
-                var marker = new google.maps.Marker({
-                    position: new google.maps.LatLng(southWest.lat() + latSpan * Math.random(), southWest.lng() + lngSpan * Math.random()),
-                    map: map,
-                    title: 'Click Me ' + i
-                });
+    function initMap(position) {
+      var containers = map(position.coords.latitude, position.coords.longitude, function (containers) {
+        for(var i=0; i<containers.length; i++){
+          var c = containers[i];
+          var marker = new google.maps.Marker({
+            position: new google.maps.LatLng(c.latitude, c.longitude),
+            map: googleMap,
+            title: "Kontejner "+i+" ("+c.id+")",
+            containerID: c.id
+          });
+          google.maps.event.addListener(marker, 'click', function () {
+            var user = getLoggedInUser();
+            buttonDisplayManager(user, marker);
+          });
+        }
+      });
 
-                // process multiple info windows
-                (function (marker, i) {
-                    // add click event
-                    google.maps.event.addListener(marker, 'click', function () {
-                        infowindow = new google.maps.InfoWindow({
-                            content: 'Pozdrav Zagrebe!'
-                        });
-                        infowindow.open(map, marker);
-                    });
-                })(marker, i);
-            }
-        })();
-    });
-</script>
+    }
+    function handleError(error){
+      //initMapWithHoods();
+    }
+    getLocation(initMap, handleError);
+  </script>
 
 </body>
 

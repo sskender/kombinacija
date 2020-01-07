@@ -29,7 +29,7 @@ function rejectLogin() {
   var user = getLoggedInUser();
   if(user) {
     alert("Već ste prijavljeni u sustav kao " + user.name + "("+user.email+")");
-    window.location.href("index.html");
+    window.location.href = "index.html";
   } else {
     return
   }
@@ -37,7 +37,7 @@ function rejectLogin() {
 
 function rejectAdmin() {
   if(getLoggedInUser() && clearance(getLoggedInUser().id != "admin")){
-    window.location.href("index.html");
+    window.location.href = "index.html";
   } else {
     return;
   }

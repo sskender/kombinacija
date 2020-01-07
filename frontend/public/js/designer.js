@@ -1,5 +1,5 @@
 /*
-Manipulating the look and feel of the main page,
+Manipulating the look and feel of pages,
 with respect to the user being logged in or not
 */
 
@@ -11,8 +11,9 @@ function handleDisplay() {
   var defaultLoginDisplay = loginLink.display;
   var defaultBtnDisplay = logout.display;
 
-  if(checkAuthentication()){
-    welcomeElement.innerHTML = "Dobrodošli, "+ window.localStorage.getItem("user-name")+"!";
+  var user = getLoggedInUser();
+  if(user){
+    welcomeElement.innerHTML = "Dobrodošli, "+ user.name+"!";
     loginLink.style.display = "none";
     regLink.style.display = "none";
     logoutLink.style.display = defaultBtnDisplay;
@@ -25,9 +26,10 @@ function handleDisplay() {
 }
 
 function rejectLogin() {
-  if(checkAuthentication()) {
-    alert("Već ste prijavljeni u sustav kao " + window.localStorage.getItem("user-name"));
-    window.location.replace("index.html");
+  var user = getLoggedInUser();
+  if(user) {
+    alert("Već ste prijavljeni u sustav kao " + user.name + "("+user.email+")");
+    window.location.href("index.html");
   } else {
     return
   }
@@ -35,7 +37,7 @@ function rejectLogin() {
 
 function rejectAdmin() {
   if(getLoggedInUser() && clearance(getLoggedInUser().id != "admin")){
-    window.location.replace("index.html");
+    window.location.href("index.html");
   } else {
     return;
   }

@@ -20,7 +20,7 @@
 		\end{packed_item}
 	
 		Klijent koristeći URL aplikacije - \url{https://kombinacija.hopto.org} - šalje HTTPS zahtjeve aplikaciji koristeći se pritom nekim web preglednikom. Ti upiti pristižu na \textit{reverse proxy} poslužitelj NGINX koji je osiguran SSL-om, a svojim \textit{Load Balancer-ima} upravlja zahtjevima i raspoređuje ih na točne portove. Pri tome se zahtjevi oblika https://kombinacija.hopto.org/api/... prosljeđuju na port :8080 prema \textit{Tomcat} poslužitelju, a zahtjevi oblika https://kombinacija.hopto.org/... na port :80 prema drugom NGINX poslužitelju.
-		Java aplikacija pokrenuta na \textit{Tomcat} poslužitelju putem \textit{Redis cache-a} pristupa PostgreSQL bazi podataka na portu :5432.
+		Java aplikacija pokrenuta na \textit{Tomcat} poslužitelju putem \textit{Redis cache-a} pristupa PostgreSQL bazi podataka na portu 5432.
 		
 		Poslužitelji \textit{Tomcat} i \textit{2. NGINX} su \textit{instance}, što znači da se u slučaju preintenzivnog korištenja aplikacije može napraviti dodatni poslužitelj sa jednakim sadržajem, a \textit{Load Balancer-i} će osigurati da se svakom daje podjednak udio zahtjeva. Zbog toga je aplikacija lako skalabilna.
 		
@@ -169,6 +169,7 @@
 				latitude & DOUBLE & Geografska širina lokacije komunalnog središta u susjedstvu; ne smije biti NULL. \\ \hline
 				longitude & DOUBLE & Geografska dužina lokacije komunalnog središta u susjedstvu; ne smije biti NULL. \\ \hline
 				name & VARCHAR & Ime susjedstva; ne smije biti NULL. \\ \hline
+				workerCapacity & INT & Kapacitet za radnike; ne smije biti NULL. \\ \hline
 				
 				\caption{\label{tab:tbl-neighborhood} Tablica \textit{Neighborhood}}
 				
@@ -199,7 +200,7 @@
 				\endhead
 				
 				\textbf{id} & BIGINT	&   Identifikator prijave; svako označavanje ima svoj jedinstveni ID. \\ \hline
-				ping\textunderscore level & INT & Level koji označava vrstu prijave: 0 je prijava praznog, 1 prijava punog i 2 prijava pretrpanog kontejnera; ne smije biti NULL \\ \hline
+				level & INT & Level koji označava vrstu prijave: 0 je prijava praznog, 1 prijava punog i 2 prijava pretrpanog kontejnera; ne smije biti NULL \\ \hline
 				timestamp & BIGINT & Vremenska oznaka trenutka u kojem se dogodila prijava kontejnera; ne smije biti NULL \\ \hline
 				photo\textunderscore path & VARCHAR & Mjesto na disku na kojem se nalazi fotografija koju je priložio korisnik \\ \hline
 				\textit{container\textunderscore id} & BIGINT & Strani ključ koji pokazuje na relaciju Container \\ \hline
@@ -247,19 +248,15 @@
 			
 		\section{Dijagram razreda}
 		
-			Na slici 4.4. prikazan je dijagram razreda paketa DAO. DAO (\textit{Data Access Object}) je paket koji predstavlja sloj između logike aplikacije i baze podataka. Pomoću DAO objekata aplikacija dohvaća objekte iz baze podataka te ih uključuje u razne akcije, mijenja, stvara nove objekte vezane uz njih i sprema ih natrag u bazu. Sve metode su već implementirane u Spring-ovom sučelju JpaRepository, koje sva naša sučelja nasljeđuju.
-			
 			Slika 4.5 prikazuje dijagram razreda koji predstavljaju model podataka - reprezentaciju stvarnog svijeta. On je vrlo sličan ER modelu i dijagramu baze podataka, ali ne i identičan: uspoređujući ih, vidljivo je kako se Java objekti i sve veze (One-to-one, One-to-many, Many-to-many) mapiraju u bazu podataka.
 			
-			Konačno, slika 4.6 prikazuje dijagram razreda \textit{controller-a}, koji su zaduženi za primanje HTTP zahtjeva na način da se svaka metoda u pojedinom \textit{controller} razredu mapira na određeni URL i određenu HTTP metodu (GET, POST, PUT...). Tako je primjerice metoda registerUser() u razredu LoginController pozvana isključivo ako korisnik pošalje POST zahtjev na URL "/register", a metoda testAuthorization() se koristi kako bi korisnik provjerio ispravnost autorizacijskih podataka prilikom GET zahtjeva na URL "/auth". U svrhu te provjere koristi se UserDetailsServiceImpl, no provjera je automatizirana i vrši ju \textit{Spring} prilikom svakog poziva te metode. Ispravan rad LoginController-a ovisi i o servisu LoginService.
+			Na slici 4.6. prikazan je dijagram razreda paketa \textit{dao}. DAO (\textit{Data Access Object}) je paket koji predstavlja sloj između logike aplikacije i baze podataka. Pomoću DAO objekata aplikacija dohvaća objekte iz baze podataka te ih uključuje u razne akcije, mijenja, stvara nove objekte vezane uz njih i sprema ih natrag u bazu. Sve metode u svim razredima ovog paketa su već implementirane u Spring-ovom sučelju JpaRepository, koje sva naša sučelja nasljeđuju.
 			
-			\begin{figure}[H]
-				\includegraphics[scale=0.5]{figures/DAOClassDiagram.PNG}
-				\centering
-				\caption{Dijagram razreda paketa DAO}
-				\label{fig:dao-cd}
-			\end{figure}
-		
+			Slika 4.7 prikazuje dijagram razreda paketa \textit{controller}, koji su zaduženi za primanje HTTP zahtjeva na način da se svaka metoda u pojedinom \textit{controller} razredu mapira na određeni URL i određenu HTTP metodu (GET, POST, PUT...). Tako je primjerice metoda registerUser() u razredu PublicController pozvana isključivo ako korisnik pošalje POST zahtjev na URL "/register", a metoda testAuthorization() se koristi kako bi korisnik provjerio ispravnost autorizacijskih podataka slanjem GET zahtjeva na URL "/auth". 
+			
+			Konačno, svaki razred iz prethodnog paketa sadrži referencu na barem jedan razred iz paketa \textit{service} sa dijagrama na slici 4.8. Razredi ovog paketa su servisi koji obavljaju poslovnu logiku aplikacije, pružajući uslugu razredima iz paketa \textit{controller}, a koristeći razrede iz paketa \textit{dao}. Servisi često osim na repozitorije imaju i reference na druge razrede iz istog paketa.
+			
+			
 			\begin{figure}[H]
 				\includegraphics[scale=0.5]{figures/ModelClassDiagram.PNG}
 				\centering
@@ -268,9 +265,23 @@
 			\end{figure}
 		
 			\begin{figure}[H]
-				\includegraphics[scale=0.7]{figures/ControllerClassDiagram.PNG}
+				\includegraphics[scale=0.4]{figures/DAOClassDiagram.PNG}
 				\centering
-				\caption{Dijagram razreda - controllera}
+				\caption{Dijagram razreda paketa DAO}
+				\label{fig:dao-cd}
+			\end{figure}
+		
+			\begin{figure}[H]
+				\includegraphics[scale=0.35]{figures/ControllerClassDiagram.PNG}
+				\centering
+				\caption{Dijagram razreda paketa controller}
+				\label{fig:controller-cd}
+			\end{figure}
+		
+			\begin{figure}[H]
+				\includegraphics[scale=0.35]{figures/ServiceClassDiagram.PNG}
+				\centering
+				\caption{Dijagram razreda paketa service}
 				\label{fig:controller-cd}
 			\end{figure}
 			

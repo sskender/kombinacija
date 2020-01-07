@@ -12,9 +12,21 @@ interface PersonRepository
 interface AdminRepository
 interface EmployeeRepository
 interface CitizenRepository
+interface ContainerRepository
+interface EmptyingRepository
+interface NeighborhoodRepository
+interface PingRepository
+interface FavoriteRepository
 
 JpaRepository <|.. PersonRepository : <<bind>>(Person,Long)
 JpaRepository <|.. AdminRepository : <<bind>>(Admin,Long)
 JpaRepository <|.. EmployeeRepository : <<bind>>(Employee,Long)
-JpaRepository <|. CitizenRepository : <<bind>>(Citizen, Long)
+JpaRepository <|.. CitizenRepository : <<bind>>(Citizen, Long)
+
+PingRepository ..|> JpaRepository : <<bind>>(Ping,Long)
+FavoriteRepository ..|> JpaRepository : <<bind>>(Favorite,Long)
+EmptyingRepository ..|> JpaRepository : <<bind>>(Emptying,Long)
+
+ContainerRepository .|> JpaRepository : <<bind>>(Container,Long)
+JpaRepository <|. NeighborhoodRepository : <<bind>>(Neighborhood,Long)
 @enduml

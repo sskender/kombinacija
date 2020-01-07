@@ -32,3 +32,11 @@ function rejectLogin() {
     return
   }
 }
+
+function rejectAdmin() {
+  if(getLoggedInUser() && clearance(getLoggedInUser().id != "admin")){
+    window.location.replace("index.html");
+  } else {
+    return;
+  }
+}

@@ -70,18 +70,16 @@
 
 <!--Google map-->
 <div align="center">
-    <div id="map_canvas" style=" width: 100%; height: 800px;">
-    </div>
-    <form method="POST" onsubmit="event.preventDefault(); doNewContainer();">
-        <div class="btn-group" role="group" style="padding-top: 50px">
-            <button type="button" class="btn btn-primary btn-xl">Prijavi kao "PUN"</button>
-            <button type="button" class="btn btn-primary btn-xl">Prijavi kao "PREPUN"</button>
-            <button type="button" class="btn btn-primary btn-xl">Prijavi kao "PRAZAN"</button>
-            <button type="button" class="btn btn-primary btn-xl">Dodaj u "OMILJENE"</button>
-            <!-- Mozemo napraviti da su omiljeni oznaceni plavim tagom, mislim da je to najlakse i najljepse vizualno -->
-            <button type="button" class="btn btn-primary btn-xl">Obriši iz "OMILJENIH"</button>
-        </div>
-    </form>
+  <div class="btn-group" role="group" style="padding-top: 50px; padding-bottom: 50px">
+      <button type="button" class="btn btn-primary btn-xl">Prijavi kao "PUN"</button>
+      <button type="button" class="btn btn-primary btn-xl">Prijavi kao "PREPUN"</button>
+      <button type="button" class="btn btn-primary btn-xl">Prijavi kao "PRAZAN"</button>
+      <button type="button" class="btn btn-primary btn-xl">Dodaj u "OMILJENE"</button>
+      <!-- Mozemo napraviti da su omiljeni oznaceni plavim tagom, mislim da je to najlakse i najljepse vizualno -->
+      <button type="button" class="btn btn-primary btn-xl">Obriši iz "OMILJENIH"</button>
+  </div>
+  <div id="map_canvas" style=" width: 100%; height: 800px;">
+  </div>
 </div>
 
 <!-- Services Section -->
@@ -122,25 +120,6 @@
     </div>
 </section>
 
-<<<<<<< HEAD
-=======
-<!--Google map-->
-<div align="center">
-    <form method="POST" onsubmit="event.preventDefault(); doNewContainer();">
-        <div class="btn-group" role="group" style="padding-bottom: 50px">
-            <button type="button" class="btn btn-primary btn-xl">Prijavi kao "PUN"</button>
-            <button type="button" class="btn btn-primary btn-xl">Prijavi kao "PREPUN"</button>
-            <button type="button" class="btn btn-primary btn-xl">Prijavi kao "PRAZAN"</button>
-            <button type="button" class="btn btn-primary btn-xl">Dodaj u "OMILJENE"</button>
-            <!-- Mozemo napraviti da su omiljeni oznaceni plavim tagom, mislim da je to najlakse i najljepse vizualno -->
-            <button type="button" class="btn btn-primary btn-xl">Obriši iz "OMILJENIH"</button>
-        </div>
-    </form>
-    <div id="map_canvas" style=" width: 100%; height: 600px;">
-    </div>
-</div>
-
->>>>>>> newFrontend
 
 <!-- Footer -->
 <footer class="bg-light py-5">
@@ -161,24 +140,48 @@
 <script src="js/creative.min.js"></script>
 <script src="js/auth.js"></script>
 <script src="js/designer.js"></script>
+<script src="js/public_requests.js"></script>
 <script>
     window.onload = handleDisplay();
 </script>
 
 <!-- Skripta za random markere na google mapi -->
 <script src="https://maps.googleapis.com/maps/api/js?v=3.11&sensor=false" type="text/javascript"></script>
+
+<script type="text/javascript">
+  function getLocation(recipient, errorHandler) {
+    if(navigator.geolocation){
+      navigator.geolocation.getCurrentPosition(recipient, errorHandler);
+    } else {
+      initMapWithHoods();
+    }
+  }
+
+  configMap();
+  function configMap() {
+    var options = {
+      zoom: 14,
+      center: new google.maps.LatLng(45.79964, 15.97880), // centered Zagreb
+      mapTypeId: google.maps.MapTypeId.HYBRID,
+      mapTypeControl: false
+    }
+    var map = new google.maps.Map(document.getElementById('map_canvas'), options);
+    return map;
+  }
+  function initMap(position) {
+    var containers =
+  }
+  function handleError(error){
+    initMapWithHoods();
+  }
+  getLocation(initMap, handleError);
+</script>
+
 <script>
     // check DOM Ready
     $(document).ready(function () {
         // execute
         (function () {
-            // map options
-            var options = {
-                zoom: 14,
-                center: new google.maps.LatLng(45.79964, 15.97880), // centered Zagreb
-                mapTypeId: google.maps.MapTypeId.HYBRID,
-                mapTypeControl: false
-            };
 
             // init map
             var map = new google.maps.Map(document.getElementById('map_canvas'), options);

@@ -13,7 +13,7 @@
           integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
 
     <!-- Our Custom CSS -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/adminpanelstyle.css">
 
     <!-- Font Awesome JS -->
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js"
@@ -90,23 +90,25 @@
     </div>
 
     <!-- Dodavanje novog kvartovskog poduzeća -->
-    <div id="A1" align="center" style="display: none;">
-        <section>
-            <div id='map_canvas0'></div>
+    <div id="A1" style="display: none;">
+        <div id='map_canvas0'></div>
+        <div style="margin-top: 600px;">
             <div id="current0">
-                <p>Pomaknite marker na karti kako bi odabrali središte novog kvartovskog poduzeća.</p>
+                <p>Pomaknite marker na karti kako bi ste odabrali središte novog kvartovskog poduzeća.</p>
             </div>
-        </section>
-        <form method="POST" onsubmit="event.preventDefault(); doNewNeighborhood();">
-            <p style="display: inline-block">
-                <label>Ime novog kvartovskog poduzeća:
-                    <input type="text" id="name"><br>
-                </label>
-            </p>
-            <button class="btn btn-primary"
-                    style="display: inline-block; background-color: #EB6038; border-color: #EB6038">Dodaj
-            </button>
-        </form>
+            <div>
+                <form method="POST" onsubmit="event.preventDefault(); doNewNeighborhood();">
+                    <p>
+                        <label>Ime novog kvartovskog poduzeća:
+                            <input type="text" id="name">
+                        </label>
+                    </p>
+                    <button class="btn btn-primary btn-xl"
+                            style="background-color: #EB6038; border-color: #EB6038">Dodaj
+                    </button>
+                </form>
+            </div>
+        </div>
     </div>
 
     <!-- Brisanje postojećeg kvartovskog poduzeća -->
@@ -116,29 +118,59 @@
     <!-- Dodavanje novog kontejnera -->
 
     <div id="B1" align="center" style="display: none;">
-        <section>
-            <div id='map_canvas1'></div>
+        <div id='map_canvas1'></div>
+        <div style="margin-top: 600px;">
             <div id="current1">
                 <p>Pomaknite marker na karti kako bi postavili lokaciju novog kontejnera.</p>
             </div>
-        </section>
-        <form method="POST" onsubmit="event.preventDefault(); doNewContainer();">
-            <button class="btn btn-primary btn-xl"
-                    style="display: inline-block; background-color: #EB6038; border-color: #EB6038">Dodaj
-            </button>
-        </form>
+            <div>
+                <p></p>
+            </div>
+            <div>
+                <form method="POST" onsubmit="event.preventDefault(); doNewContainer();">
+                    <label for="sel1"><p>Odaberite kojem kvartovskom poduzeću pripada kontejner koji želite dodati:</p>
+                    </label>
+                    <select class="form-control" id="sel1" style="display: inline-block; width: 100px">
+                        <option>Borongaj</option>
+                        <option>Borovje</option>
+                        <option>Centar</option>
+                        <option>Dubec</option>
+                        <option>Dubrava</option>
+                        <option>Jankomir</option>
+                        <option>Jarun</option>
+                        <option>Mikulići</option>
+                        <option>Prečko</option>
+                        <option>Podsused</option>
+                        <option>Ravnice</option>
+                        <option>Špansko</option>
+                        <option>Vrbani</option>
+                        <option>Zapruđe</option>
+                        <option>Žitnjak</option>
+                    </select><br>
+                    <button class="btn btn-primary btn-xl"
+                            style="background-color: #EB6038; border-color: #EB6038">Dodaj
+                    </button>
+                </form>
+            </div>
+        </div>
     </div>
+
 
     <!-- Brisanje postojećeg kontejnera -->
     <div id="B2" align="center" style="display: none;">
-        <section>
-            <div id="map"></div>
-        </section>
-        <form method="POST" onsubmit="event.preventDefault(); doNewContainer();">
-            <button class="btn btn-primary btn-xl js-scroll-trigger"
-                    style="background-color: #EB6038; margin-top: 50px; border-color: #EB6038">Obriši kontejner
-            </button>
-        </form>
+        <div id="map"></div>
+        <div style="margin-top: 621px;">
+            <div>
+                <p>Odaberite kontejner koji želite ukloniti iz liste.</p>
+            </div>
+            <div>
+                <form method="POST" onsubmit="event.preventDefault(); doNewContainer();">
+                    <button class="btn btn-primary btn-xl"
+                            style="background-color: #EB6038; border-color: #EB6038">Obriši
+                    </button>
+                </form>
+            </div>
+        </div>
     </div>
 
     <!-- Upravljanje komunalnim radnicima -->
@@ -257,7 +289,7 @@
     ];
 
     var map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 14,
+        zoom: 13,
         center: new google.maps.LatLng(45.814, 15.980),
         mapTypeId: google.maps.MapTypeId.HYBRID
     });

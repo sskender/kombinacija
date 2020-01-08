@@ -1,6 +1,5 @@
 /* Sidebar Admin Panela */
 
-
 .wrapper {
     display: flex;
     width: 100%;
@@ -112,16 +111,63 @@ ul ul a {
     background: #EB6038;
 }
 
-
-/* Ovaj dio je za dodavanje novog kontejnera B1 div */
-
-
+/* Velicina google karte i ostalog djela ispod nje*/
 #map_canvas0, #map_canvas1, #map {
-    width: 1200px;
-    left: 0;
-    height: 650px;
+    position: absolute;
+    width: calc(100% - 250px);
+    height: 600px;
+}
+
+#A1, #A2, #B1, #B2, #C1, #C2, #C3 {
+    width: calc(100% - 250px);
+    text-align: center;
 }
 
 #current0, #current1, #map {
     padding-top: 25px;
+}
+
+/* Dio za gumbe na stranici da budu kao sa homepaga*/
+
+.btn-primary {
+    color: #fff;
+    background-color: #f4623a;
+    border-color: #f4623a;
+}
+
+.btn-primary:hover {
+    color: #fff;
+    background-color: #f24516;
+    border-color: #ee3e0d;
+}
+
+.btn-primary:focus, .btn-primary.focus {
+    box-shadow: 0 0 0 0.2rem rgba(246, 122, 88, 0.5);
+}
+
+.btn-primary.disabled, .btn-primary:disabled {
+    color: #fff;
+    background-color: #f4623a;
+    border-color: #f4623a;
+}
+
+.btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active,
+.show > .btn-primary.dropdown-toggle {
+    color: #fff;
+    background-color: #ee3e0d;
+    border-color: #e23a0d;
+}
+
+.btn-primary:not(:disabled):not(.disabled):active:focus, .btn-primary:not(:disabled):not(.disabled).active:focus,
+.show > .btn-primary.dropdown-toggle:focus {
+    box-shadow: 0 0 0 0.2rem rgba(246, 122, 88, 0.5);
+}
+
+.btn-xl {
+    padding: 1.25rem 2.25rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 8rem;
 }

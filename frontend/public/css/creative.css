@@ -9584,6 +9584,15 @@ hr.light {
   border-radius: 10rem;
 }
 
+.btn-xl-2 {
+  padding: 0.8rem 1.25rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 8rem;
+}
+
 .page-section {
   padding: 8rem 0;
 }

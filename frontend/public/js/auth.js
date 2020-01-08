@@ -10,59 +10,19 @@ function doRegister() {
     alert("Lozinke se ne podudaraju.");
     return;
   }
-
   var regDTO = {
     name: document.getElementById("name").value,
     lastName: document.getElementById("lastname").value,
     email: document.getElementById("email").value,
     pwd: document.getElementById("pass").value
   };
-
-  $.ajax({
-    url: SERVER_URL + "/register",
-    crossDomain: true,
-    type: "POST",
-    dataType: "json",
-    contentType: "application/json;charset=utf-8",
-    data: JSON.stringify(regDTO),
-    success: function(userJSON) {
-      window.localStorage.setItem('basic-auth', btoa(regDTO.email+":"+regDTO.pwd));
-      window.localStorage.setItem('user-name', userJSON.name);
-      window.localStorage.setItem('user-id', userJSON.id);
-      window.localStorage.setItem('user-email', userJSON.email);
-      window.location.replace("index.html");
-    },
-    error: function(jqXHR, textStatus, errorThrown){
-      alert("Greška prilikom registracije - "+jqXHR);
-      document.getElementById("pass").value = "";
-      document.getElementById("re_pass").value = "";
-    }
-  });
+  registerCitizen(regDTO);
 }
 
 function doLogin() {
   var email = document.getElementById("email").value;
   var pwd = document.getElementById("pass").value;
-
-  $.ajax({
-    headers: {
-      "Authorization": "Basic " + btoa(email + ":" + pwd)
-    },
-    url: SERVER_URL + "/auth",
-    crossDomain: true,
-    type: "GET",
-    success: function(userJSON) {
-      window.localStorage.setItem('basic-auth', btoa(email+":"+pwd));
-      window.localStorage.setItem('user-name', userJSON.name);
-      window.localStorage.setItem('user-id', userJSON.id);
-      window.localStorage.setItem('user-email', userJSON.email);
-      window.location.replace("index.html");
-    },
-    error: function(jqXHR, textStatus, errorThrown){
-      alert("Greška prilikom prijave - "+jqXHR);
-      document.getElementById("pass").value = "";
-    }
-  });
+  testAuthorization(email, pwd);
 }
 
 function logMeOut() {
@@ -70,22 +30,18 @@ function logMeOut() {
   window.localStorage.removeItem("user-name");
   window.localStorage.removeItem("user-id");
   window.localStorage.removeItem("user-email");
-  window.location.replace("index.html");
-}
-
-function checkAuthentication() {
-  if(window.localStorage.getItem("basic-auth")) {
-    return true;
-  } else {
-    return false
-  }
+  window.location.href = "index.html";
 }
 
 function getLoggedInUser() {
-  var user = new Object();
-  user.name = window.localStorage.getItem("user-name");
-  user.email = window.localStorage.getItem("user-email");
-  user.id = window.localStorage.getItem("user-id");
-  user.bauth = window.localStorage.getItem("basic-auth");
-  return user;
+  if(window.localStorage.getItem("user-id")){
+    var user = new Object();
+    user.name = window.localStorage.getItem("user-name");
+    user.email = window.localStorage.getItem("user-email");
+    user.id = window.localStorage.getItem("user-id");
+    user.bauth = window.localStorage.getItem("basic-auth");
+    return user;
+  } else {
+    return null;
+  }
 }

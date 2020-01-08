@@ -3,15 +3,14 @@
 		
 		\section{Korištene tehnologije i alati}
 			
-		Komunikacija u timu realizirana je korištenjem aplikacije WhatsApp\footnote{\url{https://www.whatsapp.com/}}. Za izradu UML dijagrama korišten je alat Astah UML\footnote{\url{http://astah.net/editions/community}}, a kao sustav za upravljanje izvornim kodom Git\footnote{\url{https://git-scm.com/}}. Udaljeni repozitorij projekta je dostupan na web platformi GitLab\footnote{\url{https://gitlab.com/}}.
+		Komunikacija u timu realizirana je korištenjem aplikacije WhatsApp\footnote{\url{https://www.whatsapp.com/}}. Za izradu UML dijagrama primarno je korišten alat Astah UML\footnote{\url{http://astah.net/editions/community}}, no za određene dijagrame je radi preglednosti i oku ugodnijeg dizajna korišten \textit{plugin} PlantUML\footnote{\url{https://plantuml.com/}} za IntelliJ radnu okolinu. Za upravljanje izvornim kodom i njegovim inačicama koristili smo Git\footnote{\url{https://git-scm.com/}}. Udaljeni repozitorij projekta u kojem se nalazi cjelokupni izvorni kod dostupan je na web platformi GitLab\footnote{\url{https://gitlab.com/}}.
 			
-				Kao razvojno okruženje korišten je IntelliJ\footnote{\url{https://www.jetbrains.com/idea/}} - integrirano razvojno okruženje (IDE) tvrtke JetBrains. Koristi se razvoj web-stranica, web-aplikacija, web-usluga te mobilnih aplikacija. IDE pruža integraciju s alatima za razvoj poput grunt, bower, gradle i SBT. Podržava sustave kontrole verzioniranja poput Git, Mercurial, Perforce i SVN. Bazama podataka kao što su Microsoft SQL Server, Oracle, PostgreSQL, SQLite i MySQL može se pristupiti izravno iz IDE-a u Ultimate izdanju, putem ugrađene verzije DataGrip-a.
+				Kao razvojno okruženje korišteni su IntelliJ IDEA\footnote{\url{https://www.jetbrains.com/idea/}} - integrirano razvojno okruženje (IDE) tvrtke JetBrains, i Eclipse\footnote{\url{https://www.eclipse.org/}} - IDE tvrtke The Eclipse Foundation. IDE pruža integraciju s drugim alatima za razvoj kao što je primjerice Maven\footnote{\url{https://maven.apache.org/}} kojeg smo koristili za lokalno upravljanje projektom, uključivanje raznih biblioteka o kojima aplikacija ovisi, te automatiziranu izgradnju projekta i pakiranje u JAR arhivu. Oba IDE-a podržavaju sustave kontrole verzioniranja kao što je Git.
 				
-				Aplikacija je napisana koristeći radni okvir Spring\footnote{\url{https://spring.io/}} i jezik Java\footnote{\url{https://www.java.com/en/}} za izradu \textit{backenda} te Bootstrap\footnote{\url{https://getbootstrap.com/}} i jezik JavaScript\footnote{\url{https://www.javascript.com/}} za izradu \textit{frontenda}.
+				Aplikacija je napisana u jeziku Java\footnote{\url{https://www.java.com/en/}}koristeći radni okvir Spring\footnote{\url{https://spring.io/}}. \textit{Frontend} aplikacije je napisan koristeći HTML, CSS i JavaScript\footnote{\url{https://www.javascript.com/}}, pri čemu smo za CSS koristili biblioteku Bootstrap\footnote{\url{https://getbootstrap.com/}}, a JavaScript smo koristili podjednako u svojoj \textit{vanilla} inačici kao i inačici proširenoj bibliotekom jQuery\footnote{\url{https://jquery.com/}}.
  			
 			\eject 
-		
-	
+			
 		\section{Ispitivanje programskog rješenja}
 			
 			\subsection{Ispitivanje komponenti}
@@ -53,9 +52,12 @@
 			
 			Ako će se mijenjati domena aplikacije, onda je nužno u datoteci  \textit{frontend/Dockerfile} promijeniti  \textit{environment varijablu} DOMAIN\_NAME. Trenutno je stavljena na vrijednost „kombinacija.hopto.org“ što je ujedno i aktivna domena. Sve drugo nije potrebno mijenjati.
 			
+			
+Očekuje se da SSL certifikati koji se misle koristiti već unaprijed postoje te da su spremljeni u mapu \textit{frontend/ssl}. Također se očekuje da certifikat ima nastavak \textit{.crt}, a ključ nastavak \textit{.key}. Ime datoteka ni u jednom slučaju nije važno. \textit{Dockerfile} će se pobrinuti da certifikati završe na pravom mjestu pri kreiranju \textit{Docker image-a} i budu preimenovani kako odgovara \textit{Docker web servisu}, odnosno \textit{Nginx-u}. Moguće je samostalno izgenerirati certifikate, a kako bi taj korak bio sto lakši, napravljana je i skripta koja automatski generira certifikate (nalazi se u mapi \textit{scripts/)}. Skripta kreira certifikat koji ima valjanost od jedne godine, a ključeve sprema u mapu \textit{/frontned/ssl} kako bi ih kasnije \textit{Docker} preuzeo.
+			
     			Glavna datoteka je docker-compose.yml i nalazi se u  \textit{root mapi} projekta. Ona spaja sve Dockerfile konfiguracijske datoteke, iz njih kreira  \textit{Docker image} te pokreće kao  \textit{Docker servise}. Svakom servisu predaje potrebnu  \textit{env datoteku} s definiranim  \textit{environment varijablama} koje taj servis koristi. Brine se da konfiguracije poput korisnika i lozinke za bazu podataka završe samo kod onih servisa kojima je ta informacija potrebna. Također stvara virtualne mreže preko kojih svi servisi komuniciraju te tako dodatno izolira backend i bazu kojima nikako nije moguće pristupiti izvana. Stvara  \textit{Docker volume} za bazu podataka na koji se spremaju svi podatci. Vodi računa da su svi servisi aktivni, ako neki padne odmah ga ponovno vraća online. Omogućava skaliranje na više replika pojedinog servisa. Otvara portove 80 i 443 za web aplikaciju. Nikakvo dodatno konfiguriranje ni izmjene nisu potrebne.
 	
-		Kako bi se cijeli sustav upalio (posebno kreiranje JAR paketa nije potrebno jer to također obavlja Dockerfile) treba izvršiti samo jednu komandu u terminalu:
+		Kako bi se cijeli sustav upalio treba izvršiti samo jednu komandu u terminalu:
 		
 		 \textit{\$ docker-compose up -d --build}
 		
@@ -73,7 +75,14 @@
 					\label{fig:sekv-uc13}
 				\end{figure}
 						
-				
+		\begin{packed_item}
+			\item Kreiranje baze, korisnika kao ni konfiguracija dozvola nije potrebna, sve od navedenog se obavlja automatski. 
+
+			\item Konfiguracija  \textit{pgAdmin} panela također nije potrebna, obavlja se automatski pri pokretanju. 
+			\item Mijenjanje varijabli u Java kodu i \textit{properties} datotekama nije potrebno, obavlja se automatski. Kompajliranje izvornog Java koda nije potrebno, isto se obavlja automatizirano i pri svakom pokretanju provjerava ima li izmjena zbog kojih bi bilo potrebno ponovno kompajlirati kod. Izradu i kopiranje/premještanje JAR datoteke nije potrebno obavljati.
+
+			\item Nikakva konfiguracija web servera (u ovom slučaju \textit{Nginx}) nije potrebna. Sve datoteke nužne za postavke \textit{Nginx} i posluživanje stranica se nalaze u \textit{/frontend/Nginx} mapi i automatski se kopiraju pri pokretanju na pravo mjesto. Sve postavke vezane za ime domene, SSL certifikata, URL-a za REST API i slične, se same konfiguriraju pri pokretanju aplikacije.			
+			\end{packed_item}		
 				
 				
 		\noindent {\textbf{Dodatna konfiguracija database servisa}}		
@@ -123,7 +132,7 @@ Iako se Java aplikacija pokreće na portu  \textit{8080}, taj port nikada neće 
 		
 		\noindent {\textbf{Dodatna konfiguracija web servisa}}
 		
-		 \textit{Frontend/Dockerfile}  konfiguracijska datoteka preuzima najnoviju verziju  \textit{Nginx-a}, kopira mapu  \textit{frontend/public} u  \textit{Nginx} poslužiteljsku mapu kako bi HTML stranice bile javno dostupne, kopira napravljenu  \textit{Nginx konfiguraciju}, namješta domenu servera koju čita iz  \textit{env varijable} (ovu varijablu je potrebno promijeniti), otvara portove  \textit{80} i  \textit{443} na kojima web poslužitelj sluša te time stvara  \textit{Docker web servis} na koji se primaju zahtjevi.
+		 \textit{Frontend/Dockerfile}  konfiguracijska datoteka preuzima najnoviju verziju  \textit{Nginx-a}, kopira mapu  \textit{frontend/public} u  \textit{Nginx} poslužiteljsku mapu kako bi HTML stranice bile javno dostupne, kopira napravljenu  \textit{Nginx konfiguraciju}, kopira SSL ključeve, namješta domenu servera koju čita iz  \textit{env varijable} (ovu varijablu je potrebno promijeniti), otvara portove  \textit{80} i  \textit{443} na kojima web poslužitelj sluša te time stvara  \textit{Docker web servis} na koji se primaju zahtjevi.
 
 		 \textit{Nginx} konfiguracija se nalazi u datoteci frontend/Nginx/kombinacija.conf. U njoj je na početku definiran  \textit{load balancer} koji vodi na  \textit{app servis (backend)}. U  \textit{load balanceru} se trenutno nalazi samo jedan redak jer postoji samo jedna replika  \textit{app servisa}.  \textit{RR algoritam} je zamijenjen preusmjeravanjem na servis s najmanje aktivnih konekcija.
 		
@@ -136,7 +145,7 @@ Iako se Java aplikacija pokreće na portu  \textit{8080}, taj port nikada neće 
 		
 		Za  \textit{Nginx} su napravljena pravila za cache kako bi se uštedio bandwidth na poslužitelju i smanjila veličina podataka koja se prenosi. Datoteke se čuvaju u web pregledniku klijenata više dana, ali se aktivno provjerava odgovaraju li onima na poslužitelju kako nijedan klijent ne bi imao zastarjelu verziju web stranice.
 		
-		Naveden je put do SSL certifikata i pravila koja preusmjeravaju korisnike s HTTP-a na HTTPS. Certifikat je generiran  \textit{LetsEncrypt certbot-om}. Putanju do certifikata je potrebno promijeniti ukoliko bi se mijenjao certifikat i lokacija istoga.\\
+		Naveden je put do SSL certifikata i pravila koja preusmjeravaju korisnike s HTTP-a na HTTPS. Putanju do certifikata je potrebno promijeniti ukoliko bi se mijenjao certifikat i lokacija istoga.\\
 		
 		\noindent {\textbf{MINIMALNI ZAHTJEVI ZA POKRETANJE}}
 		

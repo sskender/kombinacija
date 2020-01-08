@@ -174,46 +174,41 @@
       return map;
     }
 
-
-    function buttonDisplayManager(user, marker){
-
-      var bHisto = document.getElementById("btn-history");
-      var bPingf = document.getElementById("btn-ping-full");
-      var bPingu = document.getElementById("btn-ping-urgent");
-      var bPinge = document.getElementById("btn-ping-empty");
-      var bFava = document.getElementById("btn-add-fav");
-      var bFavd = document.getElementById("btn-del-fav");
-      var role;
-      if(user){
-        bHisto.style.display = "block";
-        bPingf.style.display = "block";
-        bPingf.onclick = function(){ pingFull(marker.containerID) };
-        bPingu.style.display = "block";
-        bPingu.onclick = function(){ pingUrgent(marker.containerID) };
-        bPinge.style.display = "block";
-        bPinge.onclick = function(){ pingEmpty(marker.containerID) };
-        bFava.style.display = "block";
-        bFava.onclick = function(){ postFavorite(marker.containerID) };
-        bFavd.style.display = "block";
-        bFavd.onclick = function(){ deleteFavorite(marker.containerID) };
-      } else {
-        bHisto.style.display = "block";
-      }
-    }
-
     function initMap(position) {
-      var containers = map(position.coords.latitude, position.coords.longitude, function (containers) {
+      map(position.coords.latitude, position.coords.longitude, function (containers) {
         for(var i=0; i<containers.length; i++){
           var c = containers[i];
           var marker = new google.maps.Marker({
             position: new google.maps.LatLng(c.latitude, c.longitude),
             map: googleMap,
             title: "Kontejner "+i+" ("+c.id+")",
-            containerID: c.id
+            contID: c.id
           });
+
           google.maps.event.addListener(marker, 'click', function () {
-            var user = getLoggedInUser();
-            buttonDisplayManager(user, marker);
+            var cid = this.contID;
+            var bHisto = document.getElementById("btn-history");
+            var bPingf = document.getElementById("btn-ping-full");
+            var bPingu = document.getElementById("btn-ping-urgent");
+            var bPinge = document.getElementById("btn-ping-empty");
+            var bFava = document.getElementById("btn-add-fav");
+            var bFavd = document.getElementById("btn-del-fav");
+            if(getLoggedInUser()){
+              bHisto.style.display = "block";
+              //bHisto.onclick = ...
+              bPingf.style.display = "block";
+              bPingf.onclick = function(){ pingFull(cid) };
+              bPingu.style.display = "block";
+              bPingu.onclick = function(){ pingUrgent(cid) };
+              bPinge.style.display = "block";
+              bPinge.onclick = function(){ pingEmpty(cid) };
+              bFava.style.display = "block";
+              bFava.onclick = function(){ postFavorite(cid) };
+              bFavd.style.display = "block";
+              bFavd.onclick = function(){ deleteFavorite(cid) };
+            } else {
+              bHisto.style.display = "block";
+            }
           });
         }
       });
@@ -222,6 +217,7 @@
     function handleError(error){
       //initMapWithHoods();
     }
+
     getLocation(initMap, handleError);
   </script>
 

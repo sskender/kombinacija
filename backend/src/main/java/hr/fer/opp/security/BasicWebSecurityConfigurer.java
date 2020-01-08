@@ -1,9 +1,11 @@
 package hr.fer.opp.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -18,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class BasicWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -38,6 +41,9 @@ public class BasicWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
                 .and()
                 .httpBasic()
                 .authenticationEntryPoint((request, response, authException) -> {
+                            System.out.println(authException.getMessage());
+                            System.out.println("###########STACKTRACE###########");
+                            authException.printStackTrace();
                             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
                         }
                 )
@@ -47,11 +53,11 @@ public class BasicWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
                 .and()
                 .authorizeRequests()
-                .requestMatchers(CorsUtils::isCorsRequest).permitAll()
+                //.requestMatchers(CorsUtils::isCorsRequest).permitAll()
                 .antMatchers("/history/**", "/map", "/map/{\\d+}", "/register", "/clearance", "/hoods").permitAll()
                 .antMatchers("/container*", "/neighborhood*", "/employee*").hasAuthority("ADMIN")
                 .antMatchers("/route", "/empty/{\\d+}", "/report/**").hasAuthority("EMPLOYEE")
-                .antMatchers("/ping/{\\d+}/*", "/favorite", "/favorite/{\\d+}", "/auth").hasAuthority("CITIZEN")
+                .antMatchers("/ping", "/ping/**", "/favorite", "/favorite**", "/auth").hasAuthority("CITIZEN")
 
                 .and()
                 .addFilterBefore(new WebSecurityCorsFilter(), ChannelProcessingFilter.class)

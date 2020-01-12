@@ -48,20 +48,20 @@ public class PublicController {
 	@GetMapping(value = "/history/container/{id}")
 	public ResponseEntity<List<ContainerEventREST>> containerHistory(@PathVariable("id") Long containerId) {
 		Container c = adminService.getContainerById(containerId);
-		return new ResponseEntity<List<ContainerEventREST>>(
+		return new ResponseEntity<>(
 				ContainerEventREST.convertToREST(c.getPings(), c.getEmptyings()), HttpStatus.OK);
 	}
 
 	@GetMapping(value = "/map")
 	public ResponseEntity<List<ContainerREST>> map(@RequestParam(value = "lat") Double latitude,
 			@RequestParam(value = "lon") Double longitude) {
-		return new ResponseEntity<List<ContainerREST>>(
+		return new ResponseEntity<>(
 				ContainerREST.convertToREST(publicService.getContainersInRadius(latitude, longitude)), HttpStatus.OK);
 	}
 
 	@GetMapping(value = "/map/{id}")
 	public ResponseEntity<List<ContainerREST>> mapNeighborhood(@PathVariable("id") Long hoodId) {
-		return new ResponseEntity<List<ContainerREST>>(
+		return new ResponseEntity<>(
 				ContainerREST.convertToREST(adminService.getContainersByNeighborhoodId(hoodId)), HttpStatus.OK);
 	}
 

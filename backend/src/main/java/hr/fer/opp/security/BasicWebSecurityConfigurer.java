@@ -41,9 +41,6 @@ public class BasicWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
                 .and()
                 .httpBasic()
                 .authenticationEntryPoint((request, response, authException) -> {
-                            System.out.println(authException.getMessage());
-                            System.out.println("###########STACKTRACE###########");
-                            authException.printStackTrace();
                             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
                         }
                 )

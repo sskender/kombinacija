@@ -36,9 +36,14 @@ function rejectLogin() {
 }
 
 function rejectAdmin() {
-  if(getLoggedInUser() && clearance(getLoggedInUser().id != "admin")){
+  var user = getLoggedInUser();
+  if(!user){
     window.location.href = "index.html";
-  } else {
     return;
   }
+  clearance(user.id, function(role){
+    if(role!="admin"){
+      window.location.href = "index.html";
+    }
+  });
 }

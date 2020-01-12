@@ -5,18 +5,14 @@ import hr.fer.opp.dto.response.ContainerEventREST;
 import hr.fer.opp.dto.response.ContainerREST;
 import hr.fer.opp.dto.response.NeighborhoodREST;
 import hr.fer.opp.dto.response.PersonREST;
-<<<<<<< HEAD
 import hr.fer.opp.model.Person;
-=======
 import hr.fer.opp.model.Container;
->>>>>>> new_rest_class
 import hr.fer.opp.services.AdminService;
 import hr.fer.opp.services.PersonService;
 import hr.fer.opp.services.PublicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
@@ -69,7 +65,6 @@ public class PublicController {
 				ContainerREST.convertToREST(adminService.getContainersByNeighborhoodId(hoodId)), HttpStatus.OK);
 	}
 
-<<<<<<< HEAD
     @GetMapping(value="/clearance")
     public ResponseEntity<String> clearance(@RequestParam(value = "uid", required = false) Long userId) {
         return new ResponseEntity<>(publicService.getClearance(userId), HttpStatus.OK);
@@ -79,10 +74,4 @@ public class PublicController {
     public ResponseEntity<List<NeighborhoodREST>> getHoods(){
         return new ResponseEntity<>(NeighborhoodREST.convertToREST(adminService.getAllNeighborhoods()), HttpStatus.OK);
     }
-=======
-	@GetMapping(value = "/clearance")
-	public String clearance(@RequestParam(value = "uid", required = false) Long userId) {
-		return publicService.getClearance(userId);
-	}
->>>>>>> new_rest_class
 }

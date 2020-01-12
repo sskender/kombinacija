@@ -6,8 +6,8 @@ services:
   database:
     container_name: database
     build:
-      context: database
-      dockerfile: database/Dockerfile
+      context: ./database
+      dockerfile: Dockerfile
     env_file:
       - database/kombinacija.env
       - database/postgres.env
@@ -40,8 +40,8 @@ services:
   app:
     container_name: app
     build:
-      context: backend
-      dockerfile: backend/Dockerfile
+      context: ./backend
+      dockerfile: Dockerfile
     depends_on:
       - database
     environment:
@@ -56,8 +56,8 @@ services:
   web:
     container_name: web
     build:
-      context: frontend
-      dockerfile: frontend/Dockerfile
+      context: ./frontend
+      dockerfile: Dockerfile
     depends_on:
       - app
     networks:

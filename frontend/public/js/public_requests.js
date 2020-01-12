@@ -1,10 +1,10 @@
-function clearance(id){
+function clearance(id, onsuccess){
   $.ajax({
     url: SERVER_URL + "/clearance?uid="+id,
     crossDomain: true,
     type: "GET",
     success: function(role) {
-      return role;
+      onsuccess(role);
     },
     error: function(jqXHR, textStatus, errorThrown){
       alert("Greška prilikom dohvacanja autoriteta "+jqXHR);
@@ -71,13 +71,13 @@ function map(latitude, longitude, onsuccess) {
   });
 }
 
-function mapHood(hoodId) {
+function mapHood(hoodId, onsuccess) {
   $.ajax({
     url: SERVER_URL + "/map/"+hoodId,
     crossDomain: true,
     type: "GET",
-    success: function(containerList) {
-      return containerList;
+    success: function(containers) {
+      onsuccess(containers);
     },
     error: function(jqXHR, textStatus, errorThrown){
       alert("Greška prilikom dohvacanja liste kontejnera"+jqXHR);

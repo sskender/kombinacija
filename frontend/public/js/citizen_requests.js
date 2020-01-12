@@ -1,4 +1,4 @@
-function ping(id, level){
+function ping(id, level, onsuccess){
   var user = getLoggedInUser();
   console.log("IN PING: USER: "+user);
   $.ajax({
@@ -11,9 +11,7 @@ function ping(id, level){
     dataType: "json",
     contentType: "application/json;charset=utf-8",
     data: "{}",
-    success: function(ping) {
-      return ping;
-    },
+    success: onsuccess,
     error: function(jqXHR, textStatus, errorThrown){
       alert("Greška prilikom prijave kontejnera "+jqXHR);
     }
@@ -21,26 +19,32 @@ function ping(id, level){
 }
 
 function pingFull(id){
-  return ping(id, "f");
+  return ping(id, "f", function() {
+    alert("Kontejner "+id+" uspješno prijavljen kao pun.")
+  });
 }
 function pingEmpty(id){
-  return ping(id, "e");
+  return ping(id, "e", function() {
+    alert("Kontejner "+id+" uspješno prijavljen kao prazan.")
+  });
 }
 function pingUrgent(id){
-  return ping(id, "u");
+  return ping(id, "u", function() {
+    alert("Kontejner "+id+" uspješno prijavljen kao prepun.")
+  });
 }
 
-function getFavorites(id) {
+function getFavorites(onsuccess) {
   var user = getLoggedInUser();
   $.ajax({
     headers: {
       "Authorization": "Basic " + user.bauth
     },
-    url: SERVER_URL + "/favorite",
+    url: SERVER_URL + "/favorite/",
     crossDomain: true,
     type: "GET",
     success: function(favorites) {
-      return favorites;
+      onsuccess(favorites);
     },
     error: function(jqXHR, textStatus, errorThrown){
       alert("Greška prilikom dohvacanja liste favorita "+jqXHR);
@@ -58,7 +62,7 @@ function postFavorite(id){
     crossDomain: true,
     type: "POST",
     success: function(fav) {
-      return fav;
+      alert("Kontejner "+id+" uspješno dodan u favorite.");
     },
     error: function(jqXHR, textStatus, errorThrown){
       alert("Greška prilikom stvaranja favorita "+jqXHR);
@@ -76,7 +80,7 @@ function deleteFavorite(id) {
     crossDomain: true,
     type: "DELETE",
     success: function(deleted) {
-      return deleted;
+      alert("Kontejner "+id+" uspješno obrisan iz favorita.")
     },
     error: function(jqXHR, textStatus, errorThrown){
       alert("Greška prilikom brisanja favorita "+jqXHR);

@@ -1,14 +1,14 @@
-function getContainers() {
+function getContainers(onsuccess) {
   var user = getLoggedInUser();
   $.ajax({
     headers: {
-      "Authorization": "Basic " + btoa(user.email + ":" + user.pwd)
+      "Authorization": "Basic " + user.bauth
     },
     url: SERVER_URL + "/container",
     crossDomain: true,
     type: "GET",
-    success: function(containerList) {
-      return containerList;
+    success: function(containers) {
+      onsuccess(containers);
     },
     error: function(jqXHR, textStatus, errorThrown){
       alert("Greška prilikom dohvacanja liste kontejnera "+jqXHR);
@@ -16,17 +16,17 @@ function getContainers() {
   });
 }
 
-function getOneContainer(id) {
+function getOneContainer(id, onsuccess) {
   var user = getLoggedInUser();
   $.ajax({
     headers: {
-      "Authorization": "Basic " + btoa(user.email + ":" + user.pwd)
+      "Authorization": "Basic " + user.bauth
     },
     url: SERVER_URL + "/container/"+id,
     crossDomain: true,
     type: "GET",
     success: function(container) {
-      return container;
+      onsuccess(container);
     },
     error: function(jqXHR, textStatus, errorThrown){
       alert("Greška prilikom dohvacanja kontejnera "+jqXHR);
@@ -38,7 +38,7 @@ function postContainer(containerJSON){
   var user = getLoggedInUser();
   $.ajax({
     headers: {
-      "Authorization": "Basic " + btoa(user.email + ":" + user.pwd)
+      "Authorization": "Basic " + user.bauth
     },
     url: SERVER_URL + "/container",
     crossDomain: true,
@@ -47,7 +47,7 @@ function postContainer(containerJSON){
     contentType: "application/json;charset=utf-8",
     data: JSON.stringify(containerJSON),
     success: function(created) {
-      return created;
+      alert("Kontejner uspješno stvoren, ID = "+created.id);
     },
     error: function(jqXHR, textStatus, errorThrown){
       alert("Greška prilikom stvaranja kontejnera "+jqXHR);
@@ -59,7 +59,7 @@ function putContainer(containerJSON, id){
   var user = getLoggedInUser();
   $.ajax({
     headers: {
-      "Authorization": "Basic " + btoa(user.email + ":" + user.pwd)
+      "Authorization": "Basic " + user.bauth
     },
     url: SERVER_URL + "/container/"+id,
     crossDomain: true,
@@ -68,7 +68,7 @@ function putContainer(containerJSON, id){
     contentType: "application/json;charset=utf-8",
     data: JSON.stringify(containerJSON),
     success: function(updated) {
-      return updated;
+      alert("Kontej")
     },
     error: function(jqXHR, textStatus, errorThrown){
       alert("Greška prilikom azuriranja kontejnera "+jqXHR);
@@ -80,13 +80,13 @@ function deleteContainer(id) {
   var user = getLoggedInUser();
   $.ajax({
     headers: {
-      "Authorization": "Basic " + btoa(user.email + ":" + user.pwd)
+      "Authorization": "Basic " + user.bauth
     },
     url: SERVER_URL + "/container/"+id,
     crossDomain: true,
     type: "DELETE",
     success: function(deleted) {
-      return deleted;
+      alert("Kontejner "+id+" uspješno obrisan.")
     },
     error: function(jqXHR, textStatus, errorThrown){
       alert("Greška prilikom brisanja kontejnera "+jqXHR);
@@ -94,17 +94,17 @@ function deleteContainer(id) {
   });
 }
 
-function getEmployees() {
+function getEmployees(onsuccess) {
   var user = getLoggedInUser();
   $.ajax({
     headers: {
-      "Authorization": "Basic " + btoa(user.email + ":" + user.pwd)
+      "Authorization": "Basic " + user.bauth
     },
     url: SERVER_URL + "/employee",
     crossDomain: true,
     type: "GET",
     success: function(employees) {
-      return employees;
+      onsuccess(employees);
     },
     error: function(jqXHR, textStatus, errorThrown){
       alert("Greška prilikom dohvacanja liste radnika "+jqXHR);
@@ -112,17 +112,17 @@ function getEmployees() {
   });
 }
 
-function getOneEmployee(id) {
+function getOneEmployee(id, onsuccess) {
   var user = getLoggedInUser();
   $.ajax({
     headers: {
-      "Authorization": "Basic " + btoa(user.email + ":" + user.pwd)
+      "Authorization": "Basic " + user.bauth
     },
     url: SERVER_URL + "/employee/"+id,
     crossDomain: true,
     type: "GET",
     success: function(employee) {
-      return employee;
+      onsuccess(employee);
     },
     error: function(jqXHR, textStatus, errorThrown){
       alert("Greška prilikom dohvacanja radnika "+jqXHR);
@@ -134,7 +134,7 @@ function postEmployee(employeeJSON){
   var user = getLoggedInUser();
   $.ajax({
     headers: {
-      "Authorization": "Basic " + btoa(user.email + ":" + user.pwd)
+      "Authorization": "Basic " + user.bauth
     },
     url: SERVER_URL + "/employee",
     crossDomain: true,
@@ -143,7 +143,7 @@ function postEmployee(employeeJSON){
     contentType: "application/json;charset=utf-8",
     data: JSON.stringify(employeeJSON),
     success: function(created) {
-      return created;
+      alert("Komunalni radnik uspješno stvoren, ID = "+created.id);
     },
     error: function(jqXHR, textStatus, errorThrown){
       alert("Greška prilikom stvaranja radnika "+jqXHR);
@@ -155,7 +155,7 @@ function putEmployee(employeeJSON, id){
   var user = getLoggedInUser();
   $.ajax({
     headers: {
-      "Authorization": "Basic " + btoa(user.email + ":" + user.pwd)
+      "Authorization": "Basic " + user.bauth
     },
     url: SERVER_URL + "/employee/"+id,
     crossDomain: true,
@@ -176,13 +176,13 @@ function deleteEmployee(id) {
   var user = getLoggedInUser();
   $.ajax({
     headers: {
-      "Authorization": "Basic " + btoa(user.email + ":" + user.pwd)
+      "Authorization": "Basic " + user.bauth
     },
     url: SERVER_URL + "/employee/"+id,
     crossDomain: true,
     type: "DELETE",
     success: function(deleted) {
-      return deleted;
+      alert("Radnik "+id+" uspješno obrisan.")
     },
     error: function(jqXHR, textStatus, errorThrown){
       alert("Greška prilikom brisanja radnika "+jqXHR);
@@ -190,17 +190,17 @@ function deleteEmployee(id) {
   });
 }
 
-function getNeighborhoods() {
+function getNeighborhoods(onsuccess) {
   var user = getLoggedInUser();
   $.ajax({
     headers: {
-      "Authorization": "Basic " + btoa(user.email + ":" + user.pwd)
+      "Authorization": "Basic " + user.bauth
     },
     url: SERVER_URL + "/neighborhood",
     crossDomain: true,
     type: "GET",
     success: function(hoods) {
-      return hoods;
+      onsuccess(hoods);
     },
     error: function(jqXHR, textStatus, errorThrown){
       alert("Greška prilikom dohvacanja liste kvartova "+jqXHR);
@@ -208,17 +208,17 @@ function getNeighborhoods() {
   });
 }
 
-function getNeighborhoodContainers(id) {
+function getNeighborhoodContainers(id, onsuccess) {
   var user = getLoggedInUser();
   $.ajax({
     headers: {
-      "Authorization": "Basic " + btoa(user.email + ":" + user.pwd)
+      "Authorization": "Basic " + user.bauth
     },
     url: SERVER_URL + "/neighborhood/"+id+"/container",
     crossDomain: true,
     type: "GET",
     success: function(containers) {
-      return containers;
+      onsuccess(containers);
     },
     error: function(jqXHR, textStatus, errorThrown){
       alert("Greška prilikom dohvacanja kontejnera iz kvarta "+jqXHR);
@@ -226,17 +226,17 @@ function getNeighborhoodContainers(id) {
   });
 }
 
-function getNeighborhoodEmployees(id) {
+function getNeighborhoodEmployees(id, onsuccess) {
   var user = getLoggedInUser();
   $.ajax({
     headers: {
-      "Authorization": "Basic " + btoa(user.email + ":" + user.pwd)
+      "Authorization": "Basic " + user.bauth
     },
     url: SERVER_URL + "/neighborhood/"+id+"/employee",
     crossDomain: true,
     type: "GET",
     success: function(employees) {
-      return employees;
+      onsuccess(employees);
     },
     error: function(jqXHR, textStatus, errorThrown){
       alert("Greška prilikom dohvacanja radnika iz kvarta "+jqXHR);
@@ -244,17 +244,17 @@ function getNeighborhoodEmployees(id) {
   });
 }
 
-function getOneNeighborhood(id) {
+function getOneNeighborhood(id, onsuccess) {
   var user = getLoggedInUser();
   $.ajax({
     headers: {
-      "Authorization": "Basic " + btoa(user.email + ":" + user.pwd)
+      "Authorization": "Basic " + user.bauth
     },
     url: SERVER_URL + "/neighborhood/"+id,
     crossDomain: true,
     type: "GET",
     success: function(hood) {
-      return hood;
+      onsuccess(hood);
     },
     error: function(jqXHR, textStatus, errorThrown){
       alert("Greška prilikom dohvacanja kvarta "+jqXHR);
@@ -266,7 +266,7 @@ function postNeighborhood(hoodJSON){
   var user = getLoggedInUser();
   $.ajax({
     headers: {
-      "Authorization": "Basic " + btoa(user.email + ":" + user.pwd)
+      "Authorization": "Basic " + user.bauth
     },
     url: SERVER_URL + "/neighborhood",
     crossDomain: true,
@@ -275,10 +275,10 @@ function postNeighborhood(hoodJSON){
     contentType: "application/json;charset=utf-8",
     data: JSON.stringify(hoodJSON),
     success: function(created) {
-      return created;
+      alert("Komunalno poduzeće "+created.name+" uspješno stvoreno.");
     },
     error: function(jqXHR, textStatus, errorThrown){
-      alert("Greška prilikom stvaranja kvarta "+jqXHR);
+      alert("Greška prilikom stvaranja komunalnog poduzeća "+jqXHR);
     }
   });
 }
@@ -287,7 +287,7 @@ function putNeighborhood(hoodJSON, id){
   var user = getLoggedInUser();
   $.ajax({
     headers: {
-      "Authorization": "Basic " + btoa(user.email + ":" + user.pwd)
+      "Authorization": "Basic " + user.bauth
     },
     url: SERVER_URL + "/neighborhood/"+id,
     crossDomain: true,
@@ -308,13 +308,13 @@ function deleteNeighborhood(id) {
   var user = getLoggedInUser();
   $.ajax({
     headers: {
-      "Authorization": "Basic " + btoa(user.email + ":" + user.pwd)
+      "Authorization": "Basic " + user.bauth
     },
     url: SERVER_URL + "/neighborhood/"+id,
     crossDomain: true,
     type: "DELETE",
     success: function(deleted) {
-      return deleted;
+      alert("Susjedstvo "+id+" uspješno obrisano.");
     },
     error: function(jqXHR, textStatus, errorThrown){
       alert("Greška prilikom brisanja kvarta "+jqXHR);

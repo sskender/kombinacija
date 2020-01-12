@@ -1,3 +1,5 @@
 .DS_Store
 frontend/ssl/*.crt
 frontend/ssl/*.key
+JUnitWithSelenium/.idea
+JUnitWithSelenium/target

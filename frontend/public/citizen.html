@@ -40,6 +40,18 @@
     <!-- Theme CSS - Includes Bootstrap -->
     <link href="css/creative.min.css" rel="stylesheet">
 
+    <script src="vendor/jquery/jquery.min.js"></script>
+
+    <!-- Custom JS -->
+    <script src="js/auth.js"></script>
+    <script src="js/designer.js"></script>
+    <script src="js/server.api.js"></script>
+    <script src="js/public_requests.js"></script>
+    <script src="js/citizen_requests.js"></script>
+    <script>
+      rejectCitizen();
+    </script>
+
 </head>
 
 <body id="page-top">
@@ -62,100 +74,236 @@
 
 <!-- KARTA -->
 
-<div id='map_citizen'></div>
+<div id='map-citizen'></div>
 
 <!--  GUMBI  -->
-<
-<div id="map_citizen_forma">
-    <form method="POST" onsubmit="event.preventDefault(); doSomething();">
-        <div class="row">
-            <div class="col-4">
-                <button class="btn btn-primary btn-xl btn-block"
-                        style="padding: 0.8rem 1.25rem; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; border: none; border-radius: 8rem;">
-                    PUN
-                </button>
-            </div>
-            <div class="col-4">
-                <button class="btn btn-primary btn-xl btn-block"
-                        style="padding: 0.8rem 1.25rem; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; border: none; border-radius: 8rem;">
-                    PREPUN
-                </button>
-            </div>
-            <div class="col-4">
-                <button class="btn btn-primary btn-xl btn-block"
-                        style="padding: 0.8rem 1.25rem; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; border: none; border-radius: 8rem;">
-                    PRAZAN
-                </button>
-            </div>
-        </div>
-        <div class="row" style="padding-top: 20px">
-            <div class="col-6">
-                <button class="btn btn-primary btn-xl btn-block"
-                        style="padding: 0.8rem 1.25rem; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; border: none; border-radius: 8rem;">
-                    DODAJ POD OMILJENE
-                </button>
-            </div>
-            <div class="col-6" style="display: none">
-                <button class="btn btn-primary btn-xl btn-block"
-                        style="padding: 0.8rem 1.25rem; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; border: none; border-radius: 8rem;">
-                    ULONI IZ OMILJENIH
-                </button>
-            </div>
-            <div class="col-6">
-                <button class="btn btn-primary btn-xl btn-block"
-                        style="padding: 0.8rem 1.25rem; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; border: none; border-radius: 8rem;">
-                    PRIKAŽI POVIJEST
-                </button>
-            </div>
-        </div>
-    </form>
-    <footer class="py-4" style="background-color: #FFFFFF">
-        <div class="container">
-            <div class="small text-center text-muted">Copyright &copy; OPP Kombinacija</div>
-        </div>
-    </footer>
+<div id="map-form" style="display: none;">
+  <div>
+    <p id="map-tip"></p>
+  </div>
+  <div class="row">
+    <div class="col-4">
+      <button class="btn btn-primary btn-xl btn-block" onclick="doReportPing('f')"
+          style="padding: 0.8rem 1.25rem; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; border: none; border-radius: 8rem;">
+          PUN
+      </button>
+    </div>
+    <div class="col-4">
+      <button class="btn btn-primary btn-xl btn-block" onclick="doReportPing('u')"
+          style="padding: 0.8rem 1.25rem; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; border: none; border-radius: 8rem;">
+            PREPUN
+      </button>
+    </div>
+    <div class="col-4">
+      <button class="btn btn-primary btn-xl btn-block" onclick="doReportPing('e')"
+          style="padding: 0.8rem 1.25rem; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; border: none; border-radius: 8rem;">
+        PRAZAN
+      </button>
+    </div>
+  </div>
+  <div class="row" style="padding-top: 20px">
+    <div class="col-6">
+      <button class="btn btn-primary btn-xl btn-block" id="btn-add-del"
+          style="padding: 0.8rem 1.25rem; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; border: none; border-radius: 8rem;">
+          DODAJ POD OMILJENE
+      </button>
+    </div>
+    <div class="col-6">
+      <button class="btn btn-primary btn-xl btn-block" onclick="doHistory();"
+          style="padding: 0.8rem 1.25rem; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; border: none; border-radius: 8rem;">
+          PRIKAŽI POVIJEST
+      </button>
+    </div>
+  </div>
+<footer class="py-4" style="background-color: #FFFFFF">
+  <div class="container">
+    <div class="small text-center text-muted">Copyright &copy; OPP Kombinacija</div>
+  </div>
+</footer>
 </div>
 
-<!-- jQuery CDN - Slim version (=without AJAX) -->
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
-<!-- Popper.JS -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"
-        integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
-        crossorigin="anonymous"></script>
 <!-- Bootstrap JS -->
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
         integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
         crossorigin="anonymous"></script>
 
-<!-- Skripta za prikaz markera na googli karti za kvartove te ispis njegove lng i lat kordinate -->
-<script>
-    var map0 = new google.maps.Map(document.getElementById('map_citizen'), {
+<script type="text/javascript">
+    function getLocation(recipient, errorHandler) {
+      if(navigator.geolocation){
+        navigator.geolocation.getCurrentPosition(recipient, errorHandler);
+      } else {
+        errorHandler();
+      }
+    }
+    var USER_LAT = null;
+    var USER_LON = null;
+
+    var SEL_CONTAINER = null;
+
+    var USER_FAVORITES = null;
+
+    var GMAP = createMap("map-citizen");
+    GMAP.setTilt(0);
+
+    function createMap(elementID){
+      return new google.maps.Map(document.getElementById(elementID), {
         zoom: 13,
         center: new google.maps.LatLng(45.814, 15.980),
         mapTypeId: google.maps.MapTypeId.HYBRID
-    });
-    map0.setTilt(0);
+      });
+    }
 
+    function initMap(position) {
+      map(position.coords.latitude, position.coords.longitude, function (containers) {
+        for(var i=0; i<containers.length; i++){
+          var c = containers[i];
+          if(isInFavorites(c.id)){
+            clr="blue";
+          } else {
+            clr="red";
+          }
+          var marker = new google.maps.Marker({
+            position: new google.maps.LatLng(c.latitude, c.longitude),
+            map: GMAP,
+            title: "Kontejner ("+c.id+")",
+            contID: c.id,
+            icon: { url: "http://maps.google.com/mapfiles/ms/icons/"+clr+"-dot.png" }
+          });
+          google.maps.event.addListener(marker, 'click', function () {
+            SEL_CONTAINER = this.contID;
+            document.getElementById("map-form").style.display = "block";
+            var button = document.getElementById("btn-add-del");
+            if(isInFavorites(SEL_CONTAINER)){
+              button.innerHTML = "UKLONI IZ FAVORITA";
+              button.onclick = function() {doDelFavorite();}
+            } else {
+              button.innerHTML = "DODAJ U FAVORITE";
+              button.onclick = function() {doAddFavorite();}
+            }
+            document.getElementById("map-tip").innerHTML = "Odabrali ste kontejner ("+SEL_CONTAINER+")";
+          });
+        }
+      });
+    }
 
-    var myMarker0 = new google.maps.Marker({
-        position: new google.maps.LatLng(45.814, 15.980),
-        draggable: true
-    });
+    function doReportPing(level){
+      if(!SEL_CONTAINER){
+        alert("Potrebno je odabrati kontejner koji zelite prijaviti.");
+        return;
+      }
+      if(level=='e'){
+        pingEmpty(SEL_CONTAINER);
+      } else if(level=='f'){
+        pingFull(SEL_CONTAINER);
+      } else if(level=='u'){
+        pingUrgent(SEL_CONTAINER);
+      } else{
+        return;
+      }
 
-    google.maps.event.addListener(myMarker0, 'dragend', function (evt) {
-        document.getElementById('current0').innerHTML = '<p>Kordinate središta novog kvartovskog poduzeća su: ' + evt.latLng.lat().toFixed(6) + ' i ' + evt.latLng.lng().toFixed(6) + '</p>';
-    });
+      SEL_CONTAINER = null;
+      document.getElementById("map-tip").innerHTML = "Odaberite kontejner kojeg zelite prijaviti ili dodati u omiljene.";
+      document.getElementById("map-form").style.display="none";
+    }
 
-    google.maps.event.addListener(myMarker0, 'dragstart', function (evt) {
-        document.getElementById('current0').innerHTML = '<p>Trenutno pomičete marker.</p>';
-    });
+    function loadHoods() {
+      document.getElementById("map-tip").innerHTML = "Odaberite susjedstvo cije kontejnere zelite dohvatiti.";
+      getHoods( function(hoods) {
+        for(var i=0; i<hoods.length; i++){
+          var h = hoods[i];
+          var marker = new google.maps.Marker({
+            position: new google.maps.LatLng(h.latitude, h.longitude),
+            map: mapDH,
+            title: h.name,
+            hoodID: h.id
+          })
+          google.maps.event.addListener(marker, 'click', function(){
+            mapHood(this.hoodID, function (containers) {
+              for(var i=0; i<containers.length; i++){
+                var c = containers[i];
+                if(isInFavorites(c.id)){
+                  clr="blue";
+                } else {
+                  clr="red";
+                }
+                var marker = new google.maps.Marker({
+                  position: new google.maps.LatLng(c.latitude, c.longitude),
+                  map: GMAP,
+                  title: "Kontejner ("+c.id+")",
+                  contID: c.id,
+                  icon: { url: "http://maps.google.com/mapfiles/ms/icons/"+clr+"-dot.png" }
+                });
+                google.maps.event.addListener(marker, 'click', function () {
+                  SEL_CONTAINER = this.contID;
+                  document.getElementById("map-form").style.display = "block";
+                  var button = document.getElementById("btn-add-del");
+                  if(isInFavorites(SEL_CONTAINER)){
+                    button.innerHTML = "UKLONI IZ FAVORITA";
+                    button.onclick = function() {doDelFavorite();}
+                  } else {
+                    button.innerHTML = "DODAJ U FAVORITE";
+                    button.onclick = function() {doAddFavorite();}
+                  }
+                  document.getElementById("map-tip").innerHTML = "Odabrali ste kontejner ("+SEL_CONTAINER+")";
+                });
+              }
+            });
+          });
+        }
+      });
+    }
 
-    map0.setCenter(myMarker0.position);
-    myMarker0.setMap(map0);
-</script>
+    function isInFavorites(contId){
+      if(!USER_FAVORITES){
+        return false;
+      }
+      for(var i=0; i<USER_FAVORITES.length; i++){
+        var f = USER_FAVORITES[i];
+        if(f.containerID==contId){
+          return true;
+        }
+      }
+      return false;
+    }
 
+    function doAddFavorite(){
+      if(!SEL_CONTAINER){
+        alert("Potrebno je odabrati kontejner kojeg zelite dodati.");
+        return;
+      }
+      postFavorite(SEL_CONTAINER, function(fav) {
+        USER_FAVORITES.push(fav);
+      });
+      SEL_CONTAINER=null;
+    }
+
+    function doDelFavorite(){
+      if(!SEL_CONTAINER){
+        alert("Potrebno je odabrati kontejner kojeg zelite obrisati.");
+        return;
+      }
+      deleteFavorite(SEL_CONTAINER);
+      var index=-1;
+      for(var i=0; i<USER_FAVORITES.length; i++){
+        var f = USER_FAVORITES[i];
+        if(f.containerID==SEL_CONTAINER){
+          index = i;
+          break;
+        }
+      }
+      if(index!=-1){
+        USER_FAVORITES.splice(index);
+      }
+      SEL_CONTAINER=null;
+    }
+
+    window.onload = function(){
+      getLocation(initMap, loadHoods);
+      getFavorites(function(favs){
+        USER_FAVORITES = favs;
+      })
+    };
+  </script>
 
 </body>
 

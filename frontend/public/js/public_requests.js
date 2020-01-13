@@ -84,3 +84,21 @@ function mapHood(hoodId, onsuccess) {
     }
   });
 }
+
+function getHoods(onsuccess) {
+  var user = getLoggedInUser();
+  $.ajax({
+    headers: {
+      "Authorization": "Basic " + user.bauth
+    },
+    url: SERVER_URL + "/neighborhood",
+    crossDomain: true,
+    type: "GET",
+    success: function(hoods) {
+      onsuccess(hoods);
+    },
+    error: function(jqXHR, textStatus, errorThrown){
+      alert("Greška prilikom dohvacanja liste kvartova "+jqXHR);
+    }
+  });
+}

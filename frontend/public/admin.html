@@ -71,7 +71,7 @@
                 <a href="#kontejnersubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Kontejneri</a>
                 <ul class="collapse list-unstyled" id="kontejnersubmenu">
                     <li>
-                        <a href="#" onclick="toggleVisibility('B1');">Dodaj novi</a>
+                        <a href="#" onclick="toggleVisibility('B1'); loadHoods();">Dodaj novi</a>
                     </li>
                     <li>
                         <a href="#" onclick="toggleVisibility('B2'); loadContainers();">Obriši postojeći</a>
@@ -108,8 +108,8 @@
     </div>
 
     <!-- Dodavanje novog kvartovskog poduzeća -->
-    <div id="A1" style="display: none; margin-bottom: 50px; text-align: center;">
-        <div id='new-hood-map'  style="height: 550px;"></div>
+    <div id="A1" style="display: none; margin-bottom: 50px;">
+        <div id='new-hood-map' style="height: 550px;"></div>
         <div >
             <div style="margin-top: 50px;">
                 <p id="new-hood-current">Pomaknite marker na karti kako bi ste odabrali središte novog kvartovskog poduzeća.</p>
@@ -337,7 +337,7 @@
       postNeighborhood(hoodDTO);
       ADD_HOOD_LAT = null;
       ADD_HOOD_LON = null;
-      document.getElementById('new-hood-current').innerHTML = 'Lokacija: '+ADD_HOOD_LAT+', '+ADD_HOOD_LON;
+      document.getElementById('new-hood-current').innerHTML = "Pomaknite marker na karti kako bi ste odabrali središte novog kvartovskog poduzeća.";
   }
 
   function doNewContainer() {
@@ -403,9 +403,5 @@
         }
     }
 </script>
-
-
-
 </body>
-
 </html>

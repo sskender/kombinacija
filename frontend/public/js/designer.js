@@ -47,3 +47,12 @@ function rejectAdmin() {
     }
   });
 }
+
+function rejectCitizen() {
+  if(getLoggedInUser()){
+    return;
+  } else {
+    window.location.href="index.html";
+    return;
+  }
+}

@@ -6,8 +6,10 @@ class PublicController {
     -adminService : AdminService
     +registerUser(RegisterDTO) : ResponseEntity<PersonREST>
     +testAuthorization(UserDetails) : ResponseEntity<PersonREST>
+    +containerHistory(Long) : ResponseEntity<List<ContainerEventREST>>
     +map(Double, Double) : ResponseEntity<List<ContainerREST>>
     +mapNeighborhood(Long) : ResponseEntity<List<ContainerREST>>
+    +getHoods() : ResponseEntity<List<NeighborhoodREST>>
     +clearance(Long) : ResponseEntity<String>
 }
 class AdminController {

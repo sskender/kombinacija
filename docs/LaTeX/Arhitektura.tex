@@ -282,14 +282,14 @@
 				\includegraphics[scale=0.35]{figures/ServiceClassDiagram.PNG}
 				\centering
 				\caption{Dijagram razreda paketa service}
-				\label{fig:controller-cd}
+				\label{fig:service-cd}
 			\end{figure}
 			
 			\eject
 		
 		\section{Dijagram stanja}
 		
-		Dijagram stanja prikazuje stanja objekta te prijelaze iz jednog stanja u drugo temeljene na dogadajima. Na slici 4.8 prikazan je dijagram stanja za registriranog
+		Dijagram stanja prikazuje stanja objekta te prijelaze iz jednog stanja u drugo temeljene na dogadajima. Na slici 4.9 prikazan je dijagram stanja za registriranog
 korisnika. Nakon prijave, građaninu se prikazuje početna stranica na kojoj može pregledati kartu i kontejnere. Za odabrani kontejner ima opciju prijavljivanja stanja kontejnera. Dodatno može priložiti i sliku prijavljenom stanju. Također, klikom na "Omiljeni kontejneri" prikaz naglašava prethodno označene najkorištenije kontejnere te tako olakšava prijavu stanja te iste može i obrisati ili dodati nove. Odabirom datuma i pripadnog željenog područja prikazuje se stanje karte za dotični datum na tom mjestu ukoliko traženi zapis postoji.
 			
 			\begin{figure}[H]
@@ -303,16 +303,32 @@ korisnika. Nakon prijave, građaninu se prikazuje početna stranica na kojoj mo�
 		
 		\section{Dijagram aktivnosti}
 			
-			Dijagram aktivnosti primjenjuje se za opis modela toka upravljanja ili toka podataka. Ne upotrebljava se za modeliranje dogadajima poticanog ponasanja. U modeliranju toka upravljanja svaki novi korak poduzima se nakon zavrsenog prethodnog, a naglasak je na jednostavnosti. Na dijagramu aktivnosti 4.9 prikazan je proces prijave stanja kontejnera. Građanin se prijavi u sustav, odabere kontejner za kojeg želi prijaviti stanje. Zatim mu se prikazuje popis opcija za prijavu te on bira koje stanje želi prijaviti. Nakon što potvrdi odabir sustav mu vraća potvrdu o uspješnoj prijavi.
+			Dijagram aktivnosti primjenjuje se za opis modela toka upravljanja ili toka podataka. Ne upotrebljava se za modeliranje dogadajima poticanog ponasanja. U modeliranju toka upravljanja svaki novi korak poduzima se nakon zavrsenog prethodnog, a naglasak je na jednostavnosti. Na dijagramu aktivnosti 4.10 prikazan je proces prijave stanja kontejnera. Građanin se prijavi u sustav i odabere kontejner za kojeg želi prijaviti stanje. Zatim mu se prikazuje popis opcija za prijavu te on bira koje stanje želi prijaviti. Nakon što potvrdi odabir sustav mu vraća potvrdu o uspješnoj prijavi.
 			
 			\begin{figure}[H]
 				\includegraphics[scale=0.4]{figures/Dijagram aktivnosti-Prijava stanja kontejnera.PNG}
 				\centering
 				\caption{Dijagram stanja}
-				\label{fig:Dijagram stanja}
+				\label{fig:Dijagram_aktivnosti}
 			\end{figure} 
 			
 			
 			\eject
 		\section{Dijagram komponenti}
+		
+			Dijagram komponenti služi za prikaz komponenti koje tvore sustav, njihove organizacije i međuovisnosti. Na slici 4.11 prikazan je dijagram komponenti za programsku potporu koju smo razvili. Aplikacija je, najgrublje gledano, podijeljena na tri strogo odvojene cjeline: 
+			\begin{packed_item}
+				\item \textit{Frontend aplikacija} pokrenuta na jednom NGINX poslužitelju i na kojoj se nalaze statički resursi poput HTML stranica, JavaScript modula te CSS datoteka pomoću kojih su sve HTML stranice dizajnirane.
+				\item \textit{Manje Smeće Više Sreće aplikacija} pokrenuta na Tomcat poslužitelju u kojoj se nalazi sama implementacija aplikacije podjeljena na razine \textit{Controller}, \textit{Service}, \textit{Repositories}, \textit{Model} i \textit{DTO}. Svaka od tih razina čini jedan neizostavni dio aplikacije.
+				\item \textit{PostreSQL Baza Podataka} pokrenuta na zasebnom poslužitelju. U nju se spremaju svi podaci u obliku Java objekata pomoću JDBC/JPA specifikacije.
+			\end{packed_item}
+			
+			Statičke HTML stranice određuju formu, a njihov izgled određen je CSS \textit{stylesheetovima} na istom poslužitelju. Za dinamičko dohvaćanje podataka s \textit{backenda} kao i njihov prikaz ugradnjom u HTML koriste se JavaScript moduli. U modulima obuhvaćenim grupom \textit{AJAX Requests} nalazi se po jedna metoda za svaku metodu u svim razredima \textit{Controller}, time omogućujući jednostavno spajanje na REST API i dohvat podataka u JSON formatu.
+			
+			\begin{figure}[H]
+				\includegraphics[scale=0.35]{figures/MSVSComponentDiagram.PNG}
+				\centering
+				\caption{Dijagram komponenti}
+				\label{fig:komp-dijag}
+			\end{figure} 
 		

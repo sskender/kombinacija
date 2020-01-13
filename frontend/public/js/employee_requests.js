@@ -1,14 +1,14 @@
-function getRoute() {
+function getRoute(onsuccess) {
   var user = getLoggedInUser();
   $.ajax({
     headers: {
-      "Authorization": "Basic " + btoa(user.email + ":" + user.pwd)
+      "Authorization": "Basic " + user.bauth
     },
     url: SERVER_URL + "/route",
     crossDomain: true,
     type: "GET",
-    success: function(containerList) {
-      return containerList;
+    success: function(containers) {
+      onsuccess(containers);
     },
     error: function(jqXHR, textStatus, errorThrown){
       alert("Greška prilikom dohvacanja rute "+jqXHR);
@@ -20,13 +20,13 @@ function emptyContainer(id){
   var user = getLoggedInUser();
   $.ajax({
     headers: {
-      "Authorization": "Basic " + btoa(user.email + ":" + user.pwd)
+      "Authorization": "Basic " + user.bauth
     },
     url: SERVER_URL + "/empty/"+id,
     crossDomain: true,
     type: "POST",
     success: function(emptying) {
-      return emptying;
+      alert("Kontejner ("+id+") uspjesno ispraznjen.");
     },
     error: function(jqXHR, textStatus, errorThrown){
       alert("Greška prilikom praznjenja kontejnera "+jqXHR);
@@ -38,7 +38,7 @@ function reportLegit(id){
   var user = getLoggedInUser();
   $.ajax({
     headers: {
-      "Authorization": "Basic " + btoa(user.email + ":" + user.pwd)
+      "Authorization": "Basic " + user.bauth
     },
     url: SERVER_URL + "/report/"+id+"/legit",
     crossDomain: true,
@@ -56,13 +56,13 @@ function reportFake(id){
   var user = getLoggedInUser();
   $.ajax({
     headers: {
-      "Authorization": "Basic " + btoa(user.email + ":" + user.pwd)
+      "Authorization": "Basic " + user.bauth
     },
     url: SERVER_URL + "/report/"+id+"/fake",
     crossDomain: true,
     type: "POST",
     success: function(fake) {
-      return fake;
+      alert("Obavijest o laznoj prijavi uspjesno poslana.");  
     },
     error: function(jqXHR, textStatus, errorThrown){
       alert("Greška prilikom oznacavanja lazne prijave "+jqXHR);

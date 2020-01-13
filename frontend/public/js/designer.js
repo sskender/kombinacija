@@ -1,26 +1,19 @@
-/*
-Manipulating the look and feel of pages,
-with respect to the user being logged in or not
-*/
-
 function handleDisplay() {
   var welcomeElement = document.getElementById("welcome-msg");
   var loginLink = document.getElementById("login-link");
   var logoutLink = document.getElementById("logout");
   var regLink = document.getElementById("register");
-  var defaultLoginDisplay = loginLink.display;
-  var defaultBtnDisplay = logout.display;
 
   var user = getLoggedInUser();
   if(user){
     welcomeElement.innerHTML = "Dobrodošli, "+ user.name+"!";
     loginLink.style.display = "none";
     regLink.style.display = "none";
-    logoutLink.style.display = defaultBtnDisplay;
+    logoutLink.style.display = "block";
   } else {
     welcomeElement.innerHTML = "Pomozite nam održati grad čistim";
-    loginLink.style.display = defaultLoginDisplay;
-    regLink.style.display = defaultBtnDisplay;
+    loginLink.style.display = "block";
+    regLink.style.display = "block";
     logoutLink.style.display= "none";
   }
 }
@@ -43,6 +36,28 @@ function rejectAdmin() {
   }
   clearance(user.id, function(role){
     if(role!="admin"){
+      window.location.href = "index.html";
+    }
+  });
+}
+
+function rejectCitizen() {
+  if(getLoggedInUser()){
+    return;
+  } else {
+    window.location.href="index.html";
+    return;
+  }
+}
+
+function rejectEmployee() {
+  var user = getLoggedInUser();
+  if(!user){
+    window.location.href = "index.html";
+    return;
+  }
+  clearance(user.id, function(role){
+    if(role!="employee"){
       window.location.href = "index.html";
     }
   });

@@ -32,13 +32,32 @@
             crossorigin="anonymous"></script>
 
     <!-- For Google Maps -->
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDFPZg9v7DZWuQKX0pk_wTyJEmHalRU0tA"></script>
 
     <!-- Plugin CSS -->
     <link href="vendor/magnific-popup/magnific-popup.css" rel="stylesheet">
 
     <!-- Theme CSS - Includes Bootstrap -->
     <link href="css/creative.min.css" rel="stylesheet">
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="vendor/magnific-popup/jquery.magnific-popup.min.js"></script>
+
+    <!-- Custom JS -->
+    <script src="js/auth.js"></script>
+    <script src="js/designer.js"></script>
+    <script src="js/server.api.js"></script>
+    <script src="js/public_requests.js"></script>
+    <script src="js/employee_requests.js"></script>
+    <script src="js/maps.js"></script>
+    <script>
+      rejectEmployee();
+    </script>
 
 </head>
 
@@ -62,32 +81,35 @@
 
 <!-- KARTA -->
 
-<div id='map_citizen'></div>
+<div id='map-citizen'></div>
 
 <!--  GUMBI  -->
-<
-<div id="map_citizen_forma">
-    <form method="POST" onsubmit="event.preventDefault(); doSomething();">
+<div id="map-form">
         <div style="padding: 0.6rem 0.6rem">
-            <p style="display: inline-block">Trenutno ste odabrali kontejner broj</p>
-            <p style="display: inline-block;" id="Kontejner koji je kliknut">53827</p>
-            <p style="display: inline-block">. Prijavi kao</p>
+            <p style="display: inline-block" id="map-tip"></p>
         </div>
         <div class="row">
-            <div class="col-6">
-                <button class="btn btn-primary btn-xl btn-block"
+            <div id="btn-route" class="col-12" >
+              <button class="btn btn-primary btn-xl btn-block" onclick="doGetRoute();"
+                      style="padding: 1rem 0.6rem; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; border: none; border-radius: 8rem;">
+                  Dohvati rutu
+              </button>
+            </div>
+            <div id="info-panel" class="col-12" style="display: none"></div>
+
+            <div id="btn-emptied" class="col-6" style="display: none;">
+                <button class="btn btn-primary btn-xl btn-block" onclick="doEmptied();"
                         style="padding: 1rem 0.6rem; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; border: none; border-radius: 8rem;">
                     Ispražnjen
                 </button>
             </div>
-            <div class="col-6">
-                <button class="btn btn-primary btn-xl btn-block"
+            <div id="btn-false" class="col-6" style="display: none;">
+                <button class="btn btn-primary btn-xl btn-block" onclick="doFalse();"
                         style="padding: 1rem 0.6rem; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; border: none; border-radius: 8rem;">
                     Lažno prijavljen
                 </button>
             </div>
         </div>
-    </form>
     <footer class="py-4" style="background-color: #FFFFFF">
         <div class="container">
             <div class="small text-center text-muted">Copyright &copy; OPP Kombinacija</div>
@@ -95,44 +117,113 @@
     </footer>
 </div>
 
-<!-- jQuery CDN - Slim version (=without AJAX) -->
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
-<!-- Popper.JS -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"
-        integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
-        crossorigin="anonymous"></script>
 <!-- Bootstrap JS -->
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
         integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
         crossorigin="anonymous"></script>
 
-<!-- Skripta za prikaz markera na googli karti za kvartove te ispis njegove lng i lat kordinate -->
 <script>
-    var map0 = new google.maps.Map(document.getElementById('map_citizen'), {
-        zoom: 13,
-        center: new google.maps.LatLng(45.814, 15.980),
-        mapTypeId: google.maps.MapTypeId.HYBRID
+
+  var ROUTE_CONTS = [];
+  var CURRENT_CONT = null;
+  var USER_LAT=null;
+  var USER_LON=null;
+  var GMAP = createMap("map-citizen", 45.814, 15.980);
+  var DIR_SERVICE = new google.maps.DirectionsService();
+  var RENDERER = new google.maps.DirectionsRenderer();
+  RENDERER.setMap(GMAP);
+
+  function doGetRoute(){
+    document.getElementById("btn-route").style.display = "none";
+    document.getElementById("btn-emptied").style.display = "block";
+    document.getElementById("btn-false").style.display = "block";
+    getLocation(init, function() {
+      alert("Aplikacija mora imati pristup vasoj lokaciji za dohvat rute.");
     });
-    map0.setTilt(0);
+  }
 
-
-    var myMarker0 = new google.maps.Marker({
-        position: new google.maps.LatLng(45.814, 15.980),
-        draggable: true
+  function doEmptied(){
+    if(!CURRENT_CONT){
+      alert("Nijedan kontejner nije oznacen kao 'sljedeci'.");
+      return
+    }
+    emptyContainer(CURRENT_CONT.id);
+    reportLegit(CURRENT_CONT.id);
+    CURRENT_CONT=null;
+    getLocation(plotNextStep, function() {
+      alert("Aplikacija mora imati pristup vasoj lokaciji za dohvat rute.");
     });
-
-    google.maps.event.addListener(myMarker0, 'dragend', function (evt) {
-        document.getElementById('current0').innerHTML = '<p>Kordinate središta novog kvartovskog poduzeća su: ' + evt.latLng.lat().toFixed(6) + ' i ' + evt.latLng.lng().toFixed(6) + '</p>';
+  }
+  function doFalse(){
+    if(!CURRENT_CONT){
+      alert("Nijedan kontejner nije oznacen kao 'sljedeci'.");
+      return
+    }
+    reportFake(CURRENT_CONT.id);
+    getLocation(plotNextStep, function() {
+      alert("Aplikacija mora imati pristup vasoj lokaciji za dohvat rute.");
     });
+  }
 
-    google.maps.event.addListener(myMarker0, 'dragstart', function (evt) {
-        document.getElementById('current0').innerHTML = '<p>Trenutno pomičete marker.</p>';
+  function init(position){
+    USER_LAT = position.coords.latitude;
+    USER_LON = position.coords.longitude;
+    getRoute(function (containers) {
+      if(containers.length==0){
+        alert("Nema prepunih kontejnera u susjedstvu.");
+        return;
+      }
+      ROUTE_CONTS = containers;
+      plotNextStep(position);
     });
+  }
 
-    map0.setCenter(myMarker0.position);
-    myMarker0.setMap(map0);
+  function plotNextStep(position){
+    if(!ROUTE_CONTS){
+      alert("Lista kontejnera prazna ili neispravna.");
+      return;
+    }
+    if(ROUTE_CONTS.length==0){
+      alert("Ruta zavrsena! Palim navigaciju prema lokaciji s koje ste zapoceli rutu.");
+      document.getElementById("btn-route").style.display = "block";
+      document.getElementById("btn-emptied").style.display = "none";
+      document.getElementById("btn-false").style.display = "none";
+      document.getElementById("info-panel").innerHTML = "";
+      getLocation(backToStart, function() {
+        alert("Aplikacija mora imati pristup vasoj lokaciji za dohvat rute.");
+      });
+      return;
+    }
+    CURRENT_CONT = ROUTE_CONTS[0];
+    ROUTE_CONTS.splice(0, 1);
+    document.getElementById("info-panel").innerHTML = "<p><b>Sljedeci kontejner: ("+CURRENT_CONT.id+")</b></p>";
+    var request = {
+      origin: new google.maps.LatLng(position.coords.latitude, position.coords.longitude),
+      destination: new google.maps.LatLng(CURRENT_CONT.latitude, CURRENT_CONT.longitude),
+      travelMode: google.maps.TravelMode.DRIVING
+    };
+    DIR_SERVICE.route(request, function(result, status){
+      if(status=='OK'){
+        RENDERER.setDirections(result);
+      }
+    });
+  }
+
+  function backToStart(position){
+    var dest = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+    var src = new google.maps.LatLng(USER_LAT, USER_LON);
+    var request = {
+      origin: src,
+      destination: dest,
+      travelMode: google.maps.TravelMode.DRIVING
+    };
+    DIR_SERVICE.route(request, function(result, status) {
+      if(status=="OK"){
+        RENDERER.setDirections(result);
+      }
+    });
+  }
+
 </script>
 
 

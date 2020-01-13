@@ -1,6 +1,5 @@
 function ping(id, level, onsuccess){
   var user = getLoggedInUser();
-  console.log("IN PING: USER: "+user);
   $.ajax({
     headers: {
       "Authorization": "Basic " + user.bauth
@@ -52,7 +51,7 @@ function getFavorites(onsuccess) {
   });
 }
 
-function postFavorite(id){
+function postFavorite(id, onsuccess){
   var user = getLoggedInUser();
   $.ajax({
     headers: {
@@ -63,6 +62,7 @@ function postFavorite(id){
     type: "POST",
     success: function(fav) {
       alert("Kontejner "+id+" uspješno dodan u favorite.");
+      onsuccess(fav);
     },
     error: function(jqXHR, textStatus, errorThrown){
       alert("Greška prilikom stvaranja favorita "+jqXHR);

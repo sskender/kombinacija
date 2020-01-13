@@ -26,7 +26,7 @@
             crossorigin="anonymous"></script>
 
     <!-- For Google Maps -->
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDFPZg9v7DZWuQKX0pk_wTyJEmHalRU0tA"></script>
 
     <!-- Bootstrap core JavaScript -->
     <script src="vendor/jquery/jquery.min.js"></script>
@@ -42,6 +42,7 @@
     <script src="js/server.api.js"></script>
     <script src="js/public_requests.js"></script>
     <script src="js/admin_requests.js"></script>
+    <script src="js/maps.js"></script>
     <script>
       rejectAdmin();
     </script>
@@ -60,7 +61,7 @@
                     poduzeća</a>
                 <ul class="collapse list-unstyled" id="kvartsubmenu">
                     <li>
-                        <a href="#" onclick="toggleVisibility('A1');">Dodaj novo</a>
+                        <a href="#" onclick="toggleVisibility('A1'); initAddHoodMap();">Dodaj novo</a>
                     </li>
                     <li>
                         <a href="#" onclick="toggleVisibility('A2'); loadHoods();">Obriši postojeće</a>
@@ -71,7 +72,7 @@
                 <a href="#kontejnersubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Kontejneri</a>
                 <ul class="collapse list-unstyled" id="kontejnersubmenu">
                     <li>
-                        <a href="#" onclick="toggleVisibility('B1');">Dodaj novi</a>
+                        <a href="#" onclick="toggleVisibility('B1'); initAddContMap(); loadHoods();">Dodaj novi</a>
                     </li>
                     <li>
                         <a href="#" onclick="toggleVisibility('B2'); loadContainers();">Obriši postojeći</a>
@@ -108,8 +109,8 @@
     </div>
 
     <!-- Dodavanje novog kvartovskog poduzeća -->
-    <div id="A1" style="display: none; margin-bottom: 50px; text-align: center;">
-        <div id='new-hood-map'  style="height: 550px;"></div>
+    <div id="A1" style="display: none; margin-bottom: 50px;">
+        <div id='new-hood-map' style="height: 550px;"></div>
         <div >
             <div style="margin-top: 50px;">
                 <p id="new-hood-current">Pomaknite marker na karti kako bi ste odabrali središte novog kvartovskog poduzeća.</p>
@@ -127,16 +128,6 @@
             </div>
         </div>
     </div>
-
-    <script>
-      function createMap(elementID){
-        return new google.maps.Map(document.getElementById(elementID), {
-          zoom: 13,
-          center: new google.maps.LatLng(45.814, 15.980),
-          mapTypeId: google.maps.MapTypeId.HYBRID
-        });
-      }
-    </script>
 
     <!-- Brisanje postojećeg kvartovskog poduzeća -->
     <div id="A2" style="display: none;">
@@ -157,7 +148,7 @@
         <div id='add-cont-map'  style="height: 550px;"></div>
         <div>
             <div style="margin-top: 50px;">
-                <p id="add-cont-current">Pomaknite marker na karti kako bi ste odabrali središte novog kvartovskog poduzeća.</p>
+                <p id="add-cont-current">Pomaknite marker na karti kako bi ste odabrali lokaciju novog kontejnera.</p>
             </div>
             <div>
               <form method="POST" onsubmit="event.preventDefault(); doNewContainer();">
@@ -207,13 +198,13 @@
   var DEL_HOOD_SELECTED = null;
   var DEL_CONT_SELECTED = null;
 
+  var HOOD_LIST = document.getElementById("del-hood-list");
+  var OPTIONS = document.getElementById("sel1");
+
   function initAddHoodMap(){
-    var map0 = createMap("new-hood-map");
-    map0.setTilt(0);
-    var addHoodMarker = new google.maps.Marker({
-        position: new google.maps.LatLng(45.814, 15.980),
-        draggable: true
-    });
+    var map0 = createMap("new-hood-map", 45.814, 15.980);
+    var addHoodMarker = createSelectorMarker(map0, 45.814, 15.980);
+
     google.maps.event.addListener(addHoodMarker, 'dragend', function (evt) {
         ADD_HOOD_LAT = evt.latLng.lat().toFixed(6);
         ADD_HOOD_LON = evt.latLng.lng().toFixed(6);
@@ -222,11 +213,35 @@
     google.maps.event.addListener(addHoodMarker, 'dragstart', function (evt) {
         document.getElementById('new-hood-current').innerHTML = 'Trenutno pomičete marker.';
     });
-    map0.setCenter(addHoodMarker.position);
-    addHoodMarker.setMap(map0);
   }
 
-  function registerClickDelHood(title, hoodID){
+  function initAddContMap() {
+    var map0 = createMap("add-cont-map", 45.814, 15.980);
+    var addContMarker = createSelectorMarker(map0, 45.814, 15.980);
+
+    google.maps.event.addListener(addContMarker, 'dragend', function (evt) {
+        ADD_CONT_LAT = evt.latLng.lat().toFixed(6);
+        ADD_CONT_LON = evt.latLng.lng().toFixed(6);
+        document.getElementById('add-cont-current').innerHTML = 'Lokacija: '+ADD_CONT_LAT+', '+ADD_CONT_LON;
+    });
+    google.maps.event.addListener(addContMarker, 'dragstart', function (evt) {
+        document.getElementById('add-cont-current').innerHTML = 'Trenutno pomičete marker.';
+    });
+  }
+
+  function resetNewHoodHolders(){
+    ADD_HOOD_LAT = null;
+    ADD_HOOD_LON = null;
+    document.getElementById('new-hood-current').innerHTML = "Pomaknite marker na karti kako biste odabrali središte novog kvartovskog poduzeća.";
+  }
+
+  function resetNewContainerHolders(){
+    ADD_CONT_LAT = null;
+    ADD_CONT_LON = null;
+    document.getElementById('add-cont-current').innerHTML = "Pomaknite marker na karti kako biste odabrali lokaciju novog kontejnera.";
+  }
+
+  function reactHoodClick(title, hoodID){
     if(!(title && hoodID)){
       document.getElementById("del-hood-current").innerHTML = "Odaberite kvartovsko poduzeće koje želite obrisati.";
       DEL_HOOD_SELECTED = null;
@@ -236,7 +251,7 @@
     document.getElementById("del-hood-current").innerHTML = "Odabrano poduzeće: "+title+" ("+hoodID+")";
   }
 
-  function registerClickDelCont(contID){
+  function reactContainerClick(contID){
     if(!contID){
       document.getElementById("del-cont-current").innerHTML = "Odaberite kontejner koji želite obrisati.";
       DEL_CONT_SELECTED = null;
@@ -247,81 +262,40 @@
   }
 
   function loadHoods() {
-    var mapDH = createMap("del-hood-map");
-    mapDH.setTilt(0);
-    mapDH.setCenter(new google.maps.LatLng(45.814, 15.980));
+    var mapDH = createMap("del-hood-map", 45.814, 15.980);
     getNeighborhoods( function(hoods) {
-      var listHTML = document.getElementById("del-hood-list");
-      var optionsHTML = document.getElementById("sel1");
-      listHTML.innerHTML = "";
-      optionsHTML.innerHTML = "";
+      HOOD_LIST.innerHTML = "";
+      OPTIONS.innerHTML = "";
       for(var i=0; i<hoods.length; i++){
         var h = hoods[i];
-        var marker = new google.maps.Marker({
-          position: new google.maps.LatLng(h.latitude, h.longitude),
-          map: mapDH,
-          title: h.name,
-          hoodID: h.id
-        })
+        var marker = createNeighborhoodMarker(h, mapDH);
         google.maps.event.addListener(marker, 'click', function(){
-          registerClickDelHood(this.title, this.hoodID);
+          reactHoodClick(this.title, this.hoodID);
         })
-        var functionCall = "registerClickDelHood(\""+h.name+"\","+h.id+");";
-        listHTML.innerHTML = listHTML.innerHTML
+        var functionCall = "reactHoodClick(\""+h.name+"\","+h.id+");";
+        HOOD_LIST.innerHTML = HOOD_LIST.innerHTML
           + "<li onclick='"+functionCall+"'>"+h.name+" --- "+h.id+" --- ("+h.latitude+","+h.longitude+")</li>";
-        optionsHTML.innerHTML = optionsHTML.innerHTML
+        OPTIONS.innerHTML = OPTIONS.innerHTML
           + "<option value='"+h.id+"'>"+h.name+"</option>";
       }
     });
   }
 
   function loadContainers() {
-    var mapDC = createMap("del-cont-map");
-    mapDC.setTilt(0);
-    mapDC.setCenter(new google.maps.LatLng(45.814, 15.980));
+    var mapDC = createMap("del-cont-map", 45.814, 15.980);
     getContainers( function(containers) {
-      alert(containers);
       for(var i=0; i<containers.length; i++){
-        var c = containers[i];
-        var marker = new google.maps.Marker({
-          position: new google.maps.LatLng(c.latitude, c.longitude),
-          map: mapDC,
-          title: "Kontejner "+i+" ("+c.id+")",
-          contID: c.id
-        })
+        var marker = createContainerMarker(containers[i], mapDC, "red");
         google.maps.event.addListener(marker, 'click', function(){
-          registerClickDelCont(this.contID);
+          reactContainerClick(this.contID);
         });
       }
     });
   }
 
-  function initAddContMap() {
-    var map0 = createMap("add-cont-map");
-    map0.setTilt(0);
-    var addContMarker = new google.maps.Marker({
-        position: new google.maps.LatLng(45.814, 15.980),
-        draggable: true
-    });
-    google.maps.event.addListener(addContMarker, 'dragend', function (evt) {
-        ADD_CONT_LAT = evt.latLng.lat().toFixed(6);
-        ADD_CONT_LON = evt.latLng.lng().toFixed(6);
-        document.getElementById('add-cont-current').innerHTML = 'Lokacija: '+ADD_CONT_LAT+', '+ADD_CONT_LON;
-    });
-    google.maps.event.addListener(addContMarker, 'dragstart', function (evt) {
-        document.getElementById('add-cont-current').innerHTML = 'Trenutno pomičete marker.';
-    });
-    map0.setCenter(addContMarker.position);
-    addContMarker.setMap(map0);
-  }
-
-  window.onload = function() {
-    initAddHoodMap();
-    initAddContMap();
-  }
-
   function doNewNeighborhood() {
-      if(!document.getElementById("new-hood-name").value){
+      var hoodName = document.getElementById("new-hood-name").value;
+      if(!hoodName){
         alert("Ime kvartovskog poduzeća je obavezno");
         return;
       }
@@ -329,33 +303,26 @@
         alert("Prije potvrde morate odabrati lokaciju poduzeća na karti");
         return;
       }
-      var hoodDTO = {
-        name: document.getElementById("new-hood-name").value,
+      postNeighborhood({
+        name: hoodName,
         centerLatitude: ADD_HOOD_LAT,
         centerLongitude: ADD_HOOD_LON
-      };
-      postNeighborhood(hoodDTO);
-      ADD_HOOD_LAT = null;
-      ADD_HOOD_LON = null;
-      document.getElementById('new-hood-current').innerHTML = 'Lokacija: '+ADD_HOOD_LAT+', '+ADD_HOOD_LON;
-  }
+      });
+      resetNewHoodHolders();
+    }
 
   function doNewContainer() {
       if(!(ADD_CONT_LAT && ADD_CONT_LON)){
         alert("Prije potvrde morate odabrati lokaciju kontejnera na karti");
         return;
       }
-      var selList = document.getElementById("sel1");
-      var hoodId = selList.options[selList.selectedIndex].value;
-      var contDTO = {
+      var hoodId = OPTIONS.options[OPTIONS.selectedIndex].value;
+      postContainer({
         neighborhoodId: hoodId,
         latitude: ADD_CONT_LAT,
         longitude: ADD_CONT_LON
-      };
-      postContainer(contDTO);
-      ADD_CONT_LAT = null;
-      ADD_CONT_LON = null;
-      document.getElementById('add-cont-current').innerHTML = "Na karti odaberite kontejner koji želite obrisati.";
+      });
+      resetNewContainerHolders();
   }
 
   function doDeleteNeighborhood() {
@@ -364,14 +331,16 @@
       return;
     }
     deleteNeighborhood(DEL_HOOD_SELECTED);
-    registerClickDelHood(null, null);
+    reactHoodClick(null, null);
+    loadHoods();
   }
   function doDeleteContainer() {
     if(!DEL_CONT_SELECTED){
       alert("Potrebno je odabrati kontejner koji želite obrisati.");
     }
     deleteContainer(DEL_CONT_SELECTED);
-    registerClickDelCont(null);
+    reactContainerClick(null);
+    loadContainers();
   }
 
 </script>
@@ -403,9 +372,5 @@
         }
     }
 </script>
-
-
-
 </body>
-
 </html>

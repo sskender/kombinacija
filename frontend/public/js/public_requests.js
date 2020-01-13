@@ -84,3 +84,17 @@ function mapHood(hoodId, onsuccess) {
     }
   });
 }
+
+function getHoods(onsuccess) {
+  $.ajax({
+    url: SERVER_URL + "/hoods",
+    crossDomain: true,
+    type: "GET",
+    success: function(hoods) {
+      onsuccess(hoods);
+    },
+    error: function(jqXHR, textStatus, errorThrown){
+      alert("Greška prilikom dohvacanja liste kvartova "+jqXHR);
+    }
+  });
+}

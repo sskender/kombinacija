@@ -1,6 +1,5 @@
 function ping(id, level, onsuccess){
   var user = getLoggedInUser();
-  console.log("IN PING: USER: "+user);
   $.ajax({
     headers: {
       "Authorization": "Basic " + user.bauth

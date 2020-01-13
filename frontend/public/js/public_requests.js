@@ -86,12 +86,8 @@ function mapHood(hoodId, onsuccess) {
 }
 
 function getHoods(onsuccess) {
-  var user = getLoggedInUser();
   $.ajax({
-    headers: {
-      "Authorization": "Basic " + user.bauth
-    },
-    url: SERVER_URL + "/neighborhood",
+    url: SERVER_URL + "/hoods",
     crossDomain: true,
     type: "GET",
     success: function(hoods) {

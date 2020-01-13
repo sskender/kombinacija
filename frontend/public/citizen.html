@@ -32,7 +32,7 @@
             crossorigin="anonymous"></script>
 
     <!-- For Google Maps -->
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDFPZg9v7DZWuQKX0pk_wTyJEmHalRU0tA"></script>
 
     <!-- Plugin CSS -->
     <link href="vendor/magnific-popup/magnific-popup.css" rel="stylesheet">
@@ -48,6 +48,7 @@
     <script src="js/server.api.js"></script>
     <script src="js/public_requests.js"></script>
     <script src="js/citizen_requests.js"></script>
+    <script src="js/maps.js"></script>
     <script>
       rejectCitizen();
     </script>
@@ -128,62 +129,58 @@
         crossorigin="anonymous"></script>
 
 <script type="text/javascript">
-    function getLocation(recipient, errorHandler) {
-      if(navigator.geolocation){
-        navigator.geolocation.getCurrentPosition(recipient, errorHandler);
-      } else {
-        errorHandler();
+    var SEL_CONTAINER = null;
+    var USER_FAVORITES = null;
+    var LOADED_HOOD_MARKERS = [];
+
+    var GMAP = createMap("map-citizen", 45.814, 15.980);
+
+    function receiveContainers(containers){
+      for(var i=0; i<containers.length; i++){
+        if(isInFavorites(containers[i].id)){
+          clr="blue";
+        } else {
+          clr="red";
+        }
+        var marker = createContainerMarker(containers[i], GMAP, clr);
+
+        google.maps.event.addListener(marker, 'click', function () {
+          SEL_CONTAINER = this.contID;
+          document.getElementById("map-form").style.display = "block";
+          var button = document.getElementById("btn-add-del");
+          if(isInFavorites(SEL_CONTAINER)){
+            button.innerHTML = "UKLONI IZ FAVORITA";
+            button.onclick = function() {doDelFavorite();}
+          } else {
+            button.innerHTML = "DODAJ U FAVORITE";
+            button.onclick = function() {doAddFavorite();}
+          }
+          document.getElementById("map-tip").innerHTML = "Odabrali ste kontejner ("+SEL_CONTAINER+")";
+        });
       }
     }
-    var USER_LAT = null;
-    var USER_LON = null;
 
-    var SEL_CONTAINER = null;
+    function receiveNeighborhoods(hoods){
+      document.getElementById("map-tip").innerHTML = "Odaberite susjedstvo cije kontejnere zelite dohvatiti.";
+      for(var i=0; i<hoods.length; i++){
+        var marker = createNeighborhoodMarker(hoods[i], GMAP);
+        LOADED_HOOD_MARKERS.push(marker);
 
-    var USER_FAVORITES = null;
-
-    var GMAP = createMap("map-citizen");
-    GMAP.setTilt(0);
-
-    function createMap(elementID){
-      return new google.maps.Map(document.getElementById(elementID), {
-        zoom: 13,
-        center: new google.maps.LatLng(45.814, 15.980),
-        mapTypeId: google.maps.MapTypeId.HYBRID
-      });
+        google.maps.event.addListener(marker, 'click', function(){
+          for(var j=0; j<LOADED_HOOD_MARKERS.length; j++){
+            LOADED_HOOD_MARKERS[j].setMap(null);
+          }
+          mapHood(this.hoodID, receiveContainers);
+        });
+      }
     }
 
     function initMap(position) {
-      map(position.coords.latitude, position.coords.longitude, function (containers) {
-        for(var i=0; i<containers.length; i++){
-          var c = containers[i];
-          if(isInFavorites(c.id)){
-            clr="blue";
-          } else {
-            clr="red";
-          }
-          var marker = new google.maps.Marker({
-            position: new google.maps.LatLng(c.latitude, c.longitude),
-            map: GMAP,
-            title: "Kontejner ("+c.id+")",
-            contID: c.id,
-            icon: { url: "http://maps.google.com/mapfiles/ms/icons/"+clr+"-dot.png" }
-          });
-          google.maps.event.addListener(marker, 'click', function () {
-            SEL_CONTAINER = this.contID;
-            document.getElementById("map-form").style.display = "block";
-            var button = document.getElementById("btn-add-del");
-            if(isInFavorites(SEL_CONTAINER)){
-              button.innerHTML = "UKLONI IZ FAVORITA";
-              button.onclick = function() {doDelFavorite();}
-            } else {
-              button.innerHTML = "DODAJ U FAVORITE";
-              button.onclick = function() {doAddFavorite();}
-            }
-            document.getElementById("map-tip").innerHTML = "Odabrali ste kontejner ("+SEL_CONTAINER+")";
-          });
-        }
-      });
+      map(position.coords.latitude, position.coords.longitude, receiveContainers);
+    }
+
+    function initMapHood() {
+      getHoods( receiveNeighborhoods );
     }
 
     function doReportPing(level){
@@ -200,57 +197,9 @@
       } else{
         return;
       }
-
       SEL_CONTAINER = null;
       document.getElementById("map-tip").innerHTML = "Odaberite kontejner kojeg zelite prijaviti ili dodati u omiljene.";
       document.getElementById("map-form").style.display="none";
-    }
-
-    function loadHoods() {
-      document.getElementById("map-tip").innerHTML = "Odaberite susjedstvo cije kontejnere zelite dohvatiti.";
-      getHoods( function(hoods) {
-        for(var i=0; i<hoods.length; i++){
-          var h = hoods[i];
-          var marker = new google.maps.Marker({
-            position: new google.maps.LatLng(h.latitude, h.longitude),
-            map: mapDH,
-            title: h.name,
-            hoodID: h.id
-          })
-          google.maps.event.addListener(marker, 'click', function(){
-            mapHood(this.hoodID, function (containers) {
-              for(var i=0; i<containers.length; i++){
-                var c = containers[i];
-                if(isInFavorites(c.id)){
-                  clr="blue";
-                } else {
-                  clr="red";
-                }
-                var marker = new google.maps.Marker({
-                  position: new google.maps.LatLng(c.latitude, c.longitude),
-                  map: GMAP,
-                  title: "Kontejner ("+c.id+")",
-                  contID: c.id,
-                  icon: { url: "http://maps.google.com/mapfiles/ms/icons/"+clr+"-dot.png" }
-                });
-                google.maps.event.addListener(marker, 'click', function () {
-                  SEL_CONTAINER = this.contID;
-                  document.getElementById("map-form").style.display = "block";
-                  var button = document.getElementById("btn-add-del");
-                  if(isInFavorites(SEL_CONTAINER)){
-                    button.innerHTML = "UKLONI IZ FAVORITA";
-                    button.onclick = function() {doDelFavorite();}
-                  } else {
-                    button.innerHTML = "DODAJ U FAVORITE";
-                    button.onclick = function() {doAddFavorite();}
-                  }
-                  document.getElementById("map-tip").innerHTML = "Odabrali ste kontejner ("+SEL_CONTAINER+")";
-                });
-              }
-            });
-          });
-        }
-      });
     }
 
     function isInFavorites(contId){
@@ -275,6 +224,7 @@
         USER_FAVORITES.push(fav);
       });
       SEL_CONTAINER=null;
+      getLocation(initMap, initMapHood);
     }
 
     function doDelFavorite(){
@@ -295,13 +245,12 @@
         USER_FAVORITES.splice(index);
       }
       SEL_CONTAINER=null;
+      getLocation(initMap, initMapHood);
     }
 
     window.onload = function(){
-      getLocation(initMap, loadHoods);
-      getFavorites(function(favs){
-        USER_FAVORITES = favs;
-      })
+      getFavorites(function(favs){  USER_FAVORITES = favs;  });
+      getLocation(initMap, initMapHood);
     };
   </script>
 

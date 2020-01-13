@@ -144,81 +144,65 @@
 <script src="js/designer.js"></script>
 <script src="js/public_requests.js"></script>
 <script src="js/citizen_requests.js"></script>
+<script src="js/maps.js"></script>
+
 <script>
     window.onload = handleDisplay();
 </script>
 
-<!-- Skripta za random markere na google mapi -->
-<script src="https://maps.googleapis.com/maps/api/js?v=3.11&sensor=false" type="text/javascript"></script>
+<script src="https://maps.googleapis.com/maps/api/js?v=3.11&sensor=false&key=AIzaSyDFPZg9v7DZWuQKX0pk_wTyJEmHalRU0tA" type="text/javascript"></script>
 
   <script type="text/javascript">
+    var SEL_CONTAINER = null;
+    var LOADED_HOOD_MARKERS = [];
+    var GMAP = createMap("map_canvas", 45.814, 15.980);
 
-    var googleMap = configMap();
-
-    function getLocation(recipient, errorHandler) {
-      if(navigator.geolocation){
-        navigator.geolocation.getCurrentPosition(recipient, errorHandler);
-      } else {
-      //  initMapWithHoods();
+    function receiveContainers(containers){
+      for(var i=0; i<containers.length; i++){
+        var marker = createContainerMarker(containers[i], GMAP, "red");
+        google.maps.event.addListener(marker, 'click', function () {
+          SEL_CONTAINER = this.contID;
+          //display History gumba
+          //update "map-tip" da pise koji kontejner je odabran
+        });
       }
     }
 
-    function configMap() {
-      var options = {
-        zoom: 14,
-        center: new google.maps.LatLng(45.79964, 15.97880), // centered Zagreb
-        mapTypeId: google.maps.MapTypeId.HYBRID,
-        mapTypeControl: false
+    function receiveNeighborhoods(hoods){
+      //update "map-tip" da kaze da korisnik treba odabrati kontejner;
+      for(var i=0; i<hoods.length; i++){
+        var marker = createNeighborhoodMarker(hoods[i], GMAP);
+        LOADED_HOOD_MARKERS.push(marker);
+
+        google.maps.event.addListener(marker, 'click', function(){
+          for(var j=0; j<LOADED_HOOD_MARKERS.length; j++){
+            LOADED_HOOD_MARKERS[j].setMap(null);
+          }
+          mapHood(this.hoodID, receiveContainers);
+        });
       }
-      var map = new google.maps.Map(document.getElementById('map_canvas'), options);
-      return map;
     }
 
     function initMap(position) {
-      map(position.coords.latitude, position.coords.longitude, function (containers) {
-        for(var i=0; i<containers.length; i++){
-          var c = containers[i];
-          var marker = new google.maps.Marker({
-            position: new google.maps.LatLng(c.latitude, c.longitude),
-            map: googleMap,
-            title: "Kontejner "+i+" ("+c.id+")",
-            contID: c.id
-          });
-
-          google.maps.event.addListener(marker, 'click', function () {
-            var cid = this.contID;
-            var bHisto = document.getElementById("btn-history");
-            var bPingf = document.getElementById("btn-ping-full");
-            var bPingu = document.getElementById("btn-ping-urgent");
-            var bPinge = document.getElementById("btn-ping-empty");
-            var bFava = document.getElementById("btn-add-fav");
-            var bFavd = document.getElementById("btn-del-fav");
-            if(getLoggedInUser()){
-              bHisto.style.display = "block";
-              //bHisto.onclick = ...
-              bPingf.style.display = "block";
-              bPingf.onclick = function(){ pingFull(cid) };
-              bPingu.style.display = "block";
-              bPingu.onclick = function(){ pingUrgent(cid) };
-              bPinge.style.display = "block";
-              bPinge.onclick = function(){ pingEmpty(cid) };
-              bFava.style.display = "block";
-              bFava.onclick = function(){ postFavorite(cid) };
-              bFavd.style.display = "block";
-              bFavd.onclick = function(){ deleteFavorite(cid) };
-            } else {
-              bHisto.style.display = "block";
-            }
-          });
-        }
-      });
-
-    }
-    function handleError(error){
-      //initMapWithHoods();
+      map(position.coords.latitude, position.coords.longitude, receiveContainers);
     }
 
-    getLocation(initMap, handleError);
+    function initMapHood() {
+      getHoods( receiveNeighborhoods );
+    }
+
+    function doGetHistory(){
+      if(SEL_CONTAINER==null){
+        alert("Za dohvat povijesti potrebno je prvo odabrati kontejner.");
+        return;
+      }
+      //poslati zahtjev, prikazati, blablabla
+    }
+
+    window.onload = function() {
+      getLocation(initMap, initMapHood);
+    };
+
   </script>
 
 </body>

@@ -9,6 +9,7 @@ import hr.fer.opp.model.enums.RouteStatus;
 import hr.fer.opp.services.AdminService;
 import hr.fer.opp.services.CitizenService;
 import hr.fer.opp.services.EmployeeService;
+import hr.fer.opp.services.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,6 +43,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Autowired
     private AdminService adminService;
+
+    @Autowired
+    private PersonService personService;
 
     @Override
     @Transactional
@@ -105,7 +109,9 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .map(Ping::getCreator)
                 .forEach(person -> {
                     if (!processedPersonList.contains(person)) {
-                        citizenService.increaseReputation(person);
+                        if(personService.isCitizen(person.getId())){
+                            citizenService.increaseReputation(person);
+                        }
                         processedPersonList.add(person);
                     }
                 });
@@ -142,7 +148,9 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .map(Ping::getCreator)
                 .forEach(person -> {
                     if (!processedPersonList.contains(person)) {
-                        citizenService.decreaseReputation(person);
+                        if(personService.isCitizen(person.getId())){
+                            citizenService.decreaseReputation(person);
+                        }
                         processedPersonList.add(person);
                     }
                 });

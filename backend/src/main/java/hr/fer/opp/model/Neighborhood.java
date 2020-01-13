@@ -28,10 +28,10 @@ public class Neighborhood implements Serializable {
     @Column(nullable = false)
     private int  workerCapacity;
 
-    @OneToMany(mappedBy = "neighborhood")
+    @OneToMany(mappedBy = "neighborhood", cascade = CascadeType.REMOVE)
     private List<Container> containers;
 
-    @OneToMany(mappedBy = "neighborhood")
+    @OneToMany(mappedBy = "neighborhood", cascade = CascadeType.REMOVE)
     private List<Employee> assignedEmployees;
 
     public Neighborhood() {

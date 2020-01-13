@@ -34,13 +34,13 @@ public class Container implements Serializable {
 	@ManyToOne
 	private Neighborhood neighborhood;
 
-	@OneToMany(mappedBy = "container")
+	@OneToMany(mappedBy = "container", cascade = CascadeType.REMOVE)
 	private List<Ping> pings;
 
-	@OneToMany(mappedBy = "container")
+	@OneToMany(mappedBy = "container", cascade = CascadeType.REMOVE)
 	private List<Favorite> favorites;
 
-	@OneToMany(mappedBy = "container")
+	@OneToMany(mappedBy = "container", cascade = CascadeType.REMOVE)
 	private List<Emptying> emptyings;
 
 	public Container() {

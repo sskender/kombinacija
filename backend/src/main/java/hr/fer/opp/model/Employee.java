@@ -16,7 +16,7 @@ public class Employee extends Person implements Serializable {
 	@ManyToOne
 	private Neighborhood neighborhood;
 
-	@OneToMany(mappedBy = "worker")
+	@OneToMany(mappedBy = "worker", cascade = CascadeType.REMOVE)
 	private List<Emptying> emptyings;
 
 	public Employee() {

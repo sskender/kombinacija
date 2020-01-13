@@ -34,10 +34,10 @@ public class Person implements Serializable {
     @NotNull
     private String pwdHash;
 
-    @OneToMany(mappedBy = "creator")
+    @OneToMany(mappedBy = "creator", cascade = CascadeType.REMOVE)
     private List<Ping> pings;
 
-    @OneToMany(mappedBy = "owner")
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.REMOVE)
     private List<Favorite> favorites;
 
     public Person() {

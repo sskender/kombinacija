@@ -3,11 +3,11 @@ package hr.fer.opp.services.impl;
 import hr.fer.opp.dao.CitizenRepository;
 import hr.fer.opp.dao.ContainerRepository;
 import hr.fer.opp.dao.FavoriteRepository;
+import hr.fer.opp.dao.PingRepository;
 import hr.fer.opp.exceptions.RequestDeniedException;
-import hr.fer.opp.model.Citizen;
-import hr.fer.opp.model.Container;
-import hr.fer.opp.model.Favorite;
-import hr.fer.opp.model.Person;
+import hr.fer.opp.model.*;
+import hr.fer.opp.model.enums.PingLevel;
+import hr.fer.opp.services.EmployeeService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -38,6 +38,12 @@ public class CitizenServiceImplTest {
 
     @Mock
     FavoriteRepository favoriteRepository;
+
+    @Mock
+    EmployeeService employeeService;
+
+    @Mock
+    PingRepository pingRepository;
 
 
     @Test
@@ -147,9 +153,9 @@ public class CitizenServiceImplTest {
 
         Mockito.doReturn(expectedFavorites).when(favoriteRepository).findByOwner_Id(12L);
 
-        List<Favorite> actualFacorites = citizenService.getFavoriteContainers(p);
+        List<Favorite> actualFavorites = citizenService.getFavoriteContainers(p);
 
-        assertThat(actualFacorites).isEqualTo(expectedFavorites);
+        assertThat(actualFavorites).isEqualTo(expectedFavorites);
     }
-    
+
 }

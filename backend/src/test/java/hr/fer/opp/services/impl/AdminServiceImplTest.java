@@ -19,7 +19,6 @@ import org.mockito.junit.MockitoJUnitRunner;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -155,5 +154,27 @@ public class AdminServiceImplTest extends SetupTest {
         e.setOIB("12345678900");
 
         Employee actual = adminService.getEmployeeByOIB("9999999999");
+    }
+
+    @Test
+    public void deleteContainerById() {
+        Container c = new Container();
+        c.setId(1l);
+
+        Mockito.doReturn(Optional.of(c)).when(containerRepository).findById(1l);
+
+        boolean actual= adminService.deleteContainerById(1l);
+
+        assertThat(actual).isEqualTo(true);
+    }
+
+    @Test(expected = RequestDeniedException.class)
+    public void deleteContainerByIdException() {
+        Container c = new Container();
+        c.setId(1l);
+
+        boolean actual= adminService.deleteContainerById(1l);
+
+        assertThat(actual).isEqualTo(true);
     }
 }

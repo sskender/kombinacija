@@ -41,7 +41,7 @@ public class NeighborhoodTest {
         assert (welcomeMessage.contains(CredentialsTestInfo.ADMIN_NAME));
 
         // load admin page
-        driver.get("https://kombinacija.hopto.org/admin.html");
+        driver.findElement(By.id("go-admin")).click();
 
         // select last neighborhood in list
         driver.findElement(By.cssSelector("a[href*='kvartsubmenu']")).click();

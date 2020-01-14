@@ -258,28 +258,19 @@ public class AdminServiceImpl implements AdminService {
 
 	@Override
 	@Transactional
-	public Employee updateEmployeeProfile(RegisterEmployeeDTO employeeDTO, Long employeeId) {
+	public Employee updateEmployeeProfile(Long hoodId, Long employeeId) {
 		Optional<Employee> e = employeeRepository.findById(employeeId);
-		Optional<Neighborhood> n = neighborhoodRepository.findById(employeeDTO.getNeighborhoodId());
-
-		if (e.isPresent() && n.isPresent()) {
-			e.get().getNeighborhood().getAssignedEmployees().remove(e.get());
-			e.get().setName(employeeDTO.getName());
-			e.get().setLastName(employeeDTO.getLastName());
-			e.get().setEmail(employeeDTO.getEmail());
-			e.get().setPwdHash(encoder.encode(employeeDTO.getPwd()));
-			e.get().setOIB(employeeDTO.getOib());
-			e.get().setNeighborhood(n.get());
-
-			n.get().getAssignedEmployees().add(e.get());
-
-			return employeeRepository.save(e.get());
-		}
-		if (!e.isPresent())
+		Optional<Neighborhood> n = neighborhoodRepository.findById(hoodId);
+		if(!e.isPresent()){
 			throw new RequestDeniedException(ExceptionMessages.EXCEPTION_MESSAGE_EMPLOYEE_NOT_EXIST);
-		else
-			throw new RequestDeniedException(ExceptionMessages.EXCEPTION_MESSAGE_EMPLOYEE_CAN_NOT_UPDATE
-					+ ExceptionMessages.EXCEPTION_MESSAGE_NEIGHBORHOOD_NOT_EXIST);
+		}
+		if(!n.isPresent()){
+			throw new RequestDeniedException(ExceptionMessages.EXCEPTION_MESSAGE_NEIGHBORHOOD_NOT_EXIST);
+		}
+		e.get().getNeighborhood().getAssignedEmployees().remove(e.get());
+		e.get().setNeighborhood(n.get());
+		n.get().getAssignedEmployees().add(e.get());
+		return employeeRepository.save(e.get());
 	}
 
 	@Override

@@ -91,11 +91,11 @@ public class AdminController {
 
 	@PutMapping(value = "/employee/{id}")
 	public ResponseEntity<PersonREST> updateEmployee(
-			@RequestBody RegisterEmployeeDTO registerEmployeeDTO,
+			@RequestBody Long newHoodId,
 			@PathVariable("id") Long employeeId
 	) {
 		return new ResponseEntity<>(
-				new PersonREST(adminService.updateEmployeeProfile(registerEmployeeDTO, employeeId), "employee"),
+				new PersonREST(adminService.updateEmployeeProfile(newHoodId, employeeId), "employee"),
 				HttpStatus.OK
 		);
 	}

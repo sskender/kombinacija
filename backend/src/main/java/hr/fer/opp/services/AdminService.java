@@ -149,7 +149,7 @@ public interface AdminService {
 	 * @param employeeId
 	 * @return
 	 */
-	Employee updateEmployeeProfile(RegisterEmployeeDTO employeeDTO, Long employeeId);
+	Employee updateEmployeeProfile(Long newHoodId, Long employeeId);
 
 	/**
 	 * @param employeeId

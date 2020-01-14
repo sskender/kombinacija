@@ -36,7 +36,7 @@ function handleDisplay() {
     welcome.innerHTML = "Pomozite nam održati grad čistim";
     login.style.display = "block";
     regist.style.display = "block";
-    logoutLink.style.display= "none";
+    logout.style.display= "none";
     goAdmin.style.display = "none";
     goCitizen.style.display = "none";
     goEmployee.style.display = "none";

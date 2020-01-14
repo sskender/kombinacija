@@ -55,8 +55,6 @@ public class AdminServiceImplTest extends SetupTest {
         Container c = new Container();
         c.setId(1L);
 
-        Mockito.doReturn(Optional.of(c)).when(containerRepository).findById(1l);
-
         Container actual = adminService.getContainerById(2l);
     }
 
@@ -97,8 +95,6 @@ public class AdminServiceImplTest extends SetupTest {
 
         n.setContainers(expectedContainers);
 
-        Mockito.doReturn(Optional.of(n)).when(neighborhoodRepository).findById(1l);
-
         List<Container> actualContainers = adminService.getContainersByNeighborhoodId(2l);
     }
 
@@ -138,8 +134,6 @@ public class AdminServiceImplTest extends SetupTest {
         Neighborhood n = new Neighborhood();
         n.setId(1l);
 
-        Mockito.doReturn(Optional.of(n)).when(neighborhoodRepository).findById(1l);
-
         Neighborhood actual = adminService.getNeighborhoodById(2l);
     }
 
@@ -159,8 +153,6 @@ public class AdminServiceImplTest extends SetupTest {
     public void getEmployeeByOIB_Exception(){
         Employee e = new Employee();
         e.setOIB("12345678900");
-
-        Mockito.doReturn(Optional.of(e)).when(employeeRepository).findByOIB("12345678900");
 
         Employee actual = adminService.getEmployeeByOIB("9999999999");
     }

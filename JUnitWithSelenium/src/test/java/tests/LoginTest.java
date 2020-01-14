@@ -8,7 +8,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 public class LoginTest {
 
     @Test
-    public void testLoginGoodCreds () {
+    public void testLoginCitizen() {
         ChromeDriver driver;
         System.setProperty("webdriver.chrome.driver" , "/Users/matea/Downloads/chromedriver");
 

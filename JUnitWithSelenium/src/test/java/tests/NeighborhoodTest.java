@@ -9,7 +9,7 @@ import tests.credentials.CredentialsTestInfo;
 
 import java.util.concurrent.TimeUnit;
 
-public class AdminActionsTest {
+public class NeighborhoodTest {
 
     @Test
     public void testDeleteNeighborhood() throws InterruptedException {

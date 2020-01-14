@@ -2,6 +2,7 @@ package hr.fer.opp.controllers;
 
 import hr.fer.opp.dto.request.AddContainerDTO;
 import hr.fer.opp.dto.request.AddNeighborhoodDTO;
+import hr.fer.opp.dto.request.EditEmployeeDTO;
 import hr.fer.opp.dto.request.RegisterEmployeeDTO;
 import hr.fer.opp.dto.response.ContainerREST;
 import hr.fer.opp.dto.response.NeighborhoodREST;
@@ -91,11 +92,11 @@ public class AdminController {
 
 	@PutMapping(value = "/employee/{id}")
 	public ResponseEntity<PersonREST> updateEmployee(
-			@RequestBody Long newHoodId,
+			@RequestBody EditEmployeeDTO newHood,
 			@PathVariable("id") Long employeeId
 	) {
 		return new ResponseEntity<>(
-				new PersonREST(adminService.updateEmployeeProfile(newHoodId, employeeId), "employee"),
+				new PersonREST(adminService.updateEmployeeProfile(newHood.getNewHoodId(), employeeId), "employee"),
 				HttpStatus.OK
 		);
 	}

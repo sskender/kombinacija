@@ -5,6 +5,7 @@ import java.util.List;
 
 import hr.fer.opp.model.Emptying;
 import hr.fer.opp.model.Ping;
+import hr.fer.opp.model.enums.PingLevel;
 
 public class ContainerEventREST {
 	private Long containerId;
@@ -14,7 +15,13 @@ public class ContainerEventREST {
 
 	public ContainerEventREST(Ping p) {
 		this.containerId = p.getId();
-		this.type = "PING";
+		if(p.getLevel().equals(PingLevel.FULL)){
+			this.type = "PING-F";
+		} else if(p.getLevel().equals(PingLevel.URGENT)){
+			this.type = "PING-U";
+		} else {
+			this.type = "PING-E";
+		}
 		this.creator = p.getCreator().getEmail();
 		this.timestamp = p.getTimestamp();
 	}

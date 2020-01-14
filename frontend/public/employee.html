@@ -134,9 +134,6 @@
   RENDERER.setMap(GMAP);
 
   function doGetRoute(){
-    document.getElementById("btn-route").style.display = "none";
-    document.getElementById("btn-emptied").style.display = "block";
-    document.getElementById("btn-false").style.display = "block";
     getLocation(init, function() {
       alert("Aplikacija mora imati pristup vasoj lokaciji za dohvat rute.");
     });
@@ -173,6 +170,9 @@
         alert("Nema prepunih kontejnera u susjedstvu.");
         return;
       }
+      document.getElementById("btn-route").style.display = "none";
+      document.getElementById("btn-emptied").style.display = "block";
+      document.getElementById("btn-false").style.display = "block";
       ROUTE_CONTS = containers;
       plotNextStep(position);
     });

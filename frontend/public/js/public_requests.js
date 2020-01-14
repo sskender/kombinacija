@@ -87,11 +87,25 @@ function mapHood(hoodId, onsuccess) {
 
 function getHoods(onsuccess) {
   $.ajax({
-    url: SERVER_URL + "/hoods",
+    url: SERVER_URL + "/neighborhood",
     crossDomain: true,
     type: "GET",
     success: function(hoods) {
       onsuccess(hoods);
+    },
+    error: function(jqXHR, textStatus, errorThrown){
+      alert("Greška prilikom dohvacanja liste kvartova "+jqXHR);
+    }
+  });
+}
+
+function getHistory(contId, onsuccess){
+  $.ajax({
+    url: SERVER_URL + "/history/container/"+contId,
+    crossDomain: true,
+    type: "GET",
+    success: function(events){
+      onsuccess(events);
     },
     error: function(jqXHR, textStatus, errorThrown){
       alert("Greška prilikom dohvacanja liste kvartova "+jqXHR);

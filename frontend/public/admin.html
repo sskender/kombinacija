@@ -57,14 +57,20 @@
         </div>
         <ul class="list-unstyled">
             <li>
+                <a href="index.html">Početna stranica</a>
+            </li>
+            <li>
                 <a href="#kvartsubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Kvartovska
                     poduzeća</a>
                 <ul class="collapse list-unstyled" id="kvartsubmenu">
                     <li>
-                        <a href="#" onclick="toggleVisibility('A1'); initAddHoodMap();">Dodaj novo</a>
+                        <a href="#" onclick="toggleVisibility('A1'); initAddHood();">Dodaj novo</a>
                     </li>
                     <li>
-                        <a href="#" onclick="toggleVisibility('A2'); loadHoods();">Obriši postojeće</a>
+                        <a href="#" onclick="toggleVisibility('A2'); loadHoodsEDT_N();">Uredi središte</a>
+                    </li>
+                    <li>
+                        <a href="#" onclick="toggleVisibility('A3'); loadHoodsDEL_N();">Obriši postojeće</a>
                     </li>
                 </ul>
             </li>
@@ -72,7 +78,7 @@
                 <a href="#kontejnersubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Kontejneri</a>
                 <ul class="collapse list-unstyled" id="kontejnersubmenu">
                     <li>
-                        <a href="#" onclick="toggleVisibility('B1'); initAddContMap(); loadHoods();">Dodaj novi</a>
+                        <a href="#" onclick="toggleVisibility('B1'); initAddCont(); loadHoodsADD_C();">Dodaj novi</a>
                     </li>
                     <li>
                         <a href="#" onclick="toggleVisibility('B2'); loadContainers();">Obriši postojeći</a>
@@ -84,13 +90,13 @@
                     radnici</a>
                 <ul class="collapse list-unstyled" id="pageSubmenu">
                     <li>
-                        <a href="#" onclick="toggleVisibility('C1');">Dodaj novog radnika</a>
+                        <a href="#" onclick="toggleVisibility('C1'); loadHoodsADD_E();">Dodaj novog radnika</a>
                     </li>
                     <li>
-                        <a href="#" onclick="toggleVisibility('C2');">Premjesti postojećeg radnika</a>
+                        <a href="#" onclick="toggleVisibility('C2'); loadHoodsEDT_E();">Premjesti postojećeg radnika</a>
                     </li>
                     <li>
-                        <a href="#" onclick="toggleVisibility('C3');">Izbriši postojećeg radnika</a>
+                        <a href="#" onclick="toggleVisibility('C3'); loadHoodsDEL_E();">Izbriši postojećeg radnika</a>
                     </li>
                 </ul>
             </li>
@@ -104,6 +110,7 @@
                 <h1 style="padding-top: 50px" class="text-uppercase text-black-50 font-weight-bold" id="welcome-msg">
                     Dobrodošli u Admin Panel</h1>
                 <hr class="divider my-lg-4">
+                <p>Admin panel nije prilagođen mobilnoj verziji stoga Vas molimo da koristite računalo većeg ekrana.</p>
             </div>
         </div>
     </div>
@@ -111,7 +118,7 @@
     <!-- Dodavanje novog kvartovskog poduzeća -->
     <div id="A1" style="display: none; margin-bottom: 50px;">
         <div id='new-hood-map' style="height: 550px;"></div>
-        <div >
+        <div>
             <div style="margin-top: 50px;">
                 <p id="new-hood-current">Pomaknite marker na karti kako bi ste odabrali središte novog kvartovskog poduzeća.</p>
             </div>
@@ -122,42 +129,69 @@
                             <input type="text" id="new-hood-name">
                         </label>
                     </p>
-                        <input type="submit" class="btn btn-primary btn-xl" style="background-color: #EB6038; border-color: #EB6038"
-                            name="new-hood" id="new-hood" value="Potvrdi"/>
+                    <input type="submit" class="btn btn-primary btn-xl"
+                         style="background-color: #EB6038; border-color: #EB6038"
+                         name="new-hood" id="new-hood" value="Dodaj"/>
                 </form>
             </div>
         </div>
     </div>
 
+    <!-- Uređivanje centra kvartovskog poduzeća -->
+	  <div id="A2" style="display: none; margin-bottom: 50px;">
+	      <div id='edt-hood-map' style="height: 550px;"></div>
+	      <div>
+	          <div style="margin-top: 50px;">
+	              <p id="edt-hood-current" >Odaberite kvartovsko poduzeće koje želite urediti.</p>
+	          </div>
+	          <div>
+	              <form method="POST" onsubmit="event.preventDefault(); doEditHood();">
+                  <br>
+                    <p>
+                        <label for="edt-hood-name">Novo ime kvarta:
+                        </label>
+                        <input id="edt-hood-name" name="new-hood-name" type="text">
+                    </p>
+	                  <input type="submit" class="btn btn-primary btn-xl"
+	                         style="background-color: #EB6038; border-color: #EB6038"
+	                         name="" value="Uredi"/>
+	              </form>
+	          </div>
+	      </div>
+	  </div>
+
     <!-- Brisanje postojećeg kvartovskog poduzeća -->
-    <div id="A2" style="display: none;">
+    <div id="A3" style="display: none; width: 100%;" align="center">
       <div id="del-hood-map" style="height: 550px;"></div>
       <div>
+          <div style="margin-top: 50px;">
+              <p id="del-hood-current">Odaberite poduzeće koje želite obrisati na karti ili iz izbornika.</p>
+          </div>
           <div>
-              <p id="del-hood-current">Odaberite kvartovsko poduzeće koje želite obrisati.</p>
-              <ul id="del-hood-list"></ul>
               <button class="btn btn-primary btn-xl" onclick="doDeleteNeighborhood()" style="background-color: #EB6038; border-color: #EB6038">
-                Izbriši
-              </button>
+                Obriši
+              </button><br>
+              <select class="form-control" id="del-hood-select" style="display: inline-block; width: 150px">
+              </select>
           </div>
       </div>
     </div>
 
     <!-- Dodavanje novog kontejnera -->
     <div id="B1" style="display: none; margin-bottom: 50px; text-align: center;">
-        <div id='add-cont-map'  style="height: 550px;"></div>
+        <div id='add-cont-map' style="height: 550px;"></div>
         <div>
             <div style="margin-top: 50px;">
                 <p id="add-cont-current">Pomaknite marker na karti kako bi ste odabrali lokaciju novog kontejnera.</p>
             </div>
             <div>
               <form method="POST" onsubmit="event.preventDefault(); doNewContainer();">
-                <label for="sel1"><p>Odaberite kojem kvartovskom poduzeću pripada kontejner koji želite dodati:</p>
+                <label for="add-cont-select"><p>Odaberite kojem kvartovskom poduzeću pripada kontejner koji želite dodati:</p>
                 </label>
-                <select class="form-control" id="sel1" style="display: inline-block; width: 100px">
+                <select class="form-control" id="add-cont-select" style="display: inline-block; width: 150px">
                 </select><br>
                 <input type="submit" class="btn btn-primary btn-xl" style="background-color: #EB6038; border-color: #EB6038"
-                       name="add-cont" id="add-cont" value="Potvrdi"/>
+                       name="add-cont" id="add-cont" value="Dodaj"/>
               </form>
             </div>
         </div>
@@ -167,19 +201,105 @@
     <div id="B2" align="center" style="display: none;">
       <div id="del-cont-map" style="height: 550px;"></div>
       <div>
-          <div>
+          <div style="margin-top: 50px;">
               <p id="del-cont-current">Na karti odaberite kontejner koji želite obrisati.</p>
               <button class="btn btn-primary btn-xl" onclick="doDeleteContainer()" style="background-color: #EB6038; border-color: #EB6038">
-                Izbriši
+                Obriši
               </button>
           </div>
       </div>
     </div>
 
-    <!-- Upravljanje komunalnim radnicima -->
-    <div id="C1" style="display: none;">Dodaj novog radnika</div>
-    <div id="C2" style="display: none;">Premjesti postojećeg radnika</div>
-    <div id="C3" style="display: none;">Izbriši postojećeg radnika</div>
+    <!-- Dodaj komunalnog radnika -->
+    <div id="C1" style="display: none;padding-top: 50px">
+        <form method="POST" onsubmit="event.preventDefault(); doNewEmployee();">
+            <p>
+                <label>Ime novog komunalnog radnika:
+                    <input id="add-emp-new-name" type="text">
+                </label>
+            </p>
+            <p>
+                <label>Prezime novog komunalnog radnika:
+                    <input id="add-emp-new-lname" type="text">
+                </label>
+            </p>
+            <p>
+                <label>OIB novog komunalnog radnika:
+                    <input id="add-emp-new-oib" type="text">
+                </label>
+            </p>
+            <p>
+                <label>Email novog komunalnog radnika:
+                    <input id="add-emp-new-email" type="text">
+                </label>
+            </p>
+            <p>
+                <label>Lozinka novog komunalnog radnika:
+                    <input id="add-emp-new-pass" type="password">
+                </label>
+            </p>
+            <p>
+                <label>Ponovite lozinku:
+                    <input id="add-emp-new-pass2" type="password">
+                </label>
+            </p>
+            <label for="add-emp-select"><p>Odaberite kojem kvartovskom poduzeću pripada novi radnik:</p>
+            </label>
+            <select id="add-emp-select" class="form-control" style="display: inline-block; width: 150px">
+            </select><br>
+            <input type="submit" class="btn btn-primary btn-xl"
+                   style="background-color: #EB6038; border-color: #EB6038"
+                   name="add-emp" value="Dodaj"/>
+        </form>
+    </div>
+
+    <!-- Premjesti komunalnog radnika -->
+    <div id="C2" style="display: none; margin-top: 50px;">
+        <form method="POST" onsubmit="event.preventDefault(); doEditEmployee();">
+            <p>
+                <label for="edt-emp-select-src"> Odaberite komunalno poduzeće u kojem se nalazi radnik kojeg zelite premjestiti
+                </label>
+                <select id="edt-emp-select-src" class="form-control" style="display: inline-block; width: 150px">
+                </select>
+            </p>
+            <p id="emp-selector" style="display: none">
+                <label for="edt-emp-select-emp">Odaberite komunalnog radnika kojeg žeite preseliti u drugo komunalno poduzeće:
+                </label>
+                <select id="edt-emp-select-emp" class="form-control" style="display: inline-block; width: 150px">
+                </select><br>
+            </p>
+            <p>
+                <label for="edt-emp-select-dest">Odaberite u koje komunalno poduzeće želite premjestiti radnika:
+                </label>
+                <select id="edt-emp-select-dest" class="form-control" style="display: inline-block; width: 150px">
+                </select>
+            </p>
+            <input type="submit" class="btn btn-primary btn-xl"
+                   style="background-color: #EB6038; border-color: #EB6038"
+                   name="edt-emp" value="Premjesti"/>
+        </form>
+    </div>
+
+    <!-- Obriši komunalnog radnika -->
+    <div id="C3" style="display: none; margin-top: 50px;">
+        <form method="POST" onsubmit="event.preventDefault(); doDeleteEmployee();">
+            <p>
+                <label for="del-emp-src">Odaberite kojem kvartovskom poduzeću pripada komunalni radnik kojeg želite ukloniti iz baze:
+                </label>
+                <select id="del-emp-src" class="form-control" style="display: inline-block; width: 150px">
+                </select>
+            </p>
+            <p id="emp-del-selector" style="display: none;">
+                <label for="del-emp-emp">Odaberite komunalnog radnika kojeg žeilte ukloniti iz baze:
+                </label>
+                <select class="form-control" id="del-emp-emp" style="display: inline-block; width: 150px">
+                <select>
+            </p>
+            <input type="submit" class="btn btn-primary btn-xl"
+                   style="background-color: #EB6038; border-color: #EB6038"
+                   name="del-emp" value="Ukloni"/>
+        </form>
+    </div>
 
 </div>
 
@@ -189,165 +309,354 @@
         crossorigin="anonymous"></script>
 
 <script>
-  var ADD_HOOD_LAT = null;
-  var ADD_HOOD_LON = null;
+  /*
+  Staticke varijable koje se koriste kada se na mapu treba dodati nova
+  tocka koja reprezentira kontejner ili poduzece
+  */
+  var LATLNG_MAP = {
+    "add-hood": null,
+    "edt-hood": null,
+    "add-cont": null
+  };
 
-  var ADD_CONT_LAT = null;
-  var ADD_CONT_LON = null;
+  function resetPositions(){
+    LATLNG_MAP["add-hood"] = null;
+    LATLNG_MAP["edt-hood"] = null;
+    LATLNG_MAP["add-cont"] = null;
+  }
+  /*
+  Staticke varijable koje se koriste u slucajevima kada na mapi treba
+  izabrati neki od ponudenih entiteta, spremaju ID kliknutog entiteta
+  */
+  var SEL_MAP = {
+    "edt-hood":null,
+    "del-hood":null,
+    "del-cont":null,
+  };
 
-  var DEL_HOOD_SELECTED = null;
-  var DEL_CONT_SELECTED = null;
-
-  var HOOD_LIST = document.getElementById("del-hood-list");
-  var OPTIONS = document.getElementById("sel1");
-
-  function initAddHoodMap(){
-    var map0 = createMap("new-hood-map", 45.814, 15.980);
-    var addHoodMarker = createSelectorMarker(map0, 45.814, 15.980);
-
-    google.maps.event.addListener(addHoodMarker, 'dragend', function (evt) {
-        ADD_HOOD_LAT = evt.latLng.lat().toFixed(6);
-        ADD_HOOD_LON = evt.latLng.lng().toFixed(6);
-        document.getElementById('new-hood-current').innerHTML = 'Lokacija: '+ADD_HOOD_LAT+', '+ADD_HOOD_LON;
-    });
-    google.maps.event.addListener(addHoodMarker, 'dragstart', function (evt) {
-        document.getElementById('new-hood-current').innerHTML = 'Trenutno pomičete marker.';
-    });
+  function resetSelected(){
+    SEL_MAP["edt-hood"] = null;
+    SEL_MAP["del-hood"] = null;
+    SEL_MAP["del-cont"] = null;
   }
 
-  function initAddContMap() {
-    var map0 = createMap("add-cont-map", 45.814, 15.980);
-    var addContMarker = createSelectorMarker(map0, 45.814, 15.980);
+  var EDT_HOOD_MARKERS = [];
 
-    google.maps.event.addListener(addContMarker, 'dragend', function (evt) {
-        ADD_CONT_LAT = evt.latLng.lat().toFixed(6);
-        ADD_CONT_LON = evt.latLng.lng().toFixed(6);
-        document.getElementById('add-cont-current').innerHTML = 'Lokacija: '+ADD_CONT_LAT+', '+ADD_CONT_LON;
-    });
-    google.maps.event.addListener(addContMarker, 'dragstart', function (evt) {
-        document.getElementById('add-cont-current').innerHTML = 'Trenutno pomičete marker.';
-    });
+  function selectedValue(selectTag){
+    return selectTag.options[selectTag.selectedIndex].value;
+  }
+  function insertOption(selectTag, o){
+    selectTag.innerHTML = selectTag.innerHTML +
+      "<option value='"+o.id+"'>"+o.name+"</option>";
+  }
+  function insertOptionOnClick(selectTag, o, onclick){
+    selectTag.innerHTML = selectTag.innerHTML +
+      "<option value='"+o.id+"' onclick='"+onclick+"'>"+o.name+"</option>";
   }
 
-  function resetNewHoodHolders(){
-    ADD_HOOD_LAT = null;
-    ADD_HOOD_LON = null;
-    document.getElementById('new-hood-current').innerHTML = "Pomaknite marker na karti kako biste odabrali središte novog kvartovskog poduzeća.";
-  }
-
-  function resetNewContainerHolders(){
-    ADD_CONT_LAT = null;
-    ADD_CONT_LON = null;
-    document.getElementById('add-cont-current').innerHTML = "Pomaknite marker na karti kako biste odabrali lokaciju novog kontejnera.";
-  }
-
-  function reactHoodClick(title, hoodID){
-    if(!(title && hoodID)){
-      document.getElementById("del-hood-current").innerHTML = "Odaberite kvartovsko poduzeće koje želite obrisati.";
-      DEL_HOOD_SELECTED = null;
-      return;
+  function saveHoodSelection(mapKey, messageKey, title, value){
+    SEL_MAP[mapKey] = value;
+    if(messageKey){
+      document.getElementById(messageKey).innerHTML = "Odabrano poduzeće: "+title+" ("+value+")";
     }
-    DEL_HOOD_SELECTED = hoodID;
-    document.getElementById("del-hood-current").innerHTML = "Odabrano poduzeće: "+title+" ("+hoodID+")";
   }
-
-  function reactContainerClick(contID){
-    if(!contID){
-      document.getElementById("del-cont-current").innerHTML = "Odaberite kontejner koji želite obrisati.";
-      DEL_CONT_SELECTED = null;
-      return;
+  function saveContainerClick(mapKey, messageKey, value){
+    SEL_MAP[mapKey] = value;
+    if(messageKey){
+      document.getElementById(messageKey).innerHTML = "Odabran kontejner ("+contID+")";
     }
-    DEL_CONT_SELECTED = contID;
-    document.getElementById("del-cont-current").innerHTML = "Odabran kontejner ("+contID+")";
   }
 
-  function loadHoods() {
-    var mapDH = createMap("del-hood-map", 45.814, 15.980);
+  function initAddHood(){
+    initMap("new-hood-map", function(evt) {
+      LATLNG_MAP["add-hood"] = evt.latLng;
+      document.getElementById('new-hood-current').innerHTML = 'Lokacija: '+evt.latLng.lat().toFixed(6)+', '+evt.latLng.lng().toFixed(6);
+    }, function() {
+      document.getElementById('new-hood-current').innerHTML = 'Trenutno pomičete marker.';
+    });
+  }
+  function loadHoodsEDT_N() {
+    var mapEN = createMap("edt-hood-map", 45.814, 15.980);
+    getNeighborhoods( function(hoods){
+      for(var i=0; i<hoods.length; i++){
+        var marker = createNeighborhoodMarker(hoods[i], mapEN);
+        EDT_HOOD_MARKERS.push(marker);
+        google.maps.event.addListener(marker, 'click', function(){
+          saveHoodSelection("edt-hood", null, this.title, this.hoodID);
+          document.getElementById("edt-hood-current").innerHTML = "Odaberite novu lokaciju poduzeća <i>"+this.title+"</i>.";
+          for(var j=0; j<EDT_HOOD_MARKERS.length; j++){
+            EDT_HOOD_MARKERS[j].setMap(null);
+          }
+          initEditHood();
+        });
+      }
+    });
+  }
+  function initEditHood() {
+    initMap("edt-hood-map", function(evt){
+      LATLNG_MAP["edt-hood"] = evt.latLng;
+      document.getElementById('edt-hood-current').innerHTML = 'Nova lokacija: '+evt.latLng.lat().toFixed(6)+', '+evt.latLng.lng().toFixed(6);
+    }, function(){
+      document.getElementById('edt-hood-current').innerHTML = "Trenutno pomičete marker.";
+    });
+  }
+  function loadHoodsDEL_N() {
+    var localMap = createMap("del-hood-map", 45.814, 15.980);
     getNeighborhoods( function(hoods) {
-      HOOD_LIST.innerHTML = "";
-      OPTIONS.innerHTML = "";
+      var DHS = document.getElementById("del-hood-select");
+      DHS.innerHTML = "";
       for(var i=0; i<hoods.length; i++){
         var h = hoods[i];
-        var marker = createNeighborhoodMarker(h, mapDH);
+        var marker = createNeighborhoodMarker(h, localMap);
         google.maps.event.addListener(marker, 'click', function(){
-          reactHoodClick(this.title, this.hoodID);
+          saveHoodSelection("del-hood", "del-hood-current", this.title, this.hoodID);
         })
-        var functionCall = "reactHoodClick(\""+h.name+"\","+h.id+");";
-        HOOD_LIST.innerHTML = HOOD_LIST.innerHTML
-          + "<li onclick='"+functionCall+"'>"+h.name+" --- "+h.id+" --- ("+h.latitude+","+h.longitude+")</li>";
-        OPTIONS.innerHTML = OPTIONS.innerHTML
-          + "<option value='"+h.id+"'>"+h.name+"</option>";
+        insertOptionOnClick(DHS,
+           {name: h.name, id: h.id},
+           "saveHoodSelection(\"del-hood\", \"del-hood-current\", \""+h.name+"\", \""+h.id+"\");");
       }
     });
   }
 
+  function loadHoodsADD_C() {
+    getNeighborhoods( function(hoods) {
+      var selectTag = document.getElementById("add-cont-select");
+      selectTag.innerHTML = "";
+      for(var i=0; i<hoods.length; i++){
+        var h = hoods[i];
+        insertOption(selectTag, {name: h.name, id: h.id});
+      }
+    });
+  }
+  function initAddCont() {
+    initMap("add-cont-map", function(evt){
+      LATLNG_MAP["add-cont"] = evt.latLng;
+      document.getElementById('add-cont-current').innerHTML = 'Lokacija: '+evt.latLng.lat().toFixed(6)+', '+evt.latLng.lng().toFixed(6);
+    }, function() {
+      document.getElementById('add-cont-current').innerHTML = 'Trenutno pomičete marker.';
+    });
+  }
   function loadContainers() {
     var mapDC = createMap("del-cont-map", 45.814, 15.980);
     getContainers( function(containers) {
       for(var i=0; i<containers.length; i++){
         var marker = createContainerMarker(containers[i], mapDC, "red");
         google.maps.event.addListener(marker, 'click', function(){
-          reactContainerClick(this.contID);
+          saveContainerClick("del-cont", "del-cont-current", containers[i].id);
         });
       }
     });
   }
 
-  function doNewNeighborhood() {
-      var hoodName = document.getElementById("new-hood-name").value;
-      if(!hoodName){
-        alert("Ime kvartovskog poduzeća je obavezno");
-        return;
+  function loadHoodsADD_E(){
+    getNeighborhoods( function(hoods) {
+      var selectTag = document.getElementById("add-emp-select");
+      selectTag.innerHTML = "";
+      for(var i=0; i<hoods.length; i++){
+        var h = hoods[i];
+        insertOption(selectTag, {name: h.name, id: h.id});
       }
-      if(!(ADD_HOOD_LAT && ADD_HOOD_LON)){
-        alert("Prije potvrde morate odabrati lokaciju poduzeća na karti");
-        return;
+    });
+  }
+  function loadHoodsEDT_E(){
+    getNeighborhoods( function(hoods) {
+      var selectSource = document.getElementById("edt-emp-select-src");
+      var selectDest = document.getElementById("edt-emp-select-dest");
+      selectSource.innerHTML = "";
+      selectDest.innerHTML = "";
+      for(var i=0; i<hoods.length; i++){
+        var h = hoods[i];
+        insertOption(selectDest, {name: h.name, id: h.id});
+        insertOptionOnClick(selectSource,
+          {name: h.name, id: h.id},
+          "loadEmployeesEDT_E(\""+h.id+"\");"
+        );
       }
-      postNeighborhood({
-        name: hoodName,
-        centerLatitude: ADD_HOOD_LAT,
-        centerLongitude: ADD_HOOD_LON
-      });
-      resetNewHoodHolders();
-    }
-
-  function doNewContainer() {
-      if(!(ADD_CONT_LAT && ADD_CONT_LON)){
-        alert("Prije potvrde morate odabrati lokaciju kontejnera na karti");
-        return;
+    });
+  }
+  function loadEmployeesEDT_E(hoodId){
+    document.getElementById("emp-selector").style.display = "block";
+    getNeighborhoodEmployees(hoodId, function(emps) {
+      var selectEmp = document.getElementById("edt-emp-select-emp");
+      selectEmp.innerHTML = "";
+      for(var i=0; i<emps.length; i++){
+        var e = emps[i];
+        insertOption(selectEmp, {name: e.name+" "+e.lastName, id: e.id });
       }
-      var hoodId = OPTIONS.options[OPTIONS.selectedIndex].value;
-      postContainer({
-        neighborhoodId: hoodId,
-        latitude: ADD_CONT_LAT,
-        longitude: ADD_CONT_LON
-      });
-      resetNewContainerHolders();
+    });
+  }
+  function loadHoodsDEL_E(){
+    getNeighborhoods( function(hoods) {
+      var selectSource = document.getElementById("del-emp-src");
+      selectSource.innerHTML = "";
+      for(var i=0; i<hoods.length; i++){
+        var h = hoods[i];
+        insertOptionOnClick(selectSource,
+          {name: h.name, id: h.id},
+          "loadEmployeesDEL_E(\""+h.id+"\");"
+        );
+      }
+    });
+  }
+  function loadEmployeesDEL_E(hoodId){
+    document.getElementById("emp-del-selector").style.display = "block";
+    getNeighborhoodEmployees(hoodId, function(emps) {
+      var selectEmp = document.getElementById("del-emp-emp");
+      selectEmp.innerHTML = "";
+      for(var i=0; i<emps.length; i++){
+        var e = emps[i];
+        insertOption(selectEmp, {name: e.name+" "+e.lastName, id: e.id });
+      }
+    });
   }
 
+
+  function doNewNeighborhood() {
+    var hoodName = document.getElementById("new-hood-name").value;
+    if(!hoodName){
+      alert("Ime kvartovskog poduzeća je obavezno");
+      return;
+    }
+    if(!(LATLNG_MAP["add-hood"])){
+      alert("Prije potvrde morate odabrati lokaciju poduzeća na karti");
+      return;
+    }
+    postNeighborhood({
+      name: hoodName,
+      centerLatitude: LATLNG_MAP["add-hood"].lat().toFixed(6),
+      centerLongitude: LATLNG_MAP["add-hood"].lng().toFixed(6)
+    });
+    document.getElementById('new-hood-current').innerHTML = "Pomaknite marker na karti kako biste odabrali središte novog kvartovskog poduzeća.";
+    resetPositions();
+  }
+  function doEditHood(){
+    var changedID = SEL_MAP["edt-hood"];
+    var hname = document.getElementById("edt-hood-name").value;
+    var hloc = LATLNG_MAP["edt-hood"];
+    if(!changedID){
+      alert("Morate izabrati kontejner kojeg zelite urediti.");
+      return;
+    }
+    if(!(hloc || hname)){
+      alert("Morate promijeniti barem jedan podatak o susjedstvu.");
+      return;
+    }
+    getOneNeighborhood(changedID, function(old){
+      var hoodDTO = {
+        name: (hname) ? hname : old.name,
+        centerLatitude: (hloc) ? hloc.lat().toFixed(6) : old.latitude,
+        centerLongitude: (hloc) ? hloc.lng().toFixed(6) : old.longitude
+      };
+      putNeighborhood(hoodDTO, changedID, function() { loadHoodsEDT_N(); });
+    });
+
+  }
   function doDeleteNeighborhood() {
-    if(!DEL_HOOD_SELECTED) {
+    if(!SEL_MAP["del-hood"]) {
       alert("Potrebno je odabrati susjedstvo koje želite obrisati.");
       return;
     }
-    deleteNeighborhood(DEL_HOOD_SELECTED);
-    reactHoodClick(null, null);
-    loadHoods();
+    deleteNeighborhood(SEL_MAP["del-hood"], function() { loadHoodsDEL_N(); });
+    document.getElementById("del-hood-current").innerHTML = "Odaberite poduzeće koje želite obrisati.";
+    resetSelected();
+  }
+  function doNewContainer() {
+      if(!(LATLNG_MAP["add-cont"])){
+        alert("Prije potvrde morate odabrati lokaciju kontejnera na karti");
+        return;
+      }
+      var hoodId = selectedValue(document.getElementById("add-cont-select"));
+      if(!hoodId){
+        alert("Prije potvrde morate odabrati susjedstvo kojem kontejner pripada.");
+        return;
+      }
+      postContainer({
+        neighborhoodId: hoodId,
+        latitude: LATLNG_MAP["add-cont"].lat().toFixed(6),
+        longitude: LATLNG_MAP["add-cont"].lng().toFixed(6)
+      });
+      resetPositions();
+      document.getElementById('add-cont-current').innerHTML = "Pomaknite marker na karti kako biste odabrali lokaciju novog kontejnera.";;
   }
   function doDeleteContainer() {
-    if(!DEL_CONT_SELECTED){
+    if(!SEL_MAP["del-cont"]){
       alert("Potrebno je odabrati kontejner koji želite obrisati.");
     }
-    deleteContainer(DEL_CONT_SELECTED);
-    reactContainerClick(null);
+    deleteContainer(SEL_MAP["del-cont"]);
+    resetSelected();
     loadContainers();
   }
+  function checkNewEmployee(){
+    var form_name = document.getElementById("add-emp-new-name").value;
+    var form_lname = document.getElementById("add-emp-new-lname").value;
+    var form_oib = document.getElementById("add-emp-new-oib").value;
+    var form_email = document.getElementById("add-emp-new-email").value;
+    var form_pass = document.getElementById("add-emp-new-pass").value;
+    var form_passs = document.getElementById("add-emp-new-pass2").value;
+    var hoodId = selectedValue(document.getElementById("add-emp-select"));
+    if(!(form_name && form_lname && form_oib && form_email && form_pass && form_passs && hoodId)){
+      alert("Sva polja su obavezna.");
+      return null;
+    }
+    if(form_pass != form_passs){
+      alert("Lozinke se moraju podudarati.");
+      return null;
+    }
+    return({
+      name: form_name,
+      lastName: form_lname,
+      email: form_email,
+      pwd: form_pass,
+      oib: form_oib,
+      neighborhoodId: hoodId
+    })
+  }
+  function doNewEmployee(){
+    var empDTO = checkNewEmployee();
+    postEmployee(empDTO);
+    document.getElementById("add-emp-new-name").value="";
+    document.getElementById("add-emp-new-lname").value="";
+    document.getElementById("add-emp-new-oib").value="";
+    document.getElementById("add-emp-new-email").value="";
+    document.getElementById("add-emp-new-pass").value="";
+    document.getElementById("add-emp-new-pass2").value="";
+  }
+  function doEditEmployee(){
+    var dest = selectedValue(document.getElementById("edt-emp-select-dest"));
+    var emp = selectedValue(document.getElementById("edt-emp-select-emp"));
+    if(!(dest&&emp)){
+      alert("Potrebno je odabrati zaposlenika i odredisno poduzece.");
+      return;
+    }
+    var editEmpDTO = {
+      newHoodId: dest
+    };
+    putEmployee(editEmpDTO, emp);
+    document.getElementById("emp-selector").style.display = "none";
+  }
+  function doDeleteEmployee(){
+    var emp = selectedValue(document.getElementById("del-emp-emp"));
+    if(!emp){
+      alert("Potrebno je odabrati zaposlenika kojeg zelite obrisati.");
+      return;
+    }
+    deleteEmployee(emp);
+    document.getElementById("emp-del-selector").style.display = "none";
+  }
+
+  function initMap(elemID, dragendListener, dragstartListener){
+    var localmap = createMap(elemID, 45.814, 15.980);
+    var selector = createSelectorMarker(localmap, 45.814, 15.980);
+    google.maps.event.addListener(selector, 'dragend', dragendListener);
+    google.maps.event.addListener(selector, 'dragstart', dragstartListener);
+  }
+
 
 </script>
 
 <!-- Skripta za prikaz pojedinih blokova ovisno o tome koji dio admin sučelja je odabran -->
 <script>
-    var divs = ["A0", "A1", "A2", "B1", "B2", "C1", "C2", "C3"];
+    var divs = ["A0", "A1", "A2", "A3", "B1", "B2", "C1", "C2", "C3"];
     var visibleDivId = null;
 
     function toggleVisibility(divId) {

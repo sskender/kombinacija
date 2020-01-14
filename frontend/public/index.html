@@ -24,8 +24,6 @@
     <!-- Theme CSS - Includes Bootstrap -->
     <link href="css/creative.min.css" rel="stylesheet">
 
-    <!-- Our Custom CSS -->
-    <link rel="stylesheet" href="style.css">
 </head>
 
 <body id="page-top">
@@ -34,19 +32,48 @@
 <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
     <div class="container">
         <a class="navbar-brand js-scroll-trigger" href="#page-top">KOMBINACIJA</a>
-
-        <ul class="nav navbar-nav navbar-right">
-            <li>
-                <button class="btn btn-primary btn-xl js-scroll-trigger" onclick="logMeOut();" id="logout"> Odjavi se
-                </button>
-            </li>
-            <li>
-                <button class="btn btn-primary btn-xl js-scroll-trigger"
-                        onclick="window.location.replace('registracija.html');" id="register">
-                    Registriraj se
-                </button>
-            </li>
-        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"
+	                aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+	            <span class="navbar-toggler-icon"></span>
+	        </button>
+	        <div class="collapse navbar-collapse" id="navbarText">
+	            <ul class="nav navbar-nav navbar-right ml-auto" >
+	                <li>
+	                    <a href="admin.html">
+	                        <button class="btn btn-primary btn-xl js-scroll-trigger" id="go-admin"
+	                                style="margin: 5px; padding: 0.8rem 1.25rem; display: none">Admin panel
+	                        </button>
+	                    </a>
+	                </li>
+	                <li>
+	                    <a href="citizen.html">
+	                        <button class="btn btn-primary btn-xl js-scroll-trigger" id="go-citizen"
+	                                style="margin: 5px; padding: 0.8rem 1.25rem; display: none">Prijavi kontejner
+	                        </button>
+	                    </a>
+	                </li>
+	                <li>
+	                    <a href="employee.html">
+	                        <button class="btn btn-primary btn-xl js-scroll-trigger" id="go-employee"
+	                                style="margin: 5px; padding: 0.8rem 1.25rem; display: none">Zatraži rutu
+	                        </button>
+	                    </a>
+	                </li>
+	                <li>
+	                    <button class="btn btn-primary btn-xl js-scroll-trigger"
+	                            style="margin: 5px; padding: 0.8rem 1.25rem;" onclick="logMeOut();" id="logout">
+	                        Odjavi se
+	                    </button>
+	                </li>
+	                <li>
+	                    <button class="btn btn-primary btn-xl js-scroll-trigger"
+	                            style="margin: 5px; padding: 0.8rem 1.25rem;"
+	                            onclick="window.location.replace('registracija.html');" id="register">
+	                        Registriraj se
+	                    </button>
+	                </li>
+	            </ul>
+	        </div>
     </div>
 </nav>
 
@@ -67,21 +94,6 @@
     </div>
 </header>
 
-
-<!--Google map-->
-<div align="center">
-  <div class="btn-group" role="group" style="padding-top: 50px; padding-bottom: 50px">
-      <button id="btn-history" type="button" class="btn btn-primary btn-xl" style="display: none;">Zapisi</button>
-      <button id="btn-ping-full" type="button" class="btn btn-primary btn-xl" style="display: none;">Prijavi kao "PUN"</button>
-      <button id="btn-ping-urgent" type="button" class="btn btn-primary btn-xl" style="display: none;">Prijavi kao "PREPUN"</button>
-      <button id="btn-ping-empty" type="button" class="btn btn-primary btn-xl" style="display: none;">Prijavi kao "PRAZAN"</button>
-      <button id="btn-add-fav" type="button" class="btn btn-primary btn-xl" style="display: none;">Dodaj u "OMILJENE"</button>
-      <!-- Mozemo napraviti da su omiljeni oznaceni plavim tagom, mislim da je to najlakse i najljepse vizualno -->
-      <button id="btn-del-fav" type="button" class="btn btn-primary btn-xl" style="display: none;">Obriši iz "OMILJENIH"</button>
-  </div>
-  <div id="map_canvas" style=" width: 100%; height: 800px;">
-  </div>
-</div>
 
 <!-- Services Section -->
 <section class="page-section" id="services">
@@ -121,9 +133,37 @@
     </div>
 </section>
 
+<!--Google map-->
+<div align="center">
+  <button id="btn-history" type="button" class="btn btn-primary btn-xl" onclick="doGetHistory();" data-toggle="modal" data-target="#popupEvents"
+          style="margin-bottom: 30px; position: center; padding: 0.8rem 1.25rem; display: none;">Dohvati povijest kontejnera
+  </button>
+  <p id="map-tip">Odaberite jedan od kontejnera na karti.</p>
+  <table id="event-table" class="table" style="display:none;">
+  </table>
+  <div id="map_canvas" style="width: 88%; height: 500px;">
+  </div>
+</div>
+
+<div id="popupEvents" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg" >
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title"> Povijest događaja </h4>
+      </div>
+      <div class="modal-body">
+        <table id="events" class="table">
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- Footer -->
-<footer class="bg-light py-5">
+<footer class="bg-light py-4">
     <div class="container">
         <div class="small text-center text-muted">Copyright &copy; OPP Kombinacija</div>
     </div>
@@ -158,18 +198,20 @@
     var GMAP = createMap("map_canvas", 45.814, 15.980);
 
     function receiveContainers(containers){
+      document.getElementById("map-tip").innerHTML = "Odaberite jedan od kontejnera na karti.";
       for(var i=0; i<containers.length; i++){
         var marker = createContainerMarker(containers[i], GMAP, "red");
         google.maps.event.addListener(marker, 'click', function () {
           SEL_CONTAINER = this.contID;
-          //display History gumba
-          //update "map-tip" da pise koji kontejner je odabran
+          document.getElementById("btn-history").style.display="block";
+          document.getElementById("event-table").style.display="none";
+          document.getElementById("map-tip").innerHTML = "Odabran je kontejner ("+this.contID+")";
         });
       }
     }
 
     function receiveNeighborhoods(hoods){
-      //update "map-tip" da kaze da korisnik treba odabrati kontejner;
+      document.getElementById("map-tip").innerHTML = "Odaberite susjedstvo čije kontejnere želite dohvatiti i prikazati.";
       for(var i=0; i<hoods.length; i++){
         var marker = createNeighborhoodMarker(hoods[i], GMAP);
         LOADED_HOOD_MARKERS.push(marker);
@@ -181,6 +223,16 @@
           mapHood(this.hoodID, receiveContainers);
         });
       }
+    }
+
+    function receiveEvents(events){
+      var tbl = document.getElementById("events");
+      tbl.innerHTML="";
+      var swap = "<tr><th>Događaj</th><th>Autor</th><th>Vrijeme</th></tr>";
+      for(var i=0; i<events.length; i++){
+        swap += formatEvent(events[i]);
+      }
+      tbl.innerHTML = swap;
     }
 
     function initMap(position) {
@@ -196,7 +248,40 @@
         alert("Za dohvat povijesti potrebno je prvo odabrati kontejner.");
         return;
       }
-      //poslati zahtjev, prikazati, blablabla
+      getHistory(SEL_CONTAINER, receiveEvents);
+      SEL_CONTAINER = null;
+      document.getElementById("map-tip").innerHTML = "Odaberite jedan od kontejnera na karti.";
+    }
+
+    function formatEvent(evt){
+      var title;
+      if(evt.type=="PING-F"){
+        title = "Prijavljen: PUN";
+      } else if(evt.type=="PING-U"){
+        title = "Prijavljen: PREPUN";
+      } else if(evt.type=="PING-E"){
+        title = "Prijavljen: PRAZAN";
+      } else if(evt.type=="EMPTYING"){
+        title = "Ispražnjen.";
+      }
+      var dt = new Date(parseInt(evt.timestamp, 10));
+      var date = formatDate(parseInt(evt.timestamp));
+      return "<tr><td>"+title+"</td><td>"+evt.creator+"</td><td>"+date+"</td></tr>";
+    }
+
+    function formatDate(ts){
+      var dt = new Date(ts);
+      var string = "";
+      string+= (dt.getDate()>=10) ? dt.getDate() : "0"+dt.getDate();
+      string+= "/";
+      string+= (dt.getMonth()+1 >= 10) ? (dt.getMonth()+1) : "0"+(dt.getMonth()+1);
+      string+="/";
+      string+= dt.getFullYear();
+      string+=" @";
+      string+= (dt.getHours()>=10) ? dt.getHours() : "0"+dt.getHours();
+      string+=":"
+      string+= (dt.getMinutes()>=10) ? dt.getMinutes() : "0"+dt.getMinutes();
+      return string;
     }
 
     window.onload = function() {

@@ -11,7 +11,7 @@ function getContainers(onsuccess) {
       onsuccess(containers);
     },
     error: function(jqXHR, textStatus, errorThrown){
-      alert("Greška prilikom dohvacanja liste kontejnera "+jqXHR);
+      alert("GREŠKA: "+jqXHR.responseJSON.message);
     }
   });
 }
@@ -29,7 +29,7 @@ function getOneContainer(id, onsuccess) {
       onsuccess(container);
     },
     error: function(jqXHR, textStatus, errorThrown){
-      alert("Greška prilikom dohvacanja kontejnera "+jqXHR);
+      alert("GREŠKA: "+jqXHR.responseJSON.message);
     }
   });
 }
@@ -50,7 +50,7 @@ function postContainer(containerJSON){
       alert("Kontejner uspješno stvoren, ID = "+created.id);
     },
     error: function(jqXHR, textStatus, errorThrown){
-      alert("Greška prilikom stvaranja kontejnera "+jqXHR);
+      alert("GREŠKA: "+jqXHR.responseJSON.message);
     }
   });
 }
@@ -71,7 +71,7 @@ function putContainer(containerJSON, id){
       alert("Kontej")
     },
     error: function(jqXHR, textStatus, errorThrown){
-      alert("Greška prilikom azuriranja kontejnera "+jqXHR);
+      alert("GREŠKA: "+jqXHR.responseJSON.message);
     }
   });
 }
@@ -89,7 +89,7 @@ function deleteContainer(id) {
       alert("Kontejner "+id+" uspješno obrisan.")
     },
     error: function(jqXHR, textStatus, errorThrown){
-      alert("Greška prilikom brisanja kontejnera "+jqXHR);
+      alert("GREŠKA: "+jqXHR.responseJSON.message);
     }
   });
 }
@@ -107,7 +107,7 @@ function getEmployees(onsuccess) {
       onsuccess(employees);
     },
     error: function(jqXHR, textStatus, errorThrown){
-      alert("Greška prilikom dohvacanja liste radnika "+jqXHR);
+      alert("GREŠKA: "+jqXHR.responseJSON.message);
     }
   });
 }
@@ -125,7 +125,7 @@ function getOneEmployee(id, onsuccess) {
       onsuccess(employee);
     },
     error: function(jqXHR, textStatus, errorThrown){
-      alert("Greška prilikom dohvacanja radnika "+jqXHR);
+      alert("GREŠKA: "+jqXHR.responseJSON.message);
     }
   });
 }
@@ -146,7 +146,7 @@ function postEmployee(employeeJSON){
       alert("Komunalni radnik uspješno stvoren, ID = "+created.id);
     },
     error: function(jqXHR, textStatus, errorThrown){
-      alert("Greška prilikom stvaranja radnika "+jqXHR);
+      alert("GREŠKA: "+jqXHR.responseJSON.message);
     }
   });
 }
@@ -164,10 +164,10 @@ function putEmployee(employeeJSON, id){
     contentType: "application/json;charset=utf-8",
     data: JSON.stringify(employeeJSON),
     success: function(updated) {
-      return updated;
+      alert("Komunalni radnik uspješno premjesten.");
     },
     error: function(jqXHR, textStatus, errorThrown){
-      alert("Greška prilikom azuriranja radnika "+jqXHR);
+      alert("GREŠKA: "+jqXHR.responseJSON.message);
     }
   });
 }
@@ -185,7 +185,7 @@ function deleteEmployee(id) {
       alert("Radnik "+id+" uspješno obrisan.")
     },
     error: function(jqXHR, textStatus, errorThrown){
-      alert("Greška prilikom brisanja radnika "+jqXHR);
+      alert("GREŠKA: "+jqXHR.responseJSON.message);
     }
   });
 }
@@ -203,7 +203,7 @@ function getNeighborhoods(onsuccess) {
       onsuccess(hoods);
     },
     error: function(jqXHR, textStatus, errorThrown){
-      alert("Greška prilikom dohvacanja liste kvartova "+jqXHR);
+      alert("GREŠKA: "+jqXHR.responseJSON.message);
     }
   });
 }
@@ -221,7 +221,7 @@ function getNeighborhoodContainers(id, onsuccess) {
       onsuccess(containers);
     },
     error: function(jqXHR, textStatus, errorThrown){
-      alert("Greška prilikom dohvacanja kontejnera iz kvarta "+jqXHR);
+      alert("GREŠKA: "+jqXHR.responseJSON.message);
     }
   });
 }
@@ -239,7 +239,7 @@ function getNeighborhoodEmployees(id, onsuccess) {
       onsuccess(employees);
     },
     error: function(jqXHR, textStatus, errorThrown){
-      alert("Greška prilikom dohvacanja radnika iz kvarta "+jqXHR);
+      alert("GREŠKA: "+jqXHR.responseJSON.message);
     }
   });
 }
@@ -257,7 +257,7 @@ function getOneNeighborhood(id, onsuccess) {
       onsuccess(hood);
     },
     error: function(jqXHR, textStatus, errorThrown){
-      alert("Greška prilikom dohvacanja kvarta "+jqXHR);
+      alert("GREŠKA: "+jqXHR.responseJSON.message);
     }
   });
 }
@@ -278,12 +278,12 @@ function postNeighborhood(hoodJSON){
       alert("Komunalno poduzeće "+created.name+" uspješno stvoreno.");
     },
     error: function(jqXHR, textStatus, errorThrown){
-      alert("Greška prilikom stvaranja komunalnog poduzeća "+jqXHR);
+      alert("GREŠKA: "+jqXHR.responseJSON.message);
     }
   });
 }
 
-function putNeighborhood(hoodJSON, id){
+function putNeighborhood(hoodJSON, id, onsuccess){
   var user = getLoggedInUser();
   $.ajax({
     headers: {
@@ -295,16 +295,14 @@ function putNeighborhood(hoodJSON, id){
     dataType: "json",
     contentType: "application/json;charset=utf-8",
     data: JSON.stringify(hoodJSON),
-    success: function(updated) {
-      return updated;
-    },
+    success: onsuccess,
     error: function(jqXHR, textStatus, errorThrown){
-      alert("Greška prilikom azuriranja kvarta "+jqXHR);
+      alert("GREŠKA: "+jqXHR.responseJSON.message);
     }
   });
 }
 
-function deleteNeighborhood(id) {
+function deleteNeighborhood(id, onsuccess) {
   var user = getLoggedInUser();
   $.ajax({
     headers: {
@@ -313,11 +311,9 @@ function deleteNeighborhood(id) {
     url: SERVER_URL + "/neighborhood/"+id,
     crossDomain: true,
     type: "DELETE",
-    success: function(deleted) {
-      alert("Susjedstvo "+id+" uspješno obrisano.");
-    },
+    success: onsuccess,
     error: function(jqXHR, textStatus, errorThrown){
-      alert("Greška prilikom brisanja kvarta "+jqXHR);
+      alert("GREŠKA: "+jqXHR.responseJSON.message);
     }
   });
 }

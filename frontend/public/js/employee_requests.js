@@ -11,7 +11,7 @@ function getRoute(onsuccess) {
       onsuccess(containers);
     },
     error: function(jqXHR, textStatus, errorThrown){
-      alert("Greška prilikom dohvacanja rute "+jqXHR);
+      alert("GREŠKA: "+jqXHR.responseJSON.message);
     }
   });
 }
@@ -29,7 +29,7 @@ function emptyContainer(id){
       alert("Kontejner ("+id+") uspjesno ispraznjen.");
     },
     error: function(jqXHR, textStatus, errorThrown){
-      alert("Greška prilikom praznjenja kontejnera "+jqXHR);
+      alert("GREŠKA: "+jqXHR.responseJSON.message);
     }
   });
 }
@@ -47,7 +47,7 @@ function reportLegit(id){
       return legit;
     },
     error: function(jqXHR, textStatus, errorThrown){
-      alert("Greška prilikom oznacavanja istinite prijave "+jqXHR);
+      alert("GREŠKA: "+jqXHR.responseJSON.message);
     }
   });
 }
@@ -62,10 +62,10 @@ function reportFake(id){
     crossDomain: true,
     type: "POST",
     success: function(fake) {
-      alert("Obavijest o laznoj prijavi uspjesno poslana.");  
+      alert("Obavijest o laznoj prijavi uspjesno poslana.");
     },
     error: function(jqXHR, textStatus, errorThrown){
-      alert("Greška prilikom oznacavanja lazne prijave "+jqXHR);
+      alert("GREŠKA: "+jqXHR.responseJSON.message);
     }
   });
 }

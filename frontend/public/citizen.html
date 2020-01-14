@@ -110,10 +110,28 @@
       </button>
     </div>
     <div class="col-6">
-      <button class="btn btn-primary btn-xl btn-block" onclick="doHistory();"
+      <button class="btn btn-primary btn-xl btn-block" onclick="doGetHistory();" data-toggle="modal" data-target="#popupEvents"
           style="padding: 0.8rem 1.25rem; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; border: none; border-radius: 8rem;">
           PRIKAŽI POVIJEST
       </button>
+      <div id="popupEvents" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title"> Povijest događaja </h4>
+            </div>
+            <div class="modal-body">
+              <table id="event-table" class="table">
+              </table>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 <footer class="py-4" style="background-color: #FFFFFF">
@@ -146,6 +164,7 @@
 
         google.maps.event.addListener(marker, 'click', function () {
           SEL_CONTAINER = this.contID;
+          document.getElementById("map-tip").innerHTML = "Odabrali ste kontejner ("+SEL_CONTAINER+")";
           document.getElementById("map-form").style.display = "block";
           var button = document.getElementById("btn-add-del");
           if(isInFavorites(SEL_CONTAINER)){
@@ -155,7 +174,6 @@
             button.innerHTML = "DODAJ U FAVORITE";
             button.onclick = function() {doAddFavorite();}
           }
-          document.getElementById("map-tip").innerHTML = "Odabrali ste kontejner ("+SEL_CONTAINER+")";
         });
       }
     }
@@ -173,6 +191,16 @@
           mapHood(this.hoodID, receiveContainers);
         });
       }
+    }
+
+    function receiveEvents(events){
+      var tbl = document.getElementById("event-table");
+      tbl.innerHTML="";
+      var swap = "";
+      for(var i=0; i<events.length; i++){
+        swap += formatEvent(events[i]);
+      }
+      tbl.innerHTML = swap;
     }
 
     function initMap(position) {
@@ -246,6 +274,47 @@
       }
       SEL_CONTAINER=null;
       getLocation(initMap, initMapHood);
+    }
+
+    function doGetHistory(){
+      if(SEL_CONTAINER==null){
+        alert("Za dohvat povijesti potrebno je prvo odabrati kontejner.");
+        return;
+      }
+      getHistory(SEL_CONTAINER, receiveEvents);
+      SEL_CONTAINER = null;
+      document.getElementById("map-tip").innerHTML = "Odaberite jedan od kontejnera na karti.";
+    }
+
+    function formatEvent(evt){
+      var title;
+      if(evt.type=="PING-F"){
+        title = "Prijavljen: PUN";
+      } else if(evt.type=="PING-U"){
+        title = "Prijavljen: PREPUN";
+      } else if(evt.type=="PING-E"){
+        title = "Prijavljen: PRAZAN";
+      } else if(evt.type=="EMPTYING"){
+        title = "Ispražnjen.";
+      }
+      var dt = new Date(parseInt(evt.timestamp, 10));
+      var date = formatDate(parseInt(evt.timestamp));
+      return "<tr><td>"+title+"</td><td>"+evt.creator+"</td><td>"+date+"</td></tr>";
+    }
+
+    function formatDate(ts){
+      var dt = new Date(ts);
+      var string = "";
+      string+= (dt.getDate()>=10) ? dt.getDate() : "0"+dt.getDate();
+      string+= "/";
+      string+= (dt.getMonth()+1 >= 10) ? (dt.getMonth()+1) : "0"+(dt.getMonth()+1);
+      string+="/";
+      string+= dt.getFullYear();
+      string+=" @";
+      string+= (dt.getHours()>=10) ? dt.getHours() : "0"+dt.getHours();
+      string+=":"
+      string+= (dt.getMinutes()>=10) ? dt.getMinutes() : "0"+dt.getMinutes();
+      return string;
     }
 
     window.onload = function(){

@@ -12,7 +12,7 @@ function ping(id, level, onsuccess){
     data: "{}",
     success: onsuccess,
     error: function(jqXHR, textStatus, errorThrown){
-      alert("Greška prilikom prijave kontejnera "+jqXHR);
+      alert("GREŠKA "+jqXHR.responseJSON.message);
     }
   });
 }
@@ -46,7 +46,7 @@ function getFavorites(onsuccess) {
       onsuccess(favorites);
     },
     error: function(jqXHR, textStatus, errorThrown){
-      alert("Greška prilikom dohvacanja liste favorita "+jqXHR);
+      alert("GREŠKA "+jqXHR.responseJSON.message);
     }
   });
 }
@@ -65,7 +65,7 @@ function postFavorite(id, onsuccess){
       onsuccess(fav);
     },
     error: function(jqXHR, textStatus, errorThrown){
-      alert("Greška prilikom stvaranja favorita "+jqXHR);
+      alert("GREŠKA "+jqXHR.responseJSON.message);
     }
   });
 }
@@ -83,7 +83,7 @@ function deleteFavorite(id) {
       alert("Kontejner "+id+" uspješno obrisan iz favorita.")
     },
     error: function(jqXHR, textStatus, errorThrown){
-      alert("Greška prilikom brisanja favorita "+jqXHR);
+      alert("GREŠKA "+jqXHR.responseJSON.message);
     }
   });
 }

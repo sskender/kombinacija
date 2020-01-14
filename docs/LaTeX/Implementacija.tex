@@ -21,7 +21,7 @@
 			Svi testovi izvrseni su unutar radnog okvira Selenium. Ispitivanje se radilo po obrascima uporabe kako bi se provjerila osnovna funkcionalnost sustava. Svaki dio sustava je ispitan, no zbog jednostavnosti u dokumentaciji ce biti prikazan samo dio ispitivanja. Prikazivanje ispitivanja UC1, UC2. \\\
 
 
-			\noindent {\textbf{Ispitni slucaj 1: Registracija u sustav}}
+			\noindent \underbar {\textbf{Ispitni slucaj 1: Registracija u sustav}}
 			
 			\
 			
@@ -37,7 +37,13 @@
 				
 			\end{packed_enum}
 
-
+			\begin{figure}[H]
+					\includegraphics[scale=0.57]{figures/register-code.PNG}
+					\centering
+					\caption{Ulazni podaci: Registracija u sustav}
+					\label{fig:Registracija u sustav}
+				\end{figure}	
+			
 			\noindent \textbf{Očekivani rezultat:}
 				\begin{packed_enum}
 				\item Korisniku se prikazuje početna stranica sa kartom
@@ -47,12 +53,17 @@
 			
 			\noindent {\textbf{Rezultat:}}
 		
-			Korisniku se prikazala početna stranica sa kartom.			
+			Korisniku se prikazala početna stranica sa kartom. - Test je uspješno proveden.			
 
 
-			\
+			\begin{figure}[H]
+					\includegraphics[scale=0.57]{figures/registe-pass.PNG}
+					\centering
+					\caption{Rezultat: Registracija u sustav}
+					\label{fig:Registracija u sustav}
+				\end{figure}
 			
-			\noindent {\textbf{Ispitni slucaj 2: Prijava u sustav}}
+			\noindent \underbar{\textbf{Ispitni slucaj 2: Prijava u sustav}}
 			
 			\
 			
@@ -65,6 +76,12 @@
 				
 			\end{packed_enum}
 
+			\begin{figure}[H]
+					\includegraphics[scale=0.57]{figures/login-code.PNG}
+					\centering
+					\caption{Ulazni podaci: Prijava u sustav}
+					\label{fig:Prijava u sustav}
+				\end{figure}	
 
 			\noindent \textbf{Očekivani rezultat:}
 				\begin{packed_enum}
@@ -75,7 +92,105 @@
 			
 				\noindent {\textbf{Rezultat:}}
 		
-				Korisniku se prikazala početna stranica sa kartom.		
+				Korisniku se prikazala početna stranica sa kartom.	- Test je uspješno proveden.	
+			
+			
+				\begin{figure}[H]
+					\includegraphics[scale=0.57]{figures/login-pass.PNG}
+					\centering
+					\caption{Rezultat: Prijava u sustav}
+					\label{fig:Prijava u sustav}
+				\end{figure}
+			
+				\noindent \underbar{\textbf{Ispitni slucaj 3: Brisanje susjedstva}}
+			
+			\
+			
+			\noindent \textbf{Ulaz:}
+			
+			\begin{packed_enum}
+				\item email adresa admina
+				\item lozinka admina
+				\item ime kvarta koji želimo obrisati 
+				
+				\end{packed_enum}
+					
+			\begin{figure}[H]
+					\includegraphics[scale=0.57]{figures/admin-delete-neighborhood-code.PNG}
+					\centering
+					\caption{Ulazni podaci: Brisanje susjedstva}
+					\label{fig:Brisanje susjedstva}
+				\end{figure}	
+				
+		
+
+
+			\noindent \textbf{Očekivani rezultat:}
+				\begin{packed_enum}
+				\item Pojavljuje se obavijest da je kvart uspješno obrisan
+							
+				
+			\end{packed_enum}
+			
+			\noindent {\textbf{Rezultat:}}
+		
+			Pojavljuje se obavijest da je kvart uspješno obrisan. - Test je uspješno proveden.	
+
+
+				\begin{figure}[H]
+					\includegraphics[scale=0.57]{figures/admin-delete-neighborhood-pass.PNG}
+					\centering
+					\caption{Rezultat: Brisanje susjedstva}
+					\label{fig:Brisanje susjedstva}
+				\end{figure}
+
+			
+			
+			\noindent \underbar{\textbf{Ispitni slucaj 4: Dodavanje komunalnog radnika}}
+			
+			\
+			
+			\noindent \textbf{Ulaz:}
+			
+			\begin{packed_enum}
+				\item email adresa admina
+				\item lozinka admina
+				\item ime komunalnog radnika
+				\item prezime komunalnog radnika	
+				\item oib komunalnog radnika		
+				\item email adresa komunalnog radnika
+				\item lozinka komunalnog radnika
+				\item ponovnljena lozinka komunalnog radnika
+				\item ime kvarta u kojeg želimo pridjeliti radnika
+				
+			\end{packed_enum}
+
+			\begin{figure}[H]
+					\includegraphics[scale=0.57]{figures/admin-add-emp-code.PNG}
+					\centering
+					\caption{Ulazni podaci: Dodavanje komunalnog radnika}
+					\label{fig:Dodavanje komunalnog radnika}
+				\end{figure}	
+			
+			\noindent \textbf{Očekivani rezultat:}
+				\begin{packed_enum}
+				\item Pojavljuje se obavijest da je komunalni radnik uspješno dodan u sustav
+							
+				
+			\end{packed_enum}
+			
+			\noindent {\textbf{Rezultat:}}
+		
+			Pojavljuje se obavijest da je komunalni radnik uspješno dodan u sustav. - Test je uspješno proveden.
+
+			\begin{figure}[H]
+					\includegraphics[scale=0.57]{figures/admin-add-empl-pass.PNG}
+					\centering
+					\caption{Rezultat: Dodavanje komunalnog radnika}
+					\label{fig:Dodavanje komunalnog radnika}
+				\end{figure}
+
+
 			
 			\eject 
 		

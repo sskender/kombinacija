@@ -21,7 +21,8 @@ import java.util.stream.Collectors;
 public class EmployeeServiceImpl implements EmployeeService {
 
     private static final int DEFAULT_NECESSARY_PINGS = 2;
-    private static final int DEFAULT_ROUTE_CAPACITY = 10;
+    private static final int DEFAULT_ROUTE_CAPACITY = 20;
+    private static final int DEFAULT_MINIMUM_CONTAINERS = 4;
 
     @Autowired
     private ContainerRepository containerRepository;
@@ -101,6 +102,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             pingList = pingRepository.findByContainer_IdAndTimestampGreaterThan(containerId, timestamp);
         }
 
+
         // filter through ping list and increase reputation for legit pings
         List<Person> processedPersonList = new ArrayList<>();
 
@@ -138,6 +140,10 @@ public class EmployeeServiceImpl implements EmployeeService {
             // select * from pings where container id ?
             //                      and timestamp > ?
             pingList = pingRepository.findByContainer_IdAndTimestampGreaterThan(containerId, timestamp);
+        }
+
+        if(pingList.size()>0){
+            pingList.get(0).getContainer().setRouteStatus(RouteStatus.PENDING);
         }
 
         // filter through ping list and decrease reputation for fake pings
@@ -184,18 +190,21 @@ public class EmployeeServiceImpl implements EmployeeService {
             map.put(c, avg);
         }
 
-        if(all.isEmpty()){
-            return all;
+        if(all.size() < DEFAULT_MINIMUM_CONTAINERS){
+            all.clear();
+            return Collections.EMPTY_LIST;
         }
 
         double usedSpace = 0.;
         List<Container> route = new ArrayList<>();
         route.add(all.get(0));
         usedSpace += map.get(all.get(0));
+        all.get(0).setRouteStatus(RouteStatus.IN_ROUTE);
         all.remove(0);
         while(usedSpace < DEFAULT_ROUTE_CAPACITY && !all.isEmpty()){
             Container lastAdded = route.get(route.size()-1);
             Container closest = findClosestContainer(lastAdded, all);
+            closest.setRouteStatus(RouteStatus.IN_ROUTE);
             route.add(closest);
             all.remove(closest);
             usedSpace += map.get(closest);

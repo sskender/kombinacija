@@ -49,7 +49,7 @@ public class PublicController {
 	public ResponseEntity<List<ContainerEventREST>> containerHistory(@PathVariable("id") Long containerId) {
 		Container c = adminService.getContainerById(containerId);
 		return new ResponseEntity<>(
-				ContainerEventREST.convertToREST(c.getPings(), c.getEmptyings()), HttpStatus.OK);
+				ContainerEventREST.convertToREST(c.getPings(), c.getEmptyings(), 12), HttpStatus.OK);
 	}
 
 	@GetMapping(value = "/map")

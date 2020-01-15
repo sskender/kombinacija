@@ -12,9 +12,9 @@
 
 	<groupId>hr.fer.opp.kombinacija</groupId>
 	<artifactId>manje-smece-vise-srece</artifactId>
-	<version>0.0.1</version>
+	<version>1.0.0</version>
 	<name>MSVS</name>
-	<description>Web application for managing waste disposal</description>
+	<description>Web application for waste disposal management</description>
 
 	<properties>
 		<java.version>11</java.version>

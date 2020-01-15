@@ -78,31 +78,30 @@
 <div id='map-citizen'></div>
 
 <!--  GUMBI  -->
-<div id="map-form" style="display: none;">
-  <div>
-    <p id="map-tip"></p>
-  </div>
-  <div class="row">
-    <div class="col-4">
-      <button class="btn btn-primary btn-xl btn-block" onclick="doReportPing('f')"
-          style="padding: 0.8rem 1.25rem; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; border: none; border-radius: 8rem;">
-          PUN
-      </button>
+<div id="map-form">
+  <p id="map-tip"></p>
+  <div id="buttons-div" style="display: none;">
+    <div class="row">
+      <div class="col-4">
+        <button class="btn btn-primary btn-xl btn-block" onclick="doReportPing('f')"
+            style="padding: 0.8rem 1.25rem; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; border: none; border-radius: 8rem;">
+            PUN
+        </button>
+      </div>
+      <div class="col-4">
+        <button class="btn btn-primary btn-xl btn-block" onclick="doReportPing('u')"
+            style="padding: 0.8rem 1.25rem; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; border: none; border-radius: 8rem;">
+              PREPUN
+        </button>
+      </div>
+      <div class="col-4">
+        <button class="btn btn-primary btn-xl btn-block" onclick="doReportPing('e')"
+            style="padding: 0.8rem 1.25rem; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; border: none; border-radius: 8rem;">
+          PRAZAN
+        </button>
+      </div>
     </div>
-    <div class="col-4">
-      <button class="btn btn-primary btn-xl btn-block" onclick="doReportPing('u')"
-          style="padding: 0.8rem 1.25rem; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; border: none; border-radius: 8rem;">
-            PREPUN
-      </button>
-    </div>
-    <div class="col-4">
-      <button class="btn btn-primary btn-xl btn-block" onclick="doReportPing('e')"
-          style="padding: 0.8rem 1.25rem; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; border: none; border-radius: 8rem;">
-        PRAZAN
-      </button>
-    </div>
-  </div>
-  <div class="row" style="padding-top: 20px">
+    <div class="row" style="padding-top: 20px">
     <div class="col-6">
       <button class="btn btn-primary btn-xl btn-block" id="btn-add-del"
           style="padding: 0.8rem 1.25rem; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; border: none; border-radius: 8rem;">
@@ -110,36 +109,37 @@
       </button>
     </div>
     <div class="col-6">
-      <button class="btn btn-primary btn-xl btn-block" onclick="doGetHistory();" data-toggle="modal" data-target="#popupEvents"
+      <button class="btn btn-primary btn-xl btn-block" onclick="doGetHistory();"
           style="padding: 0.8rem 1.25rem; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; border: none; border-radius: 8rem;">
           PRIKAŽI POVIJEST
       </button>
-      <div id="popupEvents" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
-              <h4 class="modal-title"> Povijest događaja </h4>
-            </div>
-            <div class="modal-body">
-              <table id="event-table" class="table">
-              </table>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
     </div>
   </div>
-<footer class="py-4" style="background-color: #FFFFFF">
-  <div class="container">
-    <div class="small text-center text-muted">Copyright &copy; OPP Kombinacija</div>
   </div>
-</footer>
+  <footer class="py-4" style="background-color: #FFFFFF">
+    <div class="container">
+      <div class="small text-center text-muted">Copyright &copy; OPP Kombinacija</div>
+    </div>
+  </footer>
 </div>
+
+<div id="popupEvents" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg" >
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title"> Povijest događaja </h4>
+      </div>
+      <div class="modal-body">
+        <table id="event-table" class="table">
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <!-- Bootstrap JS -->
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
@@ -150,10 +150,12 @@
     var SEL_CONTAINER = null;
     var USER_FAVORITES = null;
     var LOADED_HOOD_MARKERS = [];
+    var DISPLAYED_CONTAINERS = [];
 
     var GMAP = createMap("map-citizen", 45.814, 15.980);
 
     function receiveContainers(containers){
+      document.getElementById("map-tip").innerHTML = "Odaberite kontejner čiju povijest želite pregledati.";
       for(var i=0; i<containers.length; i++){
         if(isInFavorites(containers[i].id)){
           clr="blue";
@@ -161,11 +163,12 @@
           clr="red";
         }
         var marker = createContainerMarker(containers[i], GMAP, clr);
+        DISPLAYED_CONTAINERS.push(marker);
 
         google.maps.event.addListener(marker, 'click', function () {
           SEL_CONTAINER = this.contID;
           document.getElementById("map-tip").innerHTML = "Odabrali ste kontejner ("+SEL_CONTAINER+")";
-          document.getElementById("map-form").style.display = "block";
+          document.getElementById("buttons-div").style.display = "block";
           var button = document.getElementById("btn-add-del");
           if(isInFavorites(SEL_CONTAINER)){
             button.innerHTML = "UKLONI IZ FAVORITA";
@@ -196,11 +199,16 @@
     function receiveEvents(events){
       var tbl = document.getElementById("event-table");
       tbl.innerHTML="";
-      var swap = "";
+      if(events.length==0){
+        alert("Za odabrani kontejner ne postoji povijest.");
+        return;
+      }
+      var swap = "<tr><th>Događaj</th><th>Autor</th><th>Vrijeme</th></tr>";
       for(var i=0; i<events.length; i++){
         swap += formatEvent(events[i]);
       }
       tbl.innerHTML = swap;
+      $('#popupEvents').modal('show');
     }
 
     function initMap(position) {
@@ -227,7 +235,7 @@
       }
       SEL_CONTAINER = null;
       document.getElementById("map-tip").innerHTML = "Odaberite kontejner kojeg zelite prijaviti ili dodati u omiljene.";
-      document.getElementById("map-form").style.display="none";
+      document.getElementById("buttons-div").style.display="none";
     }
 
     function isInFavorites(contId){
@@ -248,11 +256,25 @@
         alert("Potrebno je odabrati kontejner kojeg zelite dodati.");
         return;
       }
-      postFavorite(SEL_CONTAINER, function(fav) {
-        USER_FAVORITES.push(fav);
+      postFavorite(SEL_CONTAINER, function() {
+        getFavorites(function(favs){
+          USER_FAVORITES = favs;
+
+          for(var i=0; i<DISPLAYED_CONTAINERS.length; i++){
+            var m = DISPLAYED_CONTAINERS[i];
+            m.setMap(null);
+            if(isInFavorites(m.contID)){
+              m.icon = "http://maps.google.com/mapfiles/ms/icons/blue-dot.png";
+            } else {
+              m.icon = "http://maps.google.com/mapfiles/ms/icons/red-dot.png";
+            }
+            m.setMap(GMAP);
+          }
+        });
       });
       SEL_CONTAINER=null;
-      getLocation(initMap, initMapHood);
+      document.getElementById("map-tip").innerHTML = "Odaberite kontejner kojeg zelite prijaviti ili dodati u omiljene.";
+      document.getElementById("buttons-div").style.display="none";
     }
 
     function doDelFavorite(){
@@ -260,20 +282,24 @@
         alert("Potrebno je odabrati kontejner kojeg zelite obrisati.");
         return;
       }
-      deleteFavorite(SEL_CONTAINER);
-      var index=-1;
-      for(var i=0; i<USER_FAVORITES.length; i++){
-        var f = USER_FAVORITES[i];
-        if(f.containerID==SEL_CONTAINER){
-          index = i;
-          break;
-        }
-      }
-      if(index!=-1){
-        USER_FAVORITES.splice(index);
-      }
+      deleteFavorite(SEL_CONTAINER, function() {
+        getFavorites(function(favs){
+          USER_FAVORITES = favs;
+          for(var i=0; i<DISPLAYED_CONTAINERS.length; i++){
+            var m = DISPLAYED_CONTAINERS[i];
+            m.setMap(null);
+            if(isInFavorites(m.contID)){
+              m.icon = "http://maps.google.com/mapfiles/ms/icons/blue-dot.png";
+            } else {
+              m.icon = "http://maps.google.com/mapfiles/ms/icons/red-dot.png"
+            }
+            m.setMap(GMAP);
+          }
+        });
+      });
       SEL_CONTAINER=null;
-      getLocation(initMap, initMapHood);
+      document.getElementById("map-tip").innerHTML = "Odaberite kontejner kojeg zelite prijaviti ili dodati u omiljene.";
+      document.getElementById("buttons-div").style.display="none";
     }
 
     function doGetHistory(){
@@ -283,7 +309,8 @@
       }
       getHistory(SEL_CONTAINER, receiveEvents);
       SEL_CONTAINER = null;
-      document.getElementById("map-tip").innerHTML = "Odaberite jedan od kontejnera na karti.";
+      document.getElementById("map-tip").innerHTML = "Odaberite kontejner kojeg zelite prijaviti ili dodati u omiljene.";
+      document.getElementById("buttons-div").style.display="none";
     }
 
     function formatEvent(evt){
@@ -318,8 +345,11 @@
     }
 
     window.onload = function(){
-      getFavorites(function(favs){  USER_FAVORITES = favs;  });
-      getLocation(initMap, initMapHood);
+      getFavorites(function(favs){
+        USER_FAVORITES = favs;
+        getLocation(initMap, initMapHood);
+      });
+
     };
   </script>
 

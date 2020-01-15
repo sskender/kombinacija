@@ -26,7 +26,7 @@
             crossorigin="anonymous"></script>
 
     <!-- For Google Maps -->
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDFPZg9v7DZWuQKX0pk_wTyJEmHalRU0tA"></script>
 
     <!-- Bootstrap core JavaScript -->
     <script src="vendor/jquery/jquery.min.js"></script>
@@ -203,7 +203,7 @@
       <div>
           <div style="margin-top: 50px;">
               <p id="del-cont-current">Na karti odaberite kontejner koji želite obrisati.</p>
-              <button class="btn btn-primary btn-xl" onclick="doDeleteContainer()" style="background-color: #EB6038; border-color: #EB6038">
+              <button class="btn btn-primary btn-xl" onclick="doDeleteContainer();" style="background-color: #EB6038; border-color: #EB6038">
                 Obriši
               </button>
           </div>
@@ -363,7 +363,7 @@
   function saveContainerClick(mapKey, messageKey, value){
     SEL_MAP[mapKey] = value;
     if(messageKey){
-      document.getElementById(messageKey).innerHTML = "Odabran kontejner ("+contID+")";
+      document.getElementById(messageKey).innerHTML = "Odabran kontejner ("+value+")";
     }
   }
 
@@ -410,7 +410,7 @@
         var marker = createNeighborhoodMarker(h, localMap);
         google.maps.event.addListener(marker, 'click', function(){
           saveHoodSelection("del-hood", "del-hood-current", this.title, this.hoodID);
-        })
+        });
         insertOptionOnClick(DHS,
            {name: h.name, id: h.id},
            "saveHoodSelection(\"del-hood\", \"del-hood-current\", \""+h.name+"\", \""+h.id+"\");");
@@ -475,8 +475,12 @@
     });
   }
   function loadEmployeesEDT_E(hoodId){
-    document.getElementById("emp-selector").style.display = "block";
     getNeighborhoodEmployees(hoodId, function(emps) {
+      if(emps.length==0){
+        document.getElementById("emp-selector").style.display = "none";
+        return;
+      }
+      document.getElementById("emp-selector").style.display = "block";
       var selectEmp = document.getElementById("edt-emp-select-emp");
       selectEmp.innerHTML = "";
       for(var i=0; i<emps.length; i++){
@@ -499,8 +503,12 @@
     });
   }
   function loadEmployeesDEL_E(hoodId){
-    document.getElementById("emp-del-selector").style.display = "block";
     getNeighborhoodEmployees(hoodId, function(emps) {
+      if(emps.length==0){
+        document.getElementById("emp-del-selector").style.display = "none";
+        return;
+      }
+      document.getElementById("emp-del-selector").style.display = "block";
       var selectEmp = document.getElementById("del-emp-emp");
       selectEmp.innerHTML = "";
       for(var i=0; i<emps.length; i++){

@@ -2,6 +2,7 @@ package hr.fer.opp.dto.response;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import hr.fer.opp.model.Emptying;
 import hr.fer.opp.model.Ping;
@@ -14,7 +15,7 @@ public class ContainerEventREST {
 	private long timestamp;
 
 	public ContainerEventREST(Ping p) {
-		this.containerId = p.getId();
+		this.containerId = p.getContainer().getId();
 		if(p.getLevel().equals(PingLevel.FULL)){
 			this.type = "PING-F";
 		} else if(p.getLevel().equals(PingLevel.URGENT)){
@@ -27,7 +28,7 @@ public class ContainerEventREST {
 	}
 
 	public ContainerEventREST(Emptying e) {
-		this.containerId = e.getId();
+		this.containerId = e.getContainer().getId();
 		this.type = "EMPTYING";
 		this.creator = e.getWorker().getEmail();
 		this.timestamp = e.getTimestamp();
@@ -74,6 +75,17 @@ public class ContainerEventREST {
 			containerEventREST.add(new ContainerEventREST(e));
 		}
 		return containerEventREST;
+	}
+
+	public static List<ContainerEventREST> convertToREST(List<Ping> pings, List<Emptying> emptyings, int cutoff){
+		List<ContainerEventREST> containerEventREST = new ArrayList<>();
+		pings.forEach(p->containerEventREST.add(new ContainerEventREST(p)));
+		emptyings.forEach(e->containerEventREST.add(new ContainerEventREST(e)));
+
+		containerEventREST.sort((ce1, ce2)->{
+			return (int)(ce2.getTimestamp() - ce1.getTimestamp());
+		});
+		return containerEventREST.stream().limit(cutoff).collect(Collectors.toList());
 	}
 
 }

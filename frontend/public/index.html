@@ -112,7 +112,7 @@
                 <div class="mt-5">
                     <i class="fas fa-4x fa-laptop-code text-primary mb-4"></i>
                     <h3 class="h4 mb-2">Zato jer radi na svim uređajima.</h3>
-                    <p class="text-muted mb-0">Neovisno o tome koritite li laptop ili mobitel!</p>
+                    <p class="text-muted mb-0">Neovisno o tome koristite li laptop ili mobitel!</p>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6 col-6 text-center">
@@ -135,7 +135,7 @@
 
 <!--Google map-->
 <div align="center">
-  <button id="btn-history" type="button" class="btn btn-primary btn-xl" onclick="doGetHistory();" data-toggle="modal" data-target="#popupEvents"
+  <button id="btn-history" type="button" class="btn btn-primary btn-xl" onclick="doGetHistory();"
           style="margin-bottom: 30px; position: center; padding: 0.8rem 1.25rem; display: none;">Dohvati povijest kontejnera
   </button>
   <p id="map-tip">Odaberite jedan od kontejnera na karti.</p>
@@ -228,11 +228,16 @@
     function receiveEvents(events){
       var tbl = document.getElementById("events");
       tbl.innerHTML="";
+      if(events.length==0){
+        alert("Za odabrani kontejner ne postoji povijest.");
+        return;
+      }
       var swap = "<tr><th>Događaj</th><th>Autor</th><th>Vrijeme</th></tr>";
       for(var i=0; i<events.length; i++){
         swap += formatEvent(events[i]);
       }
       tbl.innerHTML = swap;
+      $("#popupEvents").modal('show');
     }
 
     function initMap(position) {
@@ -251,6 +256,7 @@
       getHistory(SEL_CONTAINER, receiveEvents);
       SEL_CONTAINER = null;
       document.getElementById("map-tip").innerHTML = "Odaberite jedan od kontejnera na karti.";
+      document.getElementById("btn-history").style.display = "none";
     }
 
     function formatEvent(evt){

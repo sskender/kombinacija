@@ -3,11 +3,14 @@
 		
 		\section{Korištene tehnologije i alati}
 			
-		Komunikacija u timu realizirana je korištenjem aplikacije WhatsApp\footnote{\url{https://www.whatsapp.com/}}. Za izradu UML dijagrama primarno je korišten alat Astah UML\footnote{\url{http://astah.net/editions/community}}, no za određene dijagrame je radi preglednosti i oku ugodnijeg dizajna korišten \textit{plugin} PlantUML\footnote{\url{https://plantuml.com/}} za IntelliJ radnu okolinu. Za upravljanje izvornim kodom i njegovim inačicama koristili smo Git\footnote{\url{https://git-scm.com/}}. Udaljeni repozitorij projekta u kojem se nalazi cjelokupni izvorni kod dostupan je na web platformi GitLab\footnote{\url{https://gitlab.com/}}.
+		Komunikacija u timu realizirana je korištenjem aplikacije WhatsApp\footnote{\url{https://www.whatsapp.com/}} kako bi se svi mogli konzultirati pravovremeno te zbog mogućnosti grupnog poziva za lakše dogovaranje. Za izradu UML dijagrama primarno je korišten alat Astah UML\footnote{\url{http://astah.net/editions/community}}, no za određene dijagrame je radi preglednosti i oku ugodnijeg dizajna korišten \textit{plugin} PlantUML\footnote{\url{https://plantuml.com/}} za IntelliJ radnu okolinu. Za upravljanje izvornim kodom i njegovim inačicama koristili smo Git\footnote{\url{https://git-scm.com/}}. Udaljeni repozitorij projekta u kojem se nalazi cjelokupni izvorni kod dostupan je na web platformi GitLab\footnote{\url{https://gitlab.com/}}.
 			
-				Kao razvojno okruženje korišteni su IntelliJ IDEA\footnote{\url{https://www.jetbrains.com/idea/}} - integrirano razvojno okruženje (IDE) tvrtke JetBrains, i Eclipse\footnote{\url{https://www.eclipse.org/}} - IDE tvrtke The Eclipse Foundation. IDE pruža integraciju s drugim alatima za razvoj kao što je primjerice Maven\footnote{\url{https://maven.apache.org/}} kojeg smo koristili za lokalno upravljanje projektom, uključivanje raznih biblioteka o kojima aplikacija ovisi, te automatiziranu izgradnju projekta i pakiranje u JAR arhivu. Oba IDE-a podržavaju sustave kontrole verzioniranja kao što je Git.
+				Kao razvojno okruženje korišteni su IntelliJ IDEA\footnote{\url{https://www.jetbrains.com/idea/}} - integrirano razvojno okruženje (IDE) tvrtke JetBrains, i Eclipse\footnote{\url{https://www.eclipse.org/}} - IDE tvrtke The Eclipse Foundation. IDE pruža integraciju s drugim alatima za razvoj kao što je primjerice Maven\footnote{\url{https://maven.apache.org/}} kojeg smo koristili za lokalno upravljanje projektom, uključivanje raznih biblioteka o kojima aplikacija ovisi, te automatiziranu izgradnju projekta i pakiranje u JAR arhivu te dakako za formatiranje koda kako bi se slagao s Javinim standardom. Oba IDE-a podržavaju sustave kontrole verzioniranja kao što je Git.
 				
-				Aplikacija je napisana u jeziku Java\footnote{\url{https://www.java.com/en/}}koristeći radni okvir Spring\footnote{\url{https://spring.io/}}. \textit{Frontend} aplikacije je napisan koristeći HTML, CSS i JavaScript\footnote{\url{https://www.javascript.com/}}, pri čemu smo za CSS koristili biblioteku Bootstrap\footnote{\url{https://getbootstrap.com/}}, a JavaScript smo koristili podjednako u svojoj \textit{vanilla} inačici kao i inačici proširenoj bibliotekom jQuery\footnote{\url{https://jquery.com/}}.
+				Aplikacija je napisana u jeziku Java\footnote{\url{https://www.java.com/en/}}koristeći radni okvir Spring\footnote{\url{https://spring.io/}},dizajniran kako bi što brže napredovali u razvoju aplikacije uz olakšanu konfiguraciju raznih komponenti. \textit{Frontend} aplikacije je napisan koristeći HTML, CSS i JavaScript\footnote{\url{https://www.javascript.com/}}, pri čemu smo za CSS koristili biblioteku Bootstrap\footnote{\url{https://getbootstrap.com/}} koja stranicama pruža responzivnost i kompatibilnost s mobilnim uređajima te jednostavniju izgradnju web stranice obzirom na predefinirane komponente. JavaScript smo koristili podjednako u svojoj \textit{vanilla} inačici kao i inačici proširenoj bibliotekom jQuery\footnote{\url{https://jquery.com/}}. Obzirom na karakter aplikacije, odnosno nužnost uporabe iste "u pokretu" JavaScript se činio kao odlično rješenje koje omogućava racionalnije korištenje podataka koje će korisnik morati učitati prilikom svake interakcije sa sustavom. 
+				
+				Korisničko sučelje testirano je pomoću Seleniuma\footnote{\url{https://selenium.dev/}}, automatiziranog sustava za testiranje, kako bi postupak testiranja bio što konzistentniji i precizniji.
+			
  			
 			\eject 
 			
@@ -15,10 +18,207 @@
 			
 			\subsection{Ispitivanje komponenti}
 		
+				
+			
+			\noindent \underbar {\textbf{Ispitni slucaj 1: Dohvaćanje omiljenih kontejnera}}
+			
+			\
+			
+			\noindent \textbf{Ulaz:}
+			
+			\begin{packed_enum}
+				\item registrirani građanin
+					
+				
+			\end{packed_enum}
+
+			\begin{figure}[H]
+					\includegraphics[scale=0.57]{figures/Screenshot_20200115_223752.PNG}
+					\centering
+					\caption{Test: Dohvaćanje omiljenih kontejnera}
+					\label{fig:Dohvaćanje omiljenih kontejnera}
+				\end{figure}	
+			
+			\noindent \textbf{Očekivani rezultat:}
+				\begin{packed_enum}
+				\item Dohvaćanje liste omiljenih kontejnera.
+							
+				
+			\end{packed_enum}
+			
+			\noindent {\textbf{Rezultat:}}
+		
+			Dohvaćena je lista omiljenih kontejnera. - Test je uspješno proveden.			
+
+
+					
+			
+			\noindent \underbar {\textbf{Ispitni slucaj 2: Podizanje reputacije građanina}}
+			
+			\
+			
+			\noindent \textbf{Ulaz:}
+			
+			\begin{packed_enum}
+				\item registrirani korisnik
+					
+				
+			\end{packed_enum}
+
+			\begin{figure}[H]
+					\includegraphics[scale=0.57]{figures/Screenshot_20200115_223819.PNG}
+					\centering
+					\caption{Test: Podizanje reputacije građanina}
+					\label{fig:Podizanje reputacije građanina}
+				\end{figure}	
+			
+			\noindent \textbf{Očekivani rezultat:}
+				\begin{packed_enum}
+				\item Reputacija korisnika se podiže.
+							
+				
+			\end{packed_enum}
+			
+			\noindent {\textbf{Rezultat:}}
+		
+			 Reputacija korisnika je podignuta. - Test je uspješno proveden.			
+
+
+			
+			
+			\noindent \underbar {\textbf{Ispitni slucaj 3: Postavljanje reputacije korisnika}}
+			
+			\
+			
+			\noindent \textbf{Ulaz:}
+			
+			\begin{packed_enum}
+				\item vrijednost reputacije manja od 0
+					
+				
+			\end{packed_enum}
+
+			\begin{figure}[H]
+					\includegraphics[scale=0.57]{figures/Screenshot_20200115_223858.PNG}
+					\centering
+					\caption{Test: Postavljanje reputacije korisnika}
+					\label{fig:Postavljanje reputacije korisnika}
+				\end{figure}	
+			
+			\noindent \textbf{Očekivani rezultat:}
+				\begin{packed_enum}
+				\item Pojava iznimke, odbijen zahtjev.
+							
+				
+			\end{packed_enum}
+			
+			\noindent {\textbf{Rezultat:}}
+		
+			Pojava iznimke, odbijen zahtjev. - Test je uspješno proveden.			
+
+
+					
+			
+			\noindent \underbar {\textbf{Ispitni slucaj 4: Dohvaćanje kontejnera preko identifikacijske oznake}}
+			
+			\
+			
+			\noindent \textbf{Ulaz:}
+			
+			\begin{packed_enum}
+				\item identifikacijska oznaka kontejnera
+					
+				
+			\end{packed_enum}
+
+			\begin{figure}[H]
+					\includegraphics[scale=0.57]{figures/Screenshot_20200115_224020.PNG}
+					\centering
+					\caption{Test: Dohvaćanje kontejnera preko identifikacijske oznake}
+					\label{fig:Dohvaćanje kontejnera preko identifikacijske oznake}
+				\end{figure}	
+			
+			\noindent \textbf{Očekivani rezultat:}
+				\begin{packed_enum}
+				\item Kontejner sa zadanom identifikacijskom oznakom.
+							
+				
+			\end{packed_enum}
+			
+			\noindent {\textbf{Rezultat:}}
+		
+			 Vraćen je kontejner sa zadanom identifikacijskom oznakom. - Test je uspješno proveden.			
+
+
+			
+			
+			\noindent \underbar {\textbf{Ispitni slucaj 5: Dohvaćanje kontejnera iz susjedstva}}
+			
+			\
+			
+			\noindent \textbf{Ulaz:}
+			
+			\begin{packed_enum}
+				\item identifikacijska oznaka susjedstva
+					
+				
+			\end{packed_enum}
+
+			\begin{figure}[H]
+					\includegraphics[scale=0.57]{figures/Screenshot_20200115_224048.PNG}
+					\centering
+					\caption{Test: Dohvaćanje kontejnera iz susjedstva}
+					\label{fig:Dohvaćanje kontejnera iz susjedstva}
+				\end{figure}	
+			
+			\noindent \textbf{Očekivani rezultat:}
+				\begin{packed_enum}
+				\item Lista kontejnera zadanog susjedstva.
+							
+				
+			\end{packed_enum}
+			
+			\noindent {\textbf{Rezultat:}}
+		
+			Vraćena je lista kontejnera zadanog susjedstva. - Test je uspješno proveden.			
+
+
+						
+			\noindent \underbar {\textbf{Ispitni slucaj 6: Dohvaćanje komunalnog radnika prema OIBu}}
+			
+			\
+			
+			\noindent \textbf{Ulaz:}
+			
+			\begin{packed_enum}
+				\item OIB 
+					
+				
+			\end{packed_enum}
+
+			\begin{figure}[H]
+					\includegraphics[scale=0.57]{figures/Screenshot_20200115_224135.PNG}
+					\centering
+					\caption{Test: Dohvaćanje komunalnog radnika prema OIBu}
+					\label{fig:Dohvaćanje komunalnog radnika prema OIBu}
+				\end{figure}	
+			
+			\noindent \textbf{Očekivani rezultat:}
+				\begin{packed_enum}
+				\item Komunalni radnik sa zadanim OIBom.
+							
+				
+			\end{packed_enum}
+			
+			\noindent {\textbf{Rezultat:}}
+		
+			Vraćen je komunalni radnik sa zadanim OIBom. - Test je uspješno proveden.			
+
+			
 			
 			\subsection{Ispitivanje sustava}
 			
-			Svi testovi izvrseni su unutar radnog okvira Selenium. Ispitivanje se radilo po obrascima uporabe kako bi se provjerila osnovna funkcionalnost sustava. Svaki dio sustava je ispitan, no zbog jednostavnosti u dokumentaciji ce biti prikazan samo dio ispitivanja. Prikazivanje ispitivanja UC1, UC2. \\\
+			Svi testovi izvrseni su unutar radnog okvira Selenium. Ispitivanje se radilo po obrascima uporabe kako bi se provjerila osnovna funkcionalnost sustava. Svaki dio sustava je ispitan, no zbog jednostavnosti u dokumentaciji ce biti prikazan samo dio ispitivanja. Prikazivanje ispitivanja UC1, UC2, UC7 i UC15. \\\
 
 
 			\noindent \underbar {\textbf{Ispitni slucaj 1: Registracija u sustav}}

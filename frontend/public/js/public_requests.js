@@ -7,7 +7,7 @@ function clearance(id, onsuccess){
       onsuccess(role);
     },
     error: function(jqXHR, textStatus, errorThrown){
-      alert("Greška prilikom dohvacanja autoriteta "+jqXHR);
+      alert("GREŠKA "+jqXHR.responseJSON.message);
     }
   });
 }
@@ -28,7 +28,7 @@ function registerCitizen(regDTO){
       window.location.href = "index.html";
     },
     error: function(jqXHR, textStatus, errorThrown){
-      alert("Greška prilikom registracije - "+jqXHR);
+      alert("GREŠKA "+jqXHR.responseJSON.message);
       document.getElementById("pass").value = "";
       document.getElementById("re_pass").value = "";
     }
@@ -51,7 +51,7 @@ function testAuthorization(email, pwd){
       window.location.href = "index.html";
     },
     error: function(jqXHR, textStatus, errorThrown){
-      alert("Greška prilikom prijave - "+jqXHR);
+      alert("GREŠKA "+jqXHR.responseJSON.message);
       document.getElementById("pass").value = "";
     }
   });
@@ -66,7 +66,7 @@ function map(latitude, longitude, onsuccess) {
       onsuccess(containers);
     },
     error: function(jqXHR, textStatus, errorThrown){
-      alert("Greška prilikom dohvacanja liste kontejnera "+jqXHR);
+      alert("GREŠKA "+jqXHR.responseJSON.message);
     }
   });
 }
@@ -80,7 +80,7 @@ function mapHood(hoodId, onsuccess) {
       onsuccess(containers);
     },
     error: function(jqXHR, textStatus, errorThrown){
-      alert("Greška prilikom dohvacanja liste kontejnera"+jqXHR);
+      alert("GREŠKA "+jqXHR.responseJSON.message);
     }
   });
 }
@@ -94,7 +94,7 @@ function getHoods(onsuccess) {
       onsuccess(hoods);
     },
     error: function(jqXHR, textStatus, errorThrown){
-      alert("Greška prilikom dohvacanja liste kvartova "+jqXHR);
+      alert("GREŠKA "+jqXHR.responseJSON.message);
     }
   });
 }
@@ -108,7 +108,7 @@ function getHistory(contId, onsuccess){
       onsuccess(events);
     },
     error: function(jqXHR, textStatus, errorThrown){
-      alert("Greška prilikom dohvacanja liste kvartova "+jqXHR);
+      alert("GREŠKA "+jqXHR.responseJSON.message);
     }
   });
 }

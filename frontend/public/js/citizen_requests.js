@@ -62,7 +62,7 @@ function postFavorite(id, onsuccess){
     type: "POST",
     success: function(fav) {
       alert("Kontejner "+id+" uspješno dodan u favorite.");
-      onsuccess(fav);
+      onsuccess();
     },
     error: function(jqXHR, textStatus, errorThrown){
       alert("GREŠKA "+jqXHR.responseJSON.message);
@@ -70,7 +70,7 @@ function postFavorite(id, onsuccess){
   });
 }
 
-function deleteFavorite(id) {
+function deleteFavorite(id, onsuccess) {
   var user = getLoggedInUser();
   $.ajax({
     headers: {
@@ -80,7 +80,8 @@ function deleteFavorite(id) {
     crossDomain: true,
     type: "DELETE",
     success: function(deleted) {
-      alert("Kontejner "+id+" uspješno obrisan iz favorita.")
+      alert("Kontejner "+id+" uspješno obrisan iz favorita.");
+      onsuccess();
     },
     error: function(jqXHR, textStatus, errorThrown){
       alert("GREŠKA "+jqXHR.responseJSON.message);
